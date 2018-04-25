@@ -1,0 +1,9 @@
+.vscode/
+
+client/target/
+client/*.db
+client/dependency-reduced-pom.xml
+
+server/dist/
+server/node_modules/
+server/package-lock.json

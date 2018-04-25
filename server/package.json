@@ -1,0 +1,20 @@
+{
+  "name": "pricetag-server",
+  "version": "1.0.0",
+  "description": "A websocket server for pricetag-client (Java OOP Project for University)",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc && node dist/server.js"
+  },
+  "author": "Matteo Guerzoni",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3",
+    "ws": "^5.1.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.11.1",
+    "@types/ws": "^4.0.2",
+    "typescript": "^2.8.3"
+  }
+}
