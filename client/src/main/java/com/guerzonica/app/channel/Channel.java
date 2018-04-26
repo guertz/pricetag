@@ -55,9 +55,6 @@ public class Channel {
         this.userSession = null;
     }
 
-    // works with json string
-    // Serializer will exist in item type
-
     @OnMessage
     public void onMessage(String message) {
         Base     b = serializer.fromJson(message, Base.class);

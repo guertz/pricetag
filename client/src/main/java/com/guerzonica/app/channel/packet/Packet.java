@@ -26,17 +26,19 @@ public class Packet<C> extends Base {
         return this.content;
     }
 
+    // make it common to all classes (internal member or extend base class)
+    // alternative approch: Packets as OOP (extends/inherit) instead of generics
     private static Gson _ser = new Gson();
 
-    private static <C extends Content> Type getType() {
+    private static <C> Type getType() {
         return (new TypeToken<Packet<C>>() {}).getType();
     }
 
-    public static <C extends Content> Packet<C> fromStream(String blob) {
+    public static <C> Packet<C> fromStream(String blob) {
         return _ser.fromJson(blob, getType());
     }
 
-    public static <C extends Content> String toStream(Packet<C> t) {
+    public static <C> String toStream(Packet<C> t) {
         return _ser.toJson(t);
     }
 }

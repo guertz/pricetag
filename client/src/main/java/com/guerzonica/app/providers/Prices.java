@@ -11,11 +11,17 @@ import com.guerzonica.app.channel.packet.*;
 import com.guerzonica.app.channel.*;
 import com.guerzonica.app.items.Product;
 
+// use proper generics classes (add support for ProductPrice in time)
+// handle data coming from aws
+// use classes to display data in graphs
+// Integer instead of number
 class BroadcastDetailsHandler implements IHandler {
 
     public void handleMessage(String blob) {
         Packet<Product> response = Packet.fromStream(blob);
-        System.out.println(Packet.toStream(response));
+        // read the data i have about that product
+        // collect it in periods (or days)
+        // send it back to the server with method in provider
     }
 }
 
@@ -23,7 +29,9 @@ class DetailsHandler implements IHandler {
 
     public void handleMessage(String blob) {
         Packet<Product> response = Packet.fromStream(blob);
-        System.out.println(Packet.toStream(response));
+        // read the data i recive from the server
+        // merge with mine
+        // update view (observable?)
     }
 }
 
@@ -48,6 +56,7 @@ public class Prices extends DataAccessor {
         broadCastr.bindRoute("broadcast:details", new BroadcastDetailsHandler());
         broadCastr.bindRoute("details", new DetailsHandler());
 
+        // request with a specific product in database
         Packet<Product> request = new Packet<Product>("details", new Product(1, "Motorola", "Moto G4 P"));
             broadCastr.sendMessage(Packet.toStream(request));        
 

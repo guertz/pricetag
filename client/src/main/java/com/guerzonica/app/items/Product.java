@@ -1,9 +1,8 @@
 package com.guerzonica.app.items;
 
 import com.google.gson.annotations.SerializedName;
-import com.guerzonica.app.channel.packet.Content;
 
-public class Product extends Content {
+public class Product  {
 
     @SerializedName(value="id")
     private Number id;
