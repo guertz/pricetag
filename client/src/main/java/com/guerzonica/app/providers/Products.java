@@ -1,13 +1,9 @@
 package com.guerzonica.app.providers;
 
-import java.net.URISyntaxException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import com.guerzonica.app.transporter.StreamException;
-import com.guerzonica.app.transporter.Transporter;
 
 public class Products extends DataAccessor {
 
@@ -15,23 +11,14 @@ public class Products extends DataAccessor {
 
     private static Products instance = null;
 
-    public static Products getProvider() throws SQLException, StreamException, URISyntaxException {
+    public static Products getProvider() throws SQLException {
         if(instance == null)
             instance = new Products();
         
         return instance;
     }
 
-    private Products() throws SQLException, StreamException, URISyntaxException {
-
-        final Transporter broadCastr = Transporter.getTransporter();
-
-        // method refresh or keep stream opened
-        broadCastr.streamFromRequest("products", new Transporter.MessageHandler() {
-            public void handleMessage(String message) {
-                System.out.println(message);
-            }
-        });
+    private Products() throws SQLException {
 
         // debug mode only (memory read)
         Statement tableCreator = this.getConnection().createStatement();

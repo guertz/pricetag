@@ -1,5 +1,8 @@
 .vscode/
 
+pricetag-client/
+mytodo
+
 client/target/
 client/*.db
 client/dependency-reduced-pom.xml

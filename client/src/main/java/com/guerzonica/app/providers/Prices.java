@@ -6,13 +6,30 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.guerzonica.app.transporter.StreamException;
-import com.guerzonica.app.transporter.Transporter;
+import com.guerzonica.app.channel.handler.*;
+import com.guerzonica.app.channel.packet.*;
+import com.guerzonica.app.channel.*;
+import com.guerzonica.app.items.Product;
+
+class BroadcastDetailsHandler implements IHandler {
+
+    public void handleMessage(String blob) {
+        Packet<Product> response = Packet.fromStream(blob);
+        System.out.println(Packet.toStream(response));
+    }
+}
+
+class DetailsHandler implements IHandler {
+
+    public void handleMessage(String blob) {
+        Packet<Product> response = Packet.fromStream(blob);
+        System.out.println(Packet.toStream(response));
+    }
+}
 
 public class Prices extends DataAccessor {
 
     private static String tableName = "prices";
-
     private static Prices instance = null;
 
     public static Prices getProvider() throws SQLException, StreamException, URISyntaxException {
@@ -26,14 +43,13 @@ public class Prices extends DataAccessor {
 
         Products.getProvider();
 
-        final Transporter broadCastr = Transporter.getTransporter();
+        final Channel broadCastr = Channel.getChannel();
+        
+        broadCastr.bindRoute("broadcast:details", new BroadcastDetailsHandler());
+        broadCastr.bindRoute("details", new DetailsHandler());
 
-        // method refresh or keep stream opened
-        broadCastr.streamFromRequest("prices", new Transporter.MessageHandler() {
-            public void handleMessage(String message) {
-                System.out.println(message);
-            }
-        });
+        Packet<Product> request = new Packet<Product>("details", new Product(1, "Motorola", "Moto G4 P"));
+            broadCastr.sendMessage(Packet.toStream(request));        
 
         // debug mode only (memory read)
         Statement tableCreator = this.getConnection().createStatement();

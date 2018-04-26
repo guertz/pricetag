@@ -11,7 +11,6 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.CategoryAxis;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 
 import com.guerzonica.app.components.Graph;

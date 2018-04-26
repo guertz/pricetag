@@ -1,4 +1,4 @@
-package com.guerzonica.app.transporter;
+package com.guerzonica.app.channel;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -14,23 +14,29 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
+import com.google.gson.Gson;
+
+import com.guerzonica.app.channel.handler.*;
+import com.guerzonica.app.channel.packet.*;
+
 @ClientEndpoint
-public class Transporter {
+public class Channel {
 
     private Session userSession = null;
+    private Map<String, IHandler> bindings = 
+                new HashMap<String, IHandler>(); // multiple handlers?
 
-    private Map<String, MessageHandler> handlers = new HashMap<String, MessageHandler>();
+    private static final Gson serializer = new Gson();
+    private static Channel instance = null;
 
-    private static Transporter instance = null;
-
-    public static Transporter getTransporter() throws URISyntaxException {
+    public static Channel getChannel() throws URISyntaxException {
         if(instance == null)
-            instance = new Transporter(new URI("ws://localhost:8000/"));
+            instance = new Channel(new URI("ws://localhost:8000/"));
         
         return instance;
     }
 
-    private Transporter(URI endpointURI) {
+    private Channel(URI endpointURI) {
         try {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             container.connectToServer(this, endpointURI);
@@ -49,27 +55,28 @@ public class Transporter {
         this.userSession = null;
     }
 
+    // works with json string
+    // Serializer will exist in item type
+
     @OnMessage
     public void onMessage(String message) {
-        System.out.println(message);
-        // match key and invoke
-        // use lamba fn
-        // single channel instance
+        Base     b = serializer.fromJson(message, Base.class);
+        IHandler h = bindings.get(b.getUri());
+        
+        if(h != null) 
+            h.handleMessage(message);
+
     }
 
-    private void sendMessage(String message) {
+    public void sendMessage(String message) {
         this.userSession.getAsyncRemote().sendText(message);
     }
 
-    public void streamFromRequest(String action, MessageHandler msgHandler) throws StreamException {
-        if(handlers.get(action) != null)
-            throw new StreamException(action);
+    // Observable/Lightweight callback interface
+    public void bindRoute(String route, IHandler bind) throws StreamException {
+        if(bindings.get(route) != null)
+            throw new StreamException(route);
 
-        handlers.put(action, msgHandler);
-            sendMessage(action);
-    }
-
-    public static interface MessageHandler {
-        public void handleMessage(String message);
+        bindings.put(route, bind);
     }
 }
