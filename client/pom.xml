@@ -43,6 +43,14 @@
         </executions>
       </plugin>
     </plugins>
+    <resources>
+      <resource>
+        <directory>src/main/assets</directory>
+        <includes>
+          <include>**/*.css</include>
+        </includes>
+      </resource>
+    </resources> 
   </build>
   <dependencies>
     <dependency>
