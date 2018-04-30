@@ -1,6 +1,5 @@
 package com.guerzonica.app;
 
-import javafx.scene.layout.Region;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.application.Application;
@@ -13,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Font;
 
@@ -39,9 +39,9 @@ public class App extends Application {
       grid.setPadding(new Insets(5, 5, 5, 5));
       grid.getStyleClass().add("body");
       Text title = new Text("Charts");
-      title.setFont(Font.font("Arial", FontWeight.BOLD, 100));
-
-      grid.add(title, 2, 1);
+      title.setFont(Font.font("Arial", FontWeight.BOLD, 32));
+      title.setTextAlignment(TextAlignment.CENTER);
+      grid.add(title, 1, 0);
       return grid;
     }
     public HBox header() {
@@ -97,7 +97,7 @@ public class App extends Application {
                     chart.minWidthProperty().bind(primaryStage.widthProperty());
                     chart.setMaxHeight(60);
 
-                body.add(chart, 0, product.getInt("id") - 1);
+                body.add(chart, 0, 1+product.getInt("id") - 1);
             }
             root.setCenter(body);
 
