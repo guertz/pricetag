@@ -22,7 +22,6 @@ wss.on('connection', (ws: WebSocket) => {
 
     ws.on('message', (msgTxt: string) => {
         const message: IMessage = JSON.parse(msgTxt);
-        console.log(message.uri);
 
         switch(message.uri) {
             case "details":
