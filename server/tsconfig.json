@@ -5,9 +5,7 @@
         "outDir": "./dist",
         "strict": true,
         "sourceMap": true,
-        "typeRoots": [
-            "node_modules/@types"
-        ]
+        "skipLibCheck": true
     },
     "exclude": [
         "dist",
