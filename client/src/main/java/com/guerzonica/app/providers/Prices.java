@@ -9,7 +9,9 @@ import java.sql.Statement;
 import com.guerzonica.app.channel.handler.*;
 import com.guerzonica.app.channel.packet.*;
 import com.guerzonica.app.channel.*;
+import com.guerzonica.app.items.History;
 import com.guerzonica.app.items.Product;
+import com.guerzonica.app.items.ProductDetails;
 
 // use proper generics classes (add support for ProductPrice in time)
 // handle data coming from aws
@@ -17,21 +19,31 @@ import com.guerzonica.app.items.Product;
 // Integer instead of number
 class BroadcastDetailsHandler implements IHandler {
 
+    // collects price history and send it back
     public void handleMessage(String blob) {
-        Packet<Product> response = Packet.fromStream(blob);
-        // read the data i have about that product
-        // collect it in periods (or days)
-        // send it back to the server with method in provider
+
+        try {
+            Packet<Product> response = Packet.fromJson(blob, Product.typeToken());
+
+            ProductDetails pp = new ProductDetails(response.getContent());
+                pp.history.add(new History("22/04", 100));
+                pp.history.add(new History("23/04",  50));
+                pp.history.add(new History("25/04", 120));
+                
+            Packet<ProductDetails> request = new Packet<ProductDetails>(response.getUri(), response.getRid(), pp);
+                Channel.getChannel().sendMessage(Packet.toJson(request, ProductDetails.typeToken()));
+            
+        } catch (URISyntaxException e) {
+
+        }
     }
 }
 
 class DetailsHandler implements IHandler {
 
+    // Merge data on client
     public void handleMessage(String blob) {
-        Packet<Product> response = Packet.fromStream(blob);
-        // read the data i recive from the server
-        // merge with mine
-        // update view (observable?)
+        System.out.println(blob);
     }
 }
 
@@ -58,7 +70,7 @@ public class Prices extends DataAccessor {
 
         // request with a specific product in database
         Packet<Product> request = new Packet<Product>("details", new Product(1, "Motorola", "Moto G4 P"));
-            broadCastr.sendMessage(Packet.toStream(request));        
+            broadCastr.sendMessage(Packet.toJson(request, Product.typeToken()));        
 
         // debug mode only (memory read)
         Statement tableCreator = this.getConnection().createStatement();

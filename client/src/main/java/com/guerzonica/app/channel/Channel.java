@@ -14,8 +14,6 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
-import com.google.gson.Gson;
-
 import com.guerzonica.app.channel.handler.*;
 import com.guerzonica.app.channel.packet.*;
 
@@ -26,7 +24,6 @@ public class Channel {
     private Map<String, IHandler> bindings = 
                 new HashMap<String, IHandler>(); // multiple handlers?
 
-    private static final Gson serializer = new Gson();
     private static Channel instance = null;
 
     public static Channel getChannel() throws URISyntaxException {
@@ -57,8 +54,8 @@ public class Channel {
 
     @OnMessage
     public void onMessage(String message) {
-        Base     b = serializer.fromJson(message, Base.class);
-        IHandler h = bindings.get(b.getUri());
+        Packet<Streammable> b = Packet.fromJson(message, Streammable.typeToken());
+        IHandler            h = bindings.get(b.getUri());
         
         if(h != null) 
             h.handleMessage(message);
