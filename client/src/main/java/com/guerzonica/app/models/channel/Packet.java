@@ -1,4 +1,4 @@
-package com.guerzonica.app.channel.packet;
+package com.guerzonica.app.models.channel;
 
 import java.lang.reflect.Type;
 import java.util.UUID;

@@ -1,10 +1,10 @@
-package com.guerzonica.app.channel.packet;
+package com.guerzonica.app.models.channel;
 
 import java.lang.reflect.Type;
 
 import com.google.gson.reflect.TypeToken;
 
-public class Streammable {
+public interface Streammable {
     public static Type typeToken() {
         return new TypeToken<Packet<Streammable>>() {}.getType();
     }

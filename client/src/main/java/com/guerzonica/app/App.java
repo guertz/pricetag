@@ -1,6 +1,5 @@
 package com.guerzonica.app;
 
-import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -20,18 +19,18 @@ import javafx.scene.text.Font;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.CategoryAxis;
 import javafx.geometry.Insets;
-import java.sql.ResultSet;
-import java.util.HashMap;
+import java.util.Vector;
 
 import com.guerzonica.app.components.Graph;
-import com.guerzonica.app.providers.Prices;
-import com.guerzonica.app.providers.Products;
+import com.guerzonica.app.models.data.ProductDetails;
+import com.guerzonica.app.providers.ProductsProvider;
 
 public class App extends Application {
 
     public static void main(String[] args) {
         launch(args);
     }
+
     public GridPane body(){
       GridPane grid = new GridPane();
       grid.setHgap(10);
@@ -44,6 +43,7 @@ public class App extends Application {
       grid.add(title, 1, 0);
       return grid;
     }
+
     public HBox header() {
       HBox row = new HBox();
       row.setPadding(new Insets(10, 10, 10, 10));
@@ -61,6 +61,7 @@ public class App extends Application {
 
       return row;
     }
+
     @Override
     public void start(Stage primaryStage) {
 
@@ -73,32 +74,24 @@ public class App extends Application {
         BorderPane root = new BorderPane();
         root.setTop(header());
         GridPane body = body();
+
         try {
-            Products productsProvider = Products.getProvider();
-            Prices   pricesProvider   = Prices.getProvider();
+            ProductsProvider provider = ProductsProvider.getProvider();
+            Vector<ProductDetails> results = provider.getAll();
 
-            ResultSet product = productsProvider.getAll();
-
-            while(product.next()) {
-                ResultSet prices = pricesProvider
-                    .getProductPrices(product.getInt("id"));
-
-                HashMap<String, Number> dataSet = new HashMap<String, Number>();
-
-                while(prices.next()) {
-                    dataSet.put(
-                        prices.getString("date"),
-                        prices.getInt("price")
-                    );
-                }
-
-                final Graph chart = new Graph(new CategoryAxis(), new NumberAxis(), product.getString("name"), dataSet);
-
+            results.forEach(p -> {
+                final Graph chart = new Graph(
+                    new CategoryAxis(), 
+                    new NumberAxis(), 
+                    p
+                );
+    
                     chart.minWidthProperty().bind(primaryStage.widthProperty());
                     chart.setMaxHeight(60);
+    
+                body.add(chart, 0, p.getId()); // 1 + x -1
+            });
 
-                body.add(chart, 0, 1+product.getInt("id") - 1);
-            }
             root.setCenter(body);
 
         } catch (Exception e) {

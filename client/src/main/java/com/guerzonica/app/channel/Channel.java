@@ -14,8 +14,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
-import com.guerzonica.app.channel.handler.*;
-import com.guerzonica.app.channel.packet.*;
+import com.guerzonica.app.models.channel.*;
 
 @ClientEndpoint
 public class Channel {
