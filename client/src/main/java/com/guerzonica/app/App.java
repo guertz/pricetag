@@ -1,10 +1,11 @@
 package com.guerzonica.app;
 
+import com.guerzonica.app.pages.DomPage;
+import com.guerzonica.app.pages.DashboardPage;
 import javafx.scene.control.Button;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.HBox;
@@ -31,49 +32,19 @@ public class App extends Application {
         launch(args);
     }
 
-    public GridPane body(){
-      GridPane grid = new GridPane();
-      grid.setHgap(10);
-      grid.setVgap(10);
-      grid.setPadding(new Insets(5, 5, 5, 5));
-      grid.getStyleClass().add("body");
-      Text title = new Text("Charts");
-      title.setFont(Font.font("Arial", FontWeight.BOLD, 32));
-      title.setTextAlignment(TextAlignment.CENTER);
-      grid.add(title, 1, 0);
-      return grid;
-    }
-
-    public HBox header() {
-      HBox row = new HBox();
-      row.setPadding(new Insets(10, 10, 10, 10));
-      row.setSpacing(10);
-      row.getStyleClass().add("header");
-      //set style
-      final TextField search = new TextField();
-      search.setPromptText("Insert Product ID");
-      search.setMinWidth(300);
-      search.getStyleClass().addAll("text-field", "flat");
-      final Button trackButton = new Button("Track");
-      trackButton.setMinWidth(100);
-      trackButton.getStyleClass().addAll("button", "flat", "padding-both");
-      row.getChildren().addAll(search, trackButton);
-
-      return row;
-    }
-
     @Override
     public void start(Stage primaryStage) {
 
-        primaryStage.setTitle("Pricetag");
+        //
+        // ScrollPane scrollPane = new ScrollPane();
+        //     scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+        //     scrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 
-        ScrollPane scrollPane = new ScrollPane();
-            scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
-            scrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+        // BorderPane root = new BorderPane();
+        // root.setTop(header());
+        // GridPane body = body();
 
-        BorderPane root = new BorderPane();
-        root.setTop(header());
-        GridPane body = body();
+        DomPage page = new DomPage(primaryStage);
 
         try {
             ProductsProvider provider = ProductsProvider.getProvider();
@@ -81,35 +52,22 @@ public class App extends Application {
 
             results.forEach(p -> {
                 final Graph chart = new Graph(
-                    new CategoryAxis(), 
-                    new NumberAxis(), 
+                    new CategoryAxis(),
+                    new NumberAxis(),
                     p
                 );
-    
+
                     chart.minWidthProperty().bind(primaryStage.widthProperty());
                     chart.setMaxHeight(60);
-    
-                body.add(chart, 0, p.getId()); // 1 + x -1
-            });
 
-            root.setCenter(body);
+                page.getBody().add(chart, 0, p.getId()); // 1 + x -1
+
+            });
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        scrollPane.setContent(root);
-        Scene scene  = new Scene(scrollPane);
-        scene.getStylesheets().add("css/pricetheme.css");
-        primaryStage.setScene(scene);
-
-        primaryStage.setMinHeight(400);
-        primaryStage.setMinWidth(600);
-
-        primaryStage.setMaxHeight(800);
-        primaryStage.setMaxWidth(1000);
-
-        primaryStage.show();
-
+        page.show();
     }
 }
