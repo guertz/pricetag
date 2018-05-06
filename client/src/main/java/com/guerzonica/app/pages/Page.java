@@ -1,12 +1,13 @@
 package com.guerzonica.app.pages;
 //https://stackoverflow.com/questions/40750526/javafx-best-practice-for-navigating-between-ui-screens
+// import javafx.scene.Node;
+// import javafx.scene.Parent;
+// import javafx.scene.control.ScrollPane;
+// import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.stage.Stage;
-import javafx.scene.Node;
-import javafx.scene.Parent;
+import javafx.scene.layout.Pane;
 import javafx.scene.Scene;
 
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 public abstract class Page{
 
   protected Stage stage;
@@ -24,17 +25,6 @@ public abstract class Page{
 
   }
 
-  // public Node getBody(){
-  //   return this.body;
-  // }
-  //
-  // public Node getHeader(){
-  //   return this.header;
-  // }
-  //
-  // public Node getFooter(){
-  //   return this.footer;
-  // }
   public void setScene(Scene scene){
     // scene.setRoot(this.root);
     // this.root = scrollPane;
@@ -45,7 +35,12 @@ public abstract class Page{
     // scene.setRoot(this.root);
     stage.setScene(scene);
   }
+
   public void show(){
     this.stage.show();
   }
+  public Stage getStage(){ return this.stage; }
+  public abstract void transition();
+  public abstract void setScene();
+  public abstract <T extends Pane> T getContent();
 }

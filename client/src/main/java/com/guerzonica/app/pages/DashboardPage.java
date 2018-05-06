@@ -1,31 +1,79 @@
 package com.guerzonica.app.pages;
 //https://stackoverflow.com/questions/40750526/javafx-best-practice-for-navigating-between-ui-screens
-import com.guerzonica.app.interfaces.Templatable;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.scene.layout.BorderPane;
+
+import com.guerzonica.app.pages.DomPage;
+import com.guerzonica.app.providers.PageProvider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.GridPane;
-import javafx.geometry.Insets;
-import javafx.scene.layout.Region;
+import javafx.stage.Stage;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Font;
 import javafx.scene.control.Button;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.CategoryAxis;
+import java.util.Vector;
+import com.guerzonica.app.components.Graph;
+import com.guerzonica.app.models.data.ProductDetails;
+import com.guerzonica.app.providers.ProductsProvider;
 
-public class DashboardPage extends DomPage {
+// import javafx.geometry.Insets;
+// import javafx.scene.layout.Region;
+// import javafx.scene.text.Text;
+// import javafx.scene.text.TextAlignment;
+// import javafx.scene.text.FontWeight;
+// import javafx.scene.text.Font;
+public class DashboardPage extends DomPage<HBox, GridPane, HBox> {
   // private Scene scene;
-  public DashboardPage(Stage stage){
-    super(stage);
-    //super.root = new BorderPane(); for now the class automatically wrap the body in a ScrollPane.
-    // BorderPane container = new BorderPane();
-    // container.setTop(header());
-    // container.setCenter(body());
-    // this.scene = new Scene(container);
-    // this.scene.getStylesheets().add("css/pricetheme.css");
-    // super.setScene(this.scene);
+
+  // private static PageProvider<Page> pageCtrl = PageProvider.getInstance();
+
+  public DashboardPage(Stage stage)
+  throws InstantiationException, IllegalAccessException {
+    super(stage, new HBox(), new GridPane(), new HBox());
+    header();
+    body();
+    super.footer();
+  }
+  public void launch(){
+
+  }
+  @Override
+  public void header(){
+    HBox header = super.getHeader();
+    header.setSpacing(10);
+
+    final TextField search = new TextField();
+    search.setPromptText("Insert Product ID");
+    search.setMinWidth(300);
+    search.getStyleClass().addAll("text-field", "flat");
+
+    final Button trackButton = new Button("Track");
+    trackButton.setMinWidth(100);
+    trackButton.getStyleClass().addAll("button", "flat", "padding-both");
+    header.getChildren().addAll(search, trackButton);
+  }
+  @Override
+  public void body(){
+    try {
+        ProductsProvider provider = ProductsProvider.getProvider();
+        Vector<ProductDetails> results = provider.getAll();
+        results.forEach(p -> {
+            final Graph chart = new Graph(
+                new CategoryAxis(),
+                new NumberAxis(),
+                p
+            );
+
+                chart.minWidthProperty().bind(super.getStage().widthProperty());
+                chart.setMaxHeight(60);
+
+                this.getBody().add(chart, 0, p.getId()); // 1 + x -1
+                // (this.getClass().cast(App.pageController.getActivePage()))
+
+        });
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
   }
   // public void show(){
   //   super.show();
