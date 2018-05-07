@@ -14,20 +14,9 @@ import java.util.Vector;
 import com.guerzonica.app.components.Graph;
 import com.guerzonica.app.models.data.ProductDetails;
 import com.guerzonica.app.providers.ProductsProvider;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.geometry.Pos;
+
 import javafx.scene.control.Label;
 import com.guerzonica.app.components.Modal;
-import com.guerzonica.app.App;
-
-// import javafx.geometry.Insets;
-// import javafx.scene.layout.Region;
-// import javafx.scene.text.Text;
-// import javafx.scene.text.TextAlignment;
-// import javafx.scene.text.FontWeight;
-// import javafx.scene.text.Font;
 public class DashboardPage extends DomPage<HBox, GridPane, HBox> {
   // private Scene scene;
 

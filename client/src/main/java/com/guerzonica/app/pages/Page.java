@@ -25,6 +25,10 @@ public abstract class Page{
 
   }
 
+  public Page(){
+    
+  }
+
   public void setScene(Scene scene){
 
     stage.setScene(scene);
