@@ -14,6 +14,13 @@ import java.util.Vector;
 import com.guerzonica.app.components.Graph;
 import com.guerzonica.app.models.data.ProductDetails;
 import com.guerzonica.app.providers.ProductsProvider;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import com.guerzonica.app.components.Modal;
+import com.guerzonica.app.App;
 
 // import javafx.geometry.Insets;
 // import javafx.scene.layout.Region;
@@ -32,13 +39,17 @@ public class DashboardPage extends DomPage<HBox, GridPane, HBox> {
     header();
     body();
     super.footer();
+
+    // welcome();
   }
   public void launch(){
 
   }
   @Override
   public void header(){
+    super.header(); // get predefined style
     HBox header = super.getHeader();
+
     header.setSpacing(10);
 
     final TextField search = new TextField();
@@ -49,10 +60,26 @@ public class DashboardPage extends DomPage<HBox, GridPane, HBox> {
     final Button trackButton = new Button("Track");
     trackButton.setMinWidth(100);
     trackButton.getStyleClass().addAll("button", "flat", "padding-both");
+
+    trackButton.setOnAction(action -> {
+      Label text = new Label("Hello, this is PriceTag.");
+      text.setWrapText(true);
+      Modal j = new Modal("Welcome", this.getRoot(), text );
+      // try{
+      //   App.pageController.push(
+      //     new DomPage<HBox,VBox,HBox>(
+      //       super.getStage(),
+      //       new HBox(),
+      //       new VBox(),
+      //       new HBox()), true);
+      // } catch(Exception e ){}
+    });
+
     header.getChildren().addAll(search, trackButton);
   }
   @Override
   public void body(){
+    super.body();
     try {
         ProductsProvider provider = ProductsProvider.getProvider();
         Vector<ProductDetails> results = provider.getAll();
@@ -74,6 +101,10 @@ public class DashboardPage extends DomPage<HBox, GridPane, HBox> {
     } catch (Exception e) {
         e.printStackTrace();
     }
+  }
+
+  public void welcome(){
+
   }
   // public void show(){
   //   super.show();

@@ -26,21 +26,18 @@ public abstract class Page{
   }
 
   public void setScene(Scene scene){
-    // scene.setRoot(this.root);
-    // this.root = scrollPane;
-    // ObservableList<Node> list = this.root.getChildren();
-    // list.add(scene.getRoot());
-    // scene.setRoot(list.to);
-    // this.root.setContent(scene.getRoot());
-    // scene.setRoot(this.root);
+
     stage.setScene(scene);
   }
 
   public void show(){
     this.stage.show();
   }
+
+
   public Stage getStage(){ return this.stage; }
   public abstract void transition();
   public abstract void setScene();
   public abstract <T extends Pane> T getContent();
+  public abstract void forceLoad();
 }

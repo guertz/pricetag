@@ -1,32 +1,12 @@
 package com.guerzonica.app;
+import java.io.InputStream;
 import com.guerzonica.app.pages.Page;
 import javafx.stage.Stage;
 import com.guerzonica.app.pages.DashboardPage;
 import com.guerzonica.app.providers.PageProvider;
 import javafx.application.Application;
+import javafx.scene.text.Font;
 
-// import javafx.scene.chart.NumberAxis;
-// import javafx.scene.chart.CategoryAxis;
-// import java.util.Vector;
-// import com.guerzonica.app.components.Graph;
-// import com.guerzonica.app.models.data.ProductDetails;
-// import com.guerzonica.app.providers.ProductsProvider;
-//
-// import javafx.scene.layout.HBox;
-// import javafx.scene.layout.GridPane;
-// import com.guerzonica.app.pages.DomPage;
-// import javafx.scene.control.Button;
-// import javafx.scene.Scene;
-// import javafx.scene.control.ScrollPane;
-// import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-// import javafx.scene.layout.HBox;
-// import javafx.scene.layout.GridPane;
-// import javafx.scene.control.TextField;
-// import javafx.scene.text.Text;
-// import javafx.scene.text.TextAlignment;
-// import javafx.scene.text.FontWeight;
-// import javafx.scene.text.Font;
-// import javafx.geometry.Insets;
 
 public class App extends Application {
     // private DomPage<HBox, GridPane, HBox> dashboard;
@@ -36,10 +16,20 @@ public class App extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+    public void bootstrap(){
 
+      // System.out.println(Font.loadFont(App.class.getResource("fonts/OpenSans.ttf").toExternalForm(), 10));
+      ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+      InputStream is = classloader.getResourceAsStream("fonts/OpenSans.ttf");
+      Font.loadFont(is, 10);
+
+
+    }
     @Override
     public void start(Stage primaryStage) {
+
         //Init pages
+        bootstrap();
         try {
           pageController.push(new DashboardPage(primaryStage));
         } catch(IllegalAccessException e) { e.printStackTrace(); }
@@ -48,5 +38,6 @@ public class App extends Application {
 
 
         pageController.getActivePage().show();
+        // pageController.showActivePage();
     }
 }

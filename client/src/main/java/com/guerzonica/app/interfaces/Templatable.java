@@ -1,6 +1,6 @@
 package com.guerzonica.app.interfaces;
 
-import javafx.scene.control.Control;
+import javafx.scene.layout.Pane;
 public interface Templatable<H, B, F> {
   public void header();
   public H getHeader();
@@ -11,5 +11,5 @@ public interface Templatable<H, B, F> {
   public void footer();
   public F getFooter();
 
-  public Control getRoot();
+  public Pane getRoot();
 }
