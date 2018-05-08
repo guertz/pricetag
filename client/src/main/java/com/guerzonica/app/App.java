@@ -19,6 +19,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
+import javafx.scene.shape.Circle;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Pos;
 
 public class App extends Application {
     // private DomPage<HBox, GridPane, HBox> dashboard;
@@ -47,27 +50,33 @@ public class App extends Application {
         stage.setMaxWidth(1000);
         stage.setMinHeight(400);
         stage.setMinWidth(600);
+        VBox container = new VBox();
+        container.prefWidthProperty().bind(stage.widthProperty());
+        // container.setPrefHeight(value);
         this.toolbar = new BorderPane();
         this.toolbar.getStyleClass().addAll("container","toolbar", "primary");
         HBox t = new HBox();
         t.setSpacing(10);
         t.getStyleClass().add("container");
         t.setPickOnBounds(false);
-        t.setMaxHeight(68);
         Label test = new Label("Title");
+        test.getStyleClass().add("heading");
         Image image = new Image("icons/back.png");
         ImageView iv = new ImageView(image);
         iv.setFitWidth(25);
         iv.setFitHeight(25);
+
         Button button = new Button("", iv);
-        button.getStyleClass().addAll("button", "fab");
+        button.getStyleClass().addAll("fab", "primary");
+        button.setShape(new Circle(20));
         t.getChildren().addAll(button, test);
         toolbar.setLeft(t);
-        // this.toolbar.prefWidthProperty().bind(stage.widthProperty());
         this.toolbar.setMinWidth(stage.getMinWidth());
-        this.toolbar.setMaxHeight(68);
-        // this.toolbar.setPrefHeight(-1);
-        Scene n  = new Scene(this.toolbar);
+        this.toolbar.prefWidthProperty().bind(container.widthProperty());
+
+        container.getChildren().add(this.toolbar);
+
+        Scene n  = new Scene(container);
         n.getStylesheets().add("css/pricetheme.css");
         stage.setScene(n);
         stage.show();

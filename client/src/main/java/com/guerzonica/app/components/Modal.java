@@ -80,7 +80,7 @@ public class Modal extends StackPane {
 
     Label title = new Label("Header");
     title.setText(this.title);
-    title.getStyleClass().add("heading");
+    title.getStyleClass().add("title");
 
     StackPane.setAlignment(this, Pos.CENTER);
 

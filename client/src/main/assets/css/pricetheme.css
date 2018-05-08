@@ -7,6 +7,7 @@ UTILITY CLASSES START
   -light: #f7fafc;
   -shadow: #32325d1a;
   -fx-font-family: 'Open Sans';
+  -primary-opaque: rgba(0, 0, 0, 0.1);
 }
 .padding-both{
   -fx-padding: 0 10px 0 10px;
@@ -14,6 +15,9 @@ UTILITY CLASSES START
 .container{
   -fx-padding: 0 10px 0 10px;
   /*???*/
+}
+.primary{
+  -fx-background-color: -primary;
 }
 .h1 {
   -fx-font-size: 32px;
@@ -40,13 +44,20 @@ UTILITY CLASSES START
   -fx-background-insets:  0.0;
   -fx-border-width: 0.0;
   -fx-padding: 0.7em;
-  -fx-background-color: -primary;
-  -fx-text-fill: white;
+  /* -fx-text-fill: white; */
   -fx-alignment: CENTER;
   -fx-content-display: LEFT;
 }
-.button .fab{
-  -fx-background-radius: 30px;
+.fab{
+  -fx-background-insets:  0.0;
+  -fx-border-width: 0.0;
+  -fx-padding: 0.7em;
+  /* -fx-text-fill: white; */
+  -fx-alignment: CENTER;
+  -fx-content-display: LEFT;
+}
+.fab:pressed{
+  -fx-background-color: -primary-opaque;
 }
 .transparent{
   -fx-background-color: transparent;
@@ -106,10 +117,11 @@ Dialog CLASSES START
 .dialog .body {
   -fx-font-size: 14.0px;
 }
-.dialog .heading {
-  -fx-font-weight: 900;
+.dialog .heading, .toolbar .heading {
+  -fx-font-weight: BOLD;
   -fx-font-size: 24px;
-
+  -fx-text-color: white;
+  -fx-text-fill: white;
 }
 
 /************
@@ -121,12 +133,18 @@ Toolbar CLASSES START
 *************/
 .toolbar {
   -fx-background-color: -primary;
-  -fx-pref-width: 100%;
   -fx-pref-height: 68px;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.20), 10, 0.1, 0, 5);
 }
 .toolbar HBox{
-  -fx-height: 68px;
+  -fx-pref-height: 68px;
+  -fx-alignment: center;
 }
+/* .toolbar .title{
+  -fx-text-color: white;
+  -fx-font-
+} */
+
 
 /************
 Toolbar CLASSES END
