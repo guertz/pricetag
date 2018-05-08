@@ -6,7 +6,7 @@ import java.util.Stack;
 //Singleton or use global static Generated class?
 public class PageProvider<U extends Page> extends Stack<U> {
    private static final long serialVersionUID = 42l;
-
+   
   @Override
   public U push(U page){
 

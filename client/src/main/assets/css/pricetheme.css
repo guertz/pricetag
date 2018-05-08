@@ -1,3 +1,6 @@
+/************
+UTILITY CLASSES START
+*************/
 .root{
   -primary: #005bae;
   -secondary: #00337e;
@@ -8,6 +11,10 @@
 .padding-both{
   -fx-padding: 0 10px 0 10px;
 }
+.container{
+  -fx-padding: 0 10px 0 10px;
+  /*???*/
+}
 .h1 {
   -fx-font-size: 32px;
 }
@@ -16,24 +23,6 @@
 }
 .h3 {
   -fx-font-size: 16px;
-}
-.dialog-overlay{
-  -fx-background-color: rgba(0.0, 0.0, 0.0, 0.1);
-  -fx-padding: 0 80px 0 80px;
-
-}
-.dialog {
-  -fx-text-alignment: left;
-  -fx-effect: dropshadow(three-pass-box, #32325d1a, 25, 0.6, 0, 3);
-
-}
-.dialog .body {
-  -fx-font-size: 14.0px;
-}
-.dialog .heading {
-  -fx-font-weight: 900;
-  -fx-font-size: 24px;
-
 }
 .padding {
   -fx-padding: 10px;
@@ -55,6 +44,12 @@
   -fx-text-fill: white;
   -fx-alignment: CENTER;
   -fx-content-display: LEFT;
+}
+.button .fab{
+  -fx-background-radius: 30px;
+}
+.transparent{
+  -fx-background-color: transparent;
 }
 .flat{
   -fx-effect: dropshadow(three-pass-box, #32325d1a, 10, 0.3, 0, 6);
@@ -92,3 +87,47 @@
 .flat:pressed{
   -fx-effect: dropshadow(three-pass-box, -shadow, 5, 0.1, 0, 1);
 }
+/************
+UTILITY CLASSES END
+*************/
+/************
+Dialog CLASSES START
+*************/
+.dialog-overlay{
+  -fx-background-color: rgba(0.0, 0.0, 0.0, 0.1);
+  -fx-padding: 0 80px 0 80px;
+
+}
+.dialog {
+  -fx-text-alignment: left;
+  -fx-effect: dropshadow(three-pass-box, #32325d1a, 25, 0.6, 0, 3);
+
+}
+.dialog .body {
+  -fx-font-size: 14.0px;
+}
+.dialog .heading {
+  -fx-font-weight: 900;
+  -fx-font-size: 24px;
+
+}
+
+/************
+Dialog CLASSES END
+*************/
+
+/************
+Toolbar CLASSES START
+*************/
+.toolbar {
+  -fx-background-color: -primary;
+  -fx-pref-width: 100%;
+  -fx-pref-height: 68px;
+}
+.toolbar HBox{
+  -fx-height: 68px;
+}
+
+/************
+Toolbar CLASSES END
+*************/

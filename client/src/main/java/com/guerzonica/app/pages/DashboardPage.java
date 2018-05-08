@@ -23,7 +23,8 @@ public class DashboardPage extends DomPage<HBox, GridPane, HBox> {
   // private Scene scene;
 
   // private static PageProvider<Page> pageCtrl = PageProvider.getInstance();
-
+  public static String title = "Dashboard";
+  
   public DashboardPage(Stage stage) {
     super(stage, new HBox(), new GridPane(), new HBox());
     header();
