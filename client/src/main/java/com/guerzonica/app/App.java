@@ -1,4 +1,5 @@
 package com.guerzonica.app;
+import com.guerzonica.app.components.Toolbar;
 import com.guerzonica.app.pages.ListPage;
 import java.io.InputStream;
 import com.guerzonica.app.pages.Page;
@@ -51,35 +52,41 @@ public class App extends Application {
         stage.setMinHeight(400);
         stage.setMinWidth(600);
         VBox container = new VBox();
-        container.prefWidthProperty().bind(stage.widthProperty());
-        // container.setPrefHeight(value);
-        this.toolbar = new BorderPane();
-        this.toolbar.getStyleClass().addAll("container","toolbar", "primary");
-        HBox t = new HBox();
-        t.setSpacing(10);
-        t.getStyleClass().add("container");
-        t.setPickOnBounds(false);
-        Label test = new Label("Title");
-        test.getStyleClass().add("heading");
-        Image image = new Image("icons/back.png");
-        ImageView iv = new ImageView(image);
-        iv.setFitWidth(25);
-        iv.setFitHeight(25);
+        // container.prefWidthProperty().bind(stage.widthProperty());
+        // // container.setPrefHeight(value);
+        // this.toolbar = new BorderPane();
+        // this.toolbar.getStyleClass().addAll("container","toolbar", "primary");
+        // HBox t = new HBox();
+        // t.setSpacing(10);
+        // t.getStyleClass().add("container");
+        // t.setPickOnBounds(false);
+        // Label test = new Label("Title");
+        // test.getStyleClass().add("heading");
+        // Image image = new Image("icons/back.png");
+        // ImageView iv = new ImageView(image);
+        // iv.setFitWidth(25);
+        // iv.setFitHeight(25);
+        //
+        // Button button = new Button("", iv);
+        // button.getStyleClass().addAll("fab", "primary");
+        // button.setShape(new Circle(20));
+        // t.getChildren().addAll(button, test);
+        // toolbar.setLeft(t);
+        // this.toolbar.setMinWidth(stage.getMinWidth());
+        // this.toolbar.prefWidthProperty().bind(container.widthProperty());
+        //
+        // container.getChildren().add(this.toolbar);
 
-        Button button = new Button("", iv);
-        button.getStyleClass().addAll("fab", "primary");
-        button.setShape(new Circle(20));
-        t.getChildren().addAll(button, test);
-        toolbar.setLeft(t);
-        this.toolbar.setMinWidth(stage.getMinWidth());
-        this.toolbar.prefWidthProperty().bind(container.widthProperty());
-
-        container.getChildren().add(this.toolbar);
-
+        Toolbar toolbar = new Toolbar("Title");
+        toolbar.setMinWidth(stage.getMinWidth());
+        toolbar.prefWidthProperty().bind(container.widthProperty());
+        container.getChildren().add(toolbar);
         Scene n  = new Scene(container);
         n.getStylesheets().add("css/pricetheme.css");
         stage.setScene(n);
         stage.show();
+
+        // toolbar.setBackButton();
         // try {
           // pageController.push(new DashboardPage(primaryStage));
         // } catch(IllegalAccessException e) { e.printStackTrace(); }
