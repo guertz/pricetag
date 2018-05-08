@@ -26,8 +26,7 @@ public class DomPage<H extends Pane, B extends Pane, F extends Pane> extends Pag
 
   private Stage stage;
 
-  public DomPage(Stage stage, H h, B b, F f)
-    throws InstantiationException, IllegalAccessException {
+  public DomPage(Stage stage, H h, B b, F f){
     super(stage);
     this.stage = stage;
     this.body = b;
@@ -87,9 +86,6 @@ public class DomPage<H extends Pane, B extends Pane, F extends Pane> extends Pag
   //   return h;
   // }
 
-  public <B extends Pane> B getContent(){
-    return (B) this.getBody();
-  }
 
   public Pane getRoot(){ return this.root; }
   public H getHeader(){ return this.header;}

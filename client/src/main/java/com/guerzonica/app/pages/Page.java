@@ -26,7 +26,7 @@ public abstract class Page{
   }
 
   public Page(){
-    
+
   }
 
   public void setScene(Scene scene){
@@ -42,6 +42,6 @@ public abstract class Page{
   public Stage getStage(){ return this.stage; }
   public abstract void transition();
   public abstract void setScene();
-  public abstract <T extends Pane> T getContent();
+  // public abstract <T extends Pane> T getContent();
   public abstract void forceLoad();
 }

@@ -1,6 +1,7 @@
 package com.guerzonica.app.pages;
 //https://stackoverflow.com/questions/40750526/javafx-best-practice-for-navigating-between-ui-screens
 
+import com.guerzonica.app.App;
 import com.guerzonica.app.pages.DomPage;
 import com.guerzonica.app.providers.PageProvider;
 import javafx.scene.layout.HBox;
@@ -14,6 +15,7 @@ import java.util.Vector;
 import com.guerzonica.app.components.Graph;
 import com.guerzonica.app.models.data.ProductDetails;
 import com.guerzonica.app.providers.ProductsProvider;
+import javafx.scene.control.ListView;
 
 import javafx.scene.control.Label;
 import com.guerzonica.app.components.Modal;
@@ -22,8 +24,7 @@ public class DashboardPage extends DomPage<HBox, GridPane, HBox> {
 
   // private static PageProvider<Page> pageCtrl = PageProvider.getInstance();
 
-  public DashboardPage(Stage stage)
-  throws InstantiationException, IllegalAccessException {
+  public DashboardPage(Stage stage) {
     super(stage, new HBox(), new GridPane(), new HBox());
     header();
     body();
@@ -53,7 +54,15 @@ public class DashboardPage extends DomPage<HBox, GridPane, HBox> {
     trackButton.setOnAction(action -> {
       Label text = new Label("Hello, this is PriceTag.");
       text.setWrapText(true);
-      Modal j = new Modal("Welcome", this.getRoot(), text );
+      // Modal j = new Modal("Welcome", this.getRoot(), text );
+
+      String ITEM = "Item ";
+      ListView<String> javaList = new ListView<>();
+      for (int i = 0; i < 4; i++) {
+        javaList.getItems().add(ITEM + i);
+      }
+
+      App.pageController.push(new ListPage(super.getStage(), javaList));
       // try{
       //   App.pageController.push(
       //     new DomPage<HBox,VBox,HBox>(

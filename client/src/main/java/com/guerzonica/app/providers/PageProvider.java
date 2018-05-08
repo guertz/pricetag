@@ -21,11 +21,11 @@ public class PageProvider<U extends Page> extends Stack<U> {
     page.setScene();
     return page;
   }
-  public U push(U page, boolean force){
-    super.push(page);
-    page.forceLoad();
-    return page;
-  }
+  // public U push(U page, boolean force){
+  //   super.push(page);
+  //   page.forceLoad();
+  //   return page;
+  // }
 
   public U getActivePage(){
     // System.out.println(super.get(super.size() - 1).getClass());

@@ -1,4 +1,5 @@
 package com.guerzonica.app;
+import com.guerzonica.app.pages.ListPage;
 import java.io.InputStream;
 import com.guerzonica.app.pages.Page;
 import javafx.stage.Stage;
@@ -7,6 +8,7 @@ import com.guerzonica.app.providers.PageProvider;
 import javafx.application.Application;
 import javafx.scene.text.Font;
 
+import javafx.scene.control.ListView;
 
 public class App extends Application {
     // private DomPage<HBox, GridPane, HBox> dashboard;
@@ -30,10 +32,11 @@ public class App extends Application {
 
         //Init pages
         bootstrap();
-        try {
+    
+        // try {
           pageController.push(new DashboardPage(primaryStage));
-        } catch(IllegalAccessException e) { e.printStackTrace(); }
-          catch(InstantiationException e) { e.printStackTrace(); }
+        // } catch(IllegalAccessException e) { e.printStackTrace(); }
+        //   catch(InstantiationException e) { e.printStackTrace(); }
 
 
 
