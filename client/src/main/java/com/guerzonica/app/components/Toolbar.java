@@ -7,14 +7,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.shape.Circle;
+import javafx.scene.input.MouseEvent;
+import javafx.event.Event;
+
 public class Toolbar extends BorderPane{
   protected HBox left;
   protected HBox right;
   // protected VBox container;
   public Toolbar(String title){
-    // this.container = new VBox();
-    // container.prefWidthProperty().bind(stage.widthProperty());
-    // container.setPrefHeight(value);
     this.getStyleClass().addAll("container","toolbar", "primary");
     this.left = new HBox();
     this.left.setSpacing(10);
@@ -22,7 +22,7 @@ public class Toolbar extends BorderPane{
     this.left.setPickOnBounds(false);
 
     Label head = new Label(title);
-    head.getStyleClass().add("heading");
+    head.getStyleClass().addAll("bold","heading");
 
     Image image = new Image("icons/back.png");
     ImageView icon = new ImageView(image);
@@ -32,6 +32,12 @@ public class Toolbar extends BorderPane{
     Button button = new Button("", icon);
     button.getStyleClass().addAll("fab", "primary");
     button.setShape(new Circle(20));
+
+    button.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
+
+      Event.fireEvent(this, new ToolbarEvent(ToolbarEvent.BACK_CLICK));
+
+    });
     button.managedProperty().bind(button.visibleProperty());
     button.setVisible(false);
 
@@ -40,8 +46,6 @@ public class Toolbar extends BorderPane{
     this.setLeft(left);
     this.setRight(right);
 
-    // container.getChildren().add(this);
-
   }
 
   public void canGoBack(){
@@ -49,6 +53,6 @@ public class Toolbar extends BorderPane{
   }
 
   public void setBackButton(){
-    this.left.getChildren().get(0).setVisible(true);
+    this.left.getChildren().get(0).setVisible(!this.left.getChildren().get(0).isVisible());
   }
 }

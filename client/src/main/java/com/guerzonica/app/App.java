@@ -1,4 +1,5 @@
 package com.guerzonica.app;
+import com.guerzonica.app.components.ToolbarEvent;
 import com.guerzonica.app.components.Toolbar;
 import com.guerzonica.app.pages.ListPage;
 import java.io.InputStream;
@@ -78,6 +79,11 @@ public class App extends Application {
         // container.getChildren().add(this.toolbar);
 
         Toolbar toolbar = new Toolbar("Title");
+        toolbar.addEventFilter(ToolbarEvent.BACK_CLICK, e -> {
+
+          e.consume();
+
+        });
         toolbar.setMinWidth(stage.getMinWidth());
         toolbar.prefWidthProperty().bind(container.widthProperty());
         container.getChildren().add(toolbar);
@@ -86,7 +92,7 @@ public class App extends Application {
         stage.setScene(n);
         stage.show();
 
-        // toolbar.setBackButton();
+        toolbar.setBackButton();
         // try {
           // pageController.push(new DashboardPage(primaryStage));
         // } catch(IllegalAccessException e) { e.printStackTrace(); }
