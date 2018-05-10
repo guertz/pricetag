@@ -13,6 +13,9 @@ import com.guerzonica.app.mocks.SampleProducts;
 import com.guerzonica.app.models.channel.*;
 import com.guerzonica.app.models.data.*;
 
+import io.reactivex.Observable;
+import io.reactivex.subjects.BehaviorSubject;;
+
 class BroadcastDetailsHandler implements IHandler {
 
     // Seek in local data (Read + Send)
@@ -43,13 +46,15 @@ class DetailsHandler implements IHandler {
 public class ProductsProvider extends DataAccessor {
 
     private static ProductsProvider provider = null;
-
+    
     public static ProductsProvider getProvider() throws SQLException {
         if(provider == null)
             provider = new ProductsProvider();
         
         return provider;
     }
+
+    private final BehaviorSubject<Vector<ProductDetails>> subject = BehaviorSubject.create();
 
     public ProductsProvider() throws SQLException {
 
@@ -65,6 +70,8 @@ public class ProductsProvider extends DataAccessor {
                 e.printStackTrace();
             }
         });
+
+        this.subject.onNext(this.getAll());
     }
 
     // register only one => constructor code only
@@ -117,6 +124,10 @@ public class ProductsProvider extends DataAccessor {
                 e.printStackTrace();
             }
         });
+    }
+
+    public Observable<Vector<ProductDetails>> getStream() {
+        return this.subject;
     }
 
     private Vector<ProductDetails> getAll(String where) throws SQLException {
