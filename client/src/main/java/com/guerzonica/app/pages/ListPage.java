@@ -1,8 +1,6 @@
 package com.guerzonica.app.pages;
 import javafx.scene.control.ListView;
 
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.ScrollPane;

@@ -1,22 +1,14 @@
 package com.guerzonica.app.pages;
 //https://stackoverflow.com/questions/40750526/javafx-best-practice-for-navigating-between-ui-screens
 import com.guerzonica.app.interfaces.ToolbarListener;
-import com.guerzonica.app.components.ToolbarEvent;
 import com.guerzonica.app.components.Toolbar;
 // import javafx.scene.Node;
 // import javafx.scene.Parent;
 // import javafx.scene.control.ScrollPane;
 // import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.stage.Stage;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
 import com.guerzonica.app.App;
 
 public abstract class Page implements ToolbarListener{

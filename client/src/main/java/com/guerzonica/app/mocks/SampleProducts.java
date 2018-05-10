@@ -3,6 +3,7 @@ package com.guerzonica.app.mocks;
 import java.util.Vector;
 import com.guerzonica.app.models.data.*;
 
+@SuppressWarnings("all")
 public class SampleProducts {
 
     // all a reference. So it is not cloned. If the method die, the data die?

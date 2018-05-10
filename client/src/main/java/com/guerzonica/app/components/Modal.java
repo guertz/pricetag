@@ -9,7 +9,7 @@ import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.event.Event;
-import javafx.event.EventType;
+
 public class Modal extends StackPane {
   protected Pane container;
   protected Region content;

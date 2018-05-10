@@ -1,13 +1,10 @@
 package com.guerzonica.app.pages;
 //https://stackoverflow.com/questions/40750526/javafx-best-practice-for-navigating-between-ui-screens
 
-import com.guerzonica.app.components.Toolbar;
 import com.guerzonica.app.App;
 import com.guerzonica.app.pages.DomPage;
-import com.guerzonica.app.providers.PageProvider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,7 +20,6 @@ import com.guerzonica.app.providers.ProductsProvider;
 import javafx.scene.control.ListView;
 
 import javafx.scene.control.Label;
-import com.guerzonica.app.components.Modal;
 public class DashboardPage extends DomPage<HBox, GridPane, HBox> {
   // private Scene scene;
 

@@ -8,8 +8,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.shape.Circle;
 import javafx.scene.input.MouseEvent;
-import javafx.event.Event;
 import javafx.stage.Stage;
+
 public class Toolbar extends BorderPane{
   protected HBox left;
   protected HBox right;
