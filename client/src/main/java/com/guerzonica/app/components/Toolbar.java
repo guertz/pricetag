@@ -1,7 +1,7 @@
 package com.guerzonica.app.components;
+import com.guerzonica.app.interfaces.ToolbarListener;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,20 +9,29 @@ import javafx.scene.control.Button;
 import javafx.scene.shape.Circle;
 import javafx.scene.input.MouseEvent;
 import javafx.event.Event;
-
+import javafx.stage.Stage;
 public class Toolbar extends BorderPane{
   protected HBox left;
   protected HBox right;
+  protected Label title;
+
+  private ToolbarListener listener;
   // protected VBox container;
   public Toolbar(String title){
     this.getStyleClass().addAll("container","toolbar", "primary");
+    // this.setMinHeight(100);
     this.left = new HBox();
     this.left.setSpacing(10);
     this.left.getStyleClass().add("container");
     this.left.setPickOnBounds(false);
 
-    Label head = new Label(title);
-    head.getStyleClass().addAll("bold","heading");
+    this.right = new HBox();
+    this.right.setSpacing(10);
+    this.right.getStyleClass().add("container");
+    this.right.setPickOnBounds(false);
+
+    this.title = new Label(title);
+    this.title.getStyleClass().addAll("heading");
 
     Image image = new Image("icons/back.png");
     ImageView icon = new ImageView(image);
@@ -35,24 +44,44 @@ public class Toolbar extends BorderPane{
 
     button.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
 
-      Event.fireEvent(this, new ToolbarEvent(ToolbarEvent.BACK_CLICK));
+      // Event.fireEvent(this, new ToolbarEvent(ToolbarEvent.BACK_CLICK));
+      this.listener.onBackPressed();
 
     });
     button.managedProperty().bind(button.visibleProperty());
     button.setVisible(false);
 
-    this.left.getChildren().addAll(button, head);
+    this.left.getChildren().addAll(button, this.title);
 
     this.setLeft(left);
-    this.setRight(right);
+    this.setRight(this.right);
 
   }
 
   public void canGoBack(){
 
   }
+  public void setTitle(String title){
+    this.title.setText(title);
+  }
+  public HBox getLeftNode(){
+    return this.left;
+  }
+  public HBox getRightNode(){
+    return this.right;
+  }
+  public void setFullSize(Stage stage){
+    this.setMinWidth(stage.getMinWidth());
+    this.prefWidthProperty().bind(stage.widthProperty());
+  }
 
   public void setBackButton(){
     this.left.getChildren().get(0).setVisible(!this.left.getChildren().get(0).isVisible());
   }
+
+  public void setOnBackPressedListener (ToolbarListener listener) {
+    this.listener = listener;
+  }
+
+
 }

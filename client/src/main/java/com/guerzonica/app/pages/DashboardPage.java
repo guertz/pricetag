@@ -1,11 +1,16 @@
 package com.guerzonica.app.pages;
 //https://stackoverflow.com/questions/40750526/javafx-best-practice-for-navigating-between-ui-screens
 
+import com.guerzonica.app.components.Toolbar;
 import com.guerzonica.app.App;
 import com.guerzonica.app.pages.DomPage;
 import com.guerzonica.app.providers.PageProvider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
@@ -24,9 +29,14 @@ public class DashboardPage extends DomPage<HBox, GridPane, HBox> {
 
   // private static PageProvider<Page> pageCtrl = PageProvider.getInstance();
   public static String title = "Dashboard";
-  
+  public static String cssClass = "dashboard";
+  // private Toolbar toolbar;
   public DashboardPage(Stage stage) {
-    super(stage, new HBox(), new GridPane(), new HBox());
+
+    super(stage, new HBox(), new GridPane(), new HBox(), cssClass);
+    super.toolbar.setTitle(DashboardPage.title);
+
+
     header();
     body();
     super.footer();
@@ -38,19 +48,24 @@ public class DashboardPage extends DomPage<HBox, GridPane, HBox> {
   }
   @Override
   public void header(){
-    super.header(); // get predefined style
-    HBox header = super.getHeader();
+    // super.header(); // get predefined style
+    // HBox header = super.getHeader();
 
-    header.setSpacing(10);
-
+    //
+    // header.setSpacing(10);
+    //
     final TextField search = new TextField();
     search.setPromptText("Insert Product ID");
     search.setMinWidth(300);
-    search.getStyleClass().addAll("text-field", "flat");
+    search.getStyleClass().addAll("text-field", "white", "round", "dropshadow");
 
-    final Button trackButton = new Button("Track");
-    trackButton.setMinWidth(100);
-    trackButton.getStyleClass().addAll("button", "flat", "padding-both");
+    Image image = new Image("icons/search.png");
+    ImageView icon = new ImageView(image);
+    icon.setFitWidth(25);
+    icon.setFitHeight(25);
+    final Button trackButton = new Button("", icon);
+    trackButton.setShape(new Circle(20));
+    trackButton.getStyleClass().addAll("fab", "primary");
 
     trackButton.setOnAction(action -> {
       Label text = new Label("Hello, this is PriceTag.");
@@ -73,8 +88,12 @@ public class DashboardPage extends DomPage<HBox, GridPane, HBox> {
       //       new HBox()), true);
       // } catch(Exception e ){}
     });
+    // this.toolbar = new Toolbar(title);
+    super.toolbar.getRightNode().getChildren().addAll(search, trackButton);
+    // super.setToolbar(this.toolbar);
 
-    header.getChildren().addAll(search, trackButton);
+    // header.getChildren().addAll();
+
   }
   @Override
   public void body(){
@@ -105,6 +124,7 @@ public class DashboardPage extends DomPage<HBox, GridPane, HBox> {
   public void welcome(){
 
   }
+
   // public void show(){
   //   super.show();
   // }

@@ -34,17 +34,15 @@ public class ListPage extends Page{
 
     this.scene.getStylesheets().add("css/pricetheme.css");
 
+    super.setScene(this.scene);
+
+
   }
-  @Override
-  public void transition() { /* Nothing here */ }
+
 
   @Override
   public void forceLoad(){ }
 
-  @Override
-  public void setScene(){
 
-    super.setScene(this.scene);
-  }
 
 }

@@ -6,20 +6,36 @@ import java.util.Stack;
 //Singleton or use global static Generated class?
 public class PageProvider<U extends Page> extends Stack<U> {
    private static final long serialVersionUID = 42l;
-   
+
   @Override
   public U push(U page){
-
     if(super.empty()){
 
     } else {
-      // this.getActivePage()
-    }
-    super.push(page);
-    //transitions?
+      super.get(super.size() - 1).PageWillExit();
+      page.toolbar.setBackButton();
 
-    page.setScene();
+    }
+    page.PageWillEnter();
+    super.push(page);
+    page.showPage();
     return page;
+  }
+
+  @Override
+  public U pop(){ //throws exception if no page left
+
+      U leaving = super.pop();
+      leaving.PageWillExit();
+
+      U entering = super.get(super.size() - 1);
+
+      entering.PageWillEnter();
+
+      entering.showPage();
+
+
+    return leaving;
   }
   // public U push(U page, boolean force){
   //   super.push(page);
@@ -39,7 +55,7 @@ public class PageProvider<U extends Page> extends Stack<U> {
     // System.out.println(super.get(super.size() - 1).getClass());
     // System.out.println(super.size());
     // return
-     this.getActivePage().setScene();
+     this.getActivePage().showPage();
 
   }
 

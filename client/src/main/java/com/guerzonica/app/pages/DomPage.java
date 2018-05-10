@@ -1,10 +1,12 @@
 package com.guerzonica.app.pages;
 //https://stackoverflow.com/questions/40750526/javafx-best-practice-for-navigating-between-ui-screens
 
+import com.guerzonica.app.components.Toolbar;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -26,7 +28,26 @@ public class DomPage<H extends Pane, B extends Pane, F extends Pane> extends Pag
 
   private Stage stage;
 
-  public DomPage(Stage stage, H h, B b, F f){
+  // public DomPage(Stage stage, H h, B b, F f){
+  //   super(stage);
+  //   this.stage = stage;
+  //   this.body = b;
+  //   this.header = h;
+  //   this.footer = f;
+  //
+  //   // header();
+  //   // body();
+  //   // footer();
+  //
+  //   this.init(stage, h, b, f);
+  //
+  //   // if(h == null){
+  //   //   super.setToolbar(null);
+  //   //   this.header = super.toolbar;
+  //   // }
+  //
+  // }
+  public DomPage(Stage stage, H h, B b, F f, String classString){
     super(stage);
     this.stage = stage;
     this.body = b;
@@ -37,41 +58,65 @@ public class DomPage<H extends Pane, B extends Pane, F extends Pane> extends Pag
     // body();
     // footer();
 
-    this.init(stage, h, b, f);
+    this.init(stage, h, b, f, classString);
+
+    // if(h == null){
+    //   super.setToolbar(null);
+    //   this.header = super.toolbar;
+    // }
 
   }
-  private void init(Stage stage, H h, B b, F f){
+  /*If you want to use toolbar from superclass*/
+  // public DomPage(Stage stage, B b, F f){
+  //   super(stage);
+  //   this.stage = stage;
+  //   this.body = b;
+  //   this.footer = f;
+  //
+  //   // header();
+  //   // body();
+  //   // footer();
+  //
+  //   this.init(stage, h, b, f);
+  //
+  // }
+  private void init(Stage stage, H h, B b, F f, String classString){
+
     BorderPane container = new BorderPane();
 
     container.setTop(this.header);
+    // if()
     container.setCenter(this.body);
 
-    container.prefHeightProperty().bind(stage.heightProperty());
-    container.prefWidthProperty().bind(stage.widthProperty());
+
 
     this.root = new Pane();
     this.root.getChildren().add(container);
-    // this.root.getNgetId("root").setTop()
 
 
     ScrollPane scrollPane = new ScrollPane();
       scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
       scrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+
+      container.prefHeightProperty().bind(stage.heightProperty());
+      container.prefWidthProperty().bind(scrollPane.widthProperty());
+      scrollPane.setPadding(new Insets(0,0,0,0));
+
     scrollPane.setContent(this.root);
 
     // this.root = scrollPane;
     this.scene = new Scene(scrollPane);
-
+    this.scene.getRoot().getStyleClass().add(classString);
     this.scene.getStylesheets().add("css/pricetheme.css");
+
+    super.setScene(this.scene);
+
 
   }
   public void show(){
     super.show();
   }
 
-  public void setScene(){
-    super.setScene(this.scene);
-  }
   //
   // private B body(B body)
   //   throws InstantiationException, IllegalAccessException {
@@ -104,12 +149,13 @@ public class DomPage<H extends Pane, B extends Pane, F extends Pane> extends Pag
     this.body.getStyleClass().add("body");
 
    }
-
+  public void setToolbar(Toolbar toolbar){
+    super.setToolbar(toolbar);
+  }
   public void footer(){  }
 
   public void forceLoad(){ header(); body(); footer(); }
 
-  public void transition() { /* Nothing here */ }
 
 
     // @Override

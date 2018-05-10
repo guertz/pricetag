@@ -4,10 +4,17 @@ UTILITY CLASSES START
 .root{
   -primary: #005bae;
   -secondary: #00337e;
-  -light: #f7fafc;
+  -secondary-light: #074c8c;
+  -light: #5487e0;
   -shadow: #32325d1a;
+  -black: rgba(0, 0, 0, 0.1);
   -fx-font-family: 'Open Sans';
   -primary-opaque: rgba(0, 0, 0, 0.1);
+  -fx-background-color: transparent;
+
+}
+#app{
+  /*don't style this for now*/
 }
 .padding-both{
   -fx-padding: 0 10px 0 10px;
@@ -19,6 +26,22 @@ UTILITY CLASSES START
 .primary{
   -fx-background-color: -primary;
 }
+.white{
+  -fx-background-color: white;
+}
+.secondary{
+  -fx-background-color: -secondary;
+}
+.secondary-light{
+  -fx-background-color: -secondary-light;
+}
+.color-white{
+  -fx-text-fill: white;
+  -fx-text-color: white;
+  -fx-prompt-text-fill: white;
+  -fx-highlight-fill: white;
+}
+
 .h1 {
   -fx-font-size: 32px;
 }
@@ -38,7 +61,10 @@ UTILITY CLASSES START
   -fx-fill-height: true;
 }
 .dropshadow{
-  -fx-effect: dropshadow(three-pass-box, #32325d1a, 10, 0.3, 0, 6);
+  -fx-effect: dropshadow(three-pass-box, #32325d1a, 30, 0.8, 0, 10);
+}
+.dropshadow-hard{
+  -fx-effect: dropshadow(gaussian, -black, 15, 0.6, 0, 5);
 }
 .button{
   -fx-background-insets:  0.0;
@@ -55,6 +81,7 @@ UTILITY CLASSES START
   /* -fx-text-fill: white; */
   -fx-alignment: CENTER;
   -fx-content-display: LEFT;
+
 }
 .fab:pressed{
   -fx-background-color: -primary-opaque;
@@ -67,16 +94,20 @@ UTILITY CLASSES START
   -fx-border-radius: 0;
   -fx-background-radius: 0;
 }
+.round{
+  -fx-border-radius: 100px;
+  -fx-background-radius: 100px;
+}
 .text-field{
   -fx-padding: 0.7em;
   -fx-alignment: top-center;
   -fx-highlight-fill: black;
-  -fx-border-width: 0 0 1px 0;
+  -fx-border-width: 0 0 0px 0;
   -fx-border-color: transparent;
-  -fx-border-radius: 0.0;
-  -fx-background-color: white;
+  -fx-border-radius: 100px;
+  /* -fx-background-color: white; */
   -fx-background-insets:  0.0;
-  -fx-background-radius: 2.0;
+  -fx-background-radius: 100px;
   -fx-padding: 0.7em;
   -fx-prompt-text-fill: derive(-primary, 50.0%);
   -fx-highlight-fill: -secondary;
@@ -133,12 +164,18 @@ Toolbar CLASSES START
 *************/
 .toolbar {
   -fx-background-color: -primary;
-  -fx-pref-height: 68px;
-  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.90), 30, 0.1, 0, 5);
+  -fx-min-height: 68px;
+  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.28), 15, 0.5, 0, 1);
 }
 .toolbar HBox{
-  -fx-pref-height: 68px;
+  /* -fx-pref-height: 68px; */
   -fx-alignment: center;
+}
+.toolbar HBox Label{
+  -fx-font-weight: BOLD;
+  -fx-font-size: 24px;
+  -fx-text-color: white;
+  -fx-text-fill: white;
 }
 /* .toolbar .title{
   -fx-text-color: white;
@@ -148,4 +185,50 @@ Toolbar CLASSES START
 
 /************
 Toolbar CLASSES END
+*************/
+
+.scroll-pane{
+  -fx-border-width: 0.0;
+  -fx-background-insets: 0;
+
+}
+.scroll-pane > .corner {
+    -fx-background-color: -secondary;
+}
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color: transparent;
+}
+.scroll-bar .decrement-arrow,
+.scroll-bar .increment-arrow{
+    -fx-background-color: transparent;
+    /* -fx-border-color: transparent; */
+    /* -fx-background-radius: 0em; */
+}
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+.scroll-bar .thumb{
+    -fx-background-color: transparent;
+    -fx-border-radius: 0;
+    -fx-border-width: 0 0 0 5px;
+    -fx-border-color: -primary;
+}
+/************
+Dashboard Styles START
+*************/
+
+.dashboard .body,
+.dashboard .scroll-pane,
+.dashboard .viewport{
+  -fx-background-color: transparent;
+
+}
+.chart .chart-content{
+  padding:1px 3px 1px 3px;
+}
+/************
+Dashboard Styles END
 *************/

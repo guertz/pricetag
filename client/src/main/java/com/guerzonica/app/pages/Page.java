@@ -1,11 +1,15 @@
 package com.guerzonica.app.pages;
 //https://stackoverflow.com/questions/40750526/javafx-best-practice-for-navigating-between-ui-screens
+import com.guerzonica.app.interfaces.ToolbarListener;
+import com.guerzonica.app.components.ToolbarEvent;
+import com.guerzonica.app.components.Toolbar;
 // import javafx.scene.Node;
 // import javafx.scene.Parent;
 // import javafx.scene.control.ScrollPane;
 // import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.stage.Stage;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -13,11 +17,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
-public abstract class Page{
+import com.guerzonica.app.App;
+
+public abstract class Page implements ToolbarListener{
 
   protected Stage stage;
-  private BorderPane toolbar; //need a component class.
-   // protected Control root;
+  public Toolbar toolbar;
+  private VBox root;
+  private Scene scene;
 
   public Page(Stage stage){
     // this.stage =
@@ -28,8 +35,25 @@ public abstract class Page{
     stage.setMinWidth(600);
     this.stage = stage;
 
+    this.root = new VBox(15);
+    this.root.setId("app");
+
+    this.root.setMinWidth(stage.getMinWidth());
+    this.root.prefWidthProperty().bind(stage.widthProperty());
+    // this.toolbar = null;
+
+
+    toolbar();
+
+
   }
   public void toolbar(){
+    this.toolbar = new Toolbar("");
+
+    this.toolbar.setOnBackPressedListener(this);
+
+
+
 
   }
   public Page(){
@@ -38,17 +62,49 @@ public abstract class Page{
 
   public void setScene(Scene scene){
 
-    stage.setScene(scene);
+
+      this.root.getChildren().add(this.toolbar);
+      this.root.getChildren().add(scene.getRoot());
+      scene.setRoot(root);
+
+      this.scene = scene;
   }
 
   public void show(){
     this.stage.show();
   }
 
+  public void showPage(){
+
+    stage.setScene(this.scene);
+  }
+
+  public void setToolbar(Toolbar toolbar){
+    if(toolbar == null) toolbar();
+    else this.toolbar = toolbar;
+
+
+
+    // this.setScene(stage.getScene());
+  }
+
 
   public Stage getStage(){ return this.stage; }
-  public abstract void transition();
-  public abstract void setScene();
-  // public abstract <T extends Pane> T getContent();
   public abstract void forceLoad();
+
+  public void onBackPressed(){
+    App.pageController.pop();
+  }
+  public void PageWillEnter(){
+    // if(App.pageController.empty()) {
+    //
+    // }
+    // else {
+    // }
+
+    System.out.println(App.pageController.size());
+  }
+  public void PageWillExit(){
+
+  }
 }
