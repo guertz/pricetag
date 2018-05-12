@@ -11,7 +11,7 @@ public class SampleProducts {
         Vector<ProductDetails> x = new Vector<ProductDetails>();
 
             x.add(new ProductDetails(
-                new Product(1, "Motorola Moto G4", "Telefono di ultima generazione con supporto rete 4G/LTE e 4GB Ram"),
+                new Product(1, "Motorola Moto G4", "Telefono di ultima generazione con supporto rete 4G/LTE e 4GB Ram", "https://www.amazon.com/XT1671-Finger-International-Version-Desbloqueado/dp/B06XH4396B/ref=sr_1_4?s=wireless&ie=UTF8&qid=1526160664&sr=1-4&keywords=motorola"),
                 new Vector<History>() {{
                     add(new History("23/04", 100));
                     add(new History("24/04", 110));
@@ -21,7 +21,7 @@ public class SampleProducts {
             ));
 
             x.add(new ProductDetails(
-                new Product(2, "LG G6", "Top di gamma di marca LG"),
+                new Product(2, "LG G6", "Top di gamma di marca LG", "https://www.amazon.com/XT1671-Finger-International-Version-Desbloqueado/dp/B06XH4396B/ref=sr_1_4?s=wireless&ie=UTF8&qid=1526160664&sr=1-4&keywords=motorola"),
                 new Vector<History>() {{
                     add(new History("18/04", 300));
                     add(new History("19/04", 350));
@@ -31,7 +31,7 @@ public class SampleProducts {
             ));
 
             x.add(new ProductDetails(
-                new Product(3, "HP Notebook", "Laptop HP con supporto esteso"),
+                new Product(3, "HP Notebook", "Laptop HP con supporto esteso", "https://www.amazon.com/XT1671-Finger-International-Version-Desbloqueado/dp/B06XH4396B/ref=sr_1_4?s=wireless&ie=UTF8&qid=1526160664&sr=1-4&keywords=motorola"),
                 new Vector<History>() {{
                     add(new History("29/04", 689));
                     add(new History("30/04", 700));

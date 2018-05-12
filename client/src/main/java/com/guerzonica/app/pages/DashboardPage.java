@@ -56,7 +56,7 @@ public class DashboardPage extends DomPage<HBox, GridPane, HBox> {
     // header.setSpacing(10);
     //
     final TextField search = new TextField();
-    search.setPromptText("Insert Product ID");
+    search.setPromptText("Insert Amazon link");
     search.setMinWidth(300);
     search.getStyleClass().addAll("text-field", "white", "round", "dropshadow");
 

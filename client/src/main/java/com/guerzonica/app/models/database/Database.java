@@ -28,4 +28,9 @@ public class Database {
         return this.id != null;
     }
 
+    public String delete(String tableName){
+      return
+        "DELETE FROM "+ tableName + " WHERE id = " + this.id;
+    }
+
 }

@@ -28,10 +28,10 @@ class BroadcastDetailsHandler implements IHandler {
         //     pp.history.add(new History("22/04", 100));
         //     pp.history.add(new History("23/04",  50));
         //     pp.history.add(new History("25/04", 120));
-            
+
         // Packet<ProductDetails> request = new Packet<ProductDetails>(response.getUri(), response.getRid(), pp);
         //     Channel.getChannel().sendMessage(Packet.toJson(request, ProductDetails.typeToken()));
-            
+
     }
 }
 
@@ -46,11 +46,11 @@ class DetailsHandler implements IHandler {
 public class ProductsProvider extends DataAccessor {
 
     private static ProductsProvider provider = null;
-    
+
     public static ProductsProvider getProvider() throws SQLException {
         if(provider == null)
             provider = new ProductsProvider();
-        
+
         return provider;
     }
 
@@ -77,13 +77,13 @@ public class ProductsProvider extends DataAccessor {
     // register only one => constructor code only
     public void askBroadcastHistory(Product p) throws URISyntaxException, StreamException{
         final Channel channel = Channel.getChannel();
-        
+
             channel.bindRoute("broadcast:details", new BroadcastDetailsHandler());
             channel.bindRoute("details", new DetailsHandler());
 
         // request with a specific product in database
         Packet<Product> request = new Packet<Product>("details", p);
-            channel.sendMessage(Packet.toJson(request, Product.typeToken())); 
+            channel.sendMessage(Packet.toJson(request, Product.typeToken()));
     }
 
     public ProductDetails getByAsin(Integer asin) throws SQLException {
@@ -102,11 +102,12 @@ public class ProductsProvider extends DataAccessor {
 
     private void writeForce(ProductDetails p) throws SQLException {
         PreparedStatement _p_product = this.getConnection()
-                .prepareStatement("INSERT INTO " + ProductDetails.tableName + " VALUES (?,?,?);");
+                .prepareStatement("INSERT INTO " + ProductDetails.tableName + " VALUES (?,?,?,?);");
 
             _p_product.setInt(   1, p.getId());
             _p_product.setString(2, p.getName());
             _p_product.setString(3, p.getDescription());
+            _p_product.setString(4, p.getLink());
 
         _p_product.execute();
 
@@ -140,11 +141,12 @@ public class ProductsProvider extends DataAccessor {
             ProductDetails product = new ProductDetails(
                 new Product(
                     _r_products.getInt("id"),
-                    _r_products.getString("name"), 
-                    _r_products.getString("description")
+                    _r_products.getString("name"),
+                    _r_products.getString("description"),
+                    _r_products.getString("link")
                 )
             );
-    
+
             ResultSet _r_prices = this.queryResults(
                 "SELECT " + History.tableName + ".* FROM " + History.tableName + " " +
                 "WHERE product = " + product.getId() + " " +
@@ -154,13 +156,13 @@ public class ProductsProvider extends DataAccessor {
                 product.history.add(
                     new History(
                         _r_prices.getInt("id"),
-                        _r_prices.getString("date"), 
+                        _r_prices.getString("date"),
                         _r_prices.getFloat("price")
                     )
                 );
             }
 
-            products.add(product);            
+            products.add(product);
         }
 
         return products;
