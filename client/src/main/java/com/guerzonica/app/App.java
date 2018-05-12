@@ -1,5 +1,5 @@
 package com.guerzonica.app;
-import com.guerzonica.app.pages.Page;
+import com.guerzonica.app.pages.base.Page;
 import javafx.stage.Stage;
 import com.guerzonica.app.pages.DashboardPage;
 import com.guerzonica.app.providers.PageProvider;

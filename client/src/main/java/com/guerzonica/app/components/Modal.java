@@ -9,13 +9,14 @@ import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.event.Event;
+import javafx.stage.Stage;
 
 public class Modal extends StackPane {
   protected Pane container;
   protected Region content;
   protected VBox holder;
   protected String title;
-
+  protected Stage stage;
   private Timeline animation;
 
   private double translateY = 0;
@@ -25,11 +26,22 @@ public class Modal extends StackPane {
   static {
 
   }
+  /*The container should be a StackPane, that is why there is a wrapper inside Page. See public StackPane wrapper in @Page*/
   public Modal(String title, Pane container, Region content){
     this.content = content;
     this.title = title;
     this.container = container;
     init();
+    addToContainer();
+  }
+  public Modal(Stage stage, String title, Pane container, Region content){
+    this.content = content;
+    this.title = title;
+    this.container = container;
+    this.stage = stage;
+    init();
+    this.toFront();
+
     addToContainer();
   }
   public  Timeline ModalTransition(){

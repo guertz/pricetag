@@ -1,4 +1,4 @@
-package com.guerzonica.app.pages;
+package com.guerzonica.app.pages.base;
 //https://stackoverflow.com/questions/40750526/javafx-best-practice-for-navigating-between-ui-screens
 import com.guerzonica.app.interfaces.ToolbarListener;
 import com.guerzonica.app.components.Toolbar;
@@ -8,6 +8,7 @@ import com.guerzonica.app.components.Toolbar;
 // import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.Scene;
 import com.guerzonica.app.App;
 
@@ -15,7 +16,8 @@ public abstract class Page implements ToolbarListener{
 
   protected Stage stage;
   public Toolbar toolbar;
-  private VBox root;
+  public VBox root;
+  public StackPane wrapper;
   private Scene scene;
 
   public Page(Stage stage){
@@ -26,7 +28,7 @@ public abstract class Page implements ToolbarListener{
     stage.setMinHeight(400);
     stage.setMinWidth(600);
     this.stage = stage;
-
+    this.wrapper = new StackPane();
     this.root = new VBox(15);
     this.root.setId("app");
 
@@ -36,7 +38,7 @@ public abstract class Page implements ToolbarListener{
 
 
     toolbar();
-
+    this.wrapper.getChildren().add(this.root);
 
   }
   public void toolbar(){
@@ -57,7 +59,7 @@ public abstract class Page implements ToolbarListener{
 
       this.root.getChildren().add(this.toolbar);
       this.root.getChildren().add(scene.getRoot());
-      scene.setRoot(root);
+      scene.setRoot(this.wrapper);
 
       this.scene = scene;
   }

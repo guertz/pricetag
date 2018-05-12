@@ -1,7 +1,7 @@
 
 package com.guerzonica.app.providers;
 
-import com.guerzonica.app.pages.Page;
+import com.guerzonica.app.pages.base.Page;
 import java.util.Stack;
 //Singleton or use global static Generated class?
 public class PageProvider<U extends Page> extends Stack<U> {

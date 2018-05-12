@@ -1,5 +1,5 @@
 package com.guerzonica.app.interfaces;
-import com.guerzonica.app.pages.DomPage;;
+import com.guerzonica.app.pages.base.DomPage;;
 
 @Deprecated
 public interface DomFactory<H,B,F>{

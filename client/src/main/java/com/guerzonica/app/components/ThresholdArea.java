@@ -9,14 +9,13 @@ import javafx.scene.paint.Color;
 public class ThresholdArea extends StackPane {
 
     public ThresholdArea(String name, String key, Number value) {
-
+        super();
         final Label label = new Label(key + ": " + value + "$");
 
-            label.getStyleClass().addAll("default-color0", "chart-line-symbol", "chart-series-line");
-            label.setStyle("-fx-font-size: 20; -fx-font-weight: bold;");
-
-            label.setTextFill(Color.RED);
-            label.setStyle("-fx-border-color: RED;");
+            label.getStyleClass().addAll("default0", "chart-line-symbol", "chart-series-line");
+            //
+            // label.setTextFill(Color.RED);
+            // label.setStyle("-fx-border-color: RED;");
 
             label.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
 

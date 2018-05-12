@@ -7,6 +7,7 @@ UTILITY CLASSES START
   -secondary-light: #074c8c;
   -light: #5487e0;
   -shadow: #32325d1a;
+  -accent: #e91e63;
   -black: rgba(0, 0, 0, 0.1);
   -fx-font-family: 'Open Sans';
   -primary-opaque: rgba(0, 0, 0, 0.1);
@@ -53,6 +54,10 @@ UTILITY CLASSES START
 }
 .padding {
   -fx-padding: 10px;
+}
+.heading-block{
+  -fx-font-size: 24px;
+  -font-weight: bold;
 }
 .header{
   -fx-background-color: white;
@@ -232,3 +237,59 @@ Dashboard Styles START
 /************
 Dashboard Styles END
 *************/
+
+/************
+CHART Styles START
+*************/
+.chart{
+-fx-horizontal-grid-lines-visible: false;
+-fx-vertical-grid-lines-visible	: true;
+}
+.chart .chart-content{
+
+}
+/* .chart .chart-content .plot-c */
+.chart .chart-content .chart-plot-background{
+  -fx-background-color: white;
+  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.18), 5, 0.3, 0, 3);
+
+
+}
+.chart .chart-content .plot-content Label{
+  -fx-border-width: 0px;
+  -fx-background-color: -accent;
+  -fx-text-fill: white;
+  -fx-font-family: 'Open Sans';
+  -fx-font-size: 14px;
+  -fx-font-weight: bold;
+  -fx-padding: 5px;
+}
+.chart-line-symbol {
+  -fx-background-color: -accent;
+}
+.chart-series-line{
+  -fx-stroke: -accent;
+  -fx-background-color: -accent;
+  -fx-border-color: -accent;
+}
+/* .chart-series-line .series0 {
+  -fx-background-color: -secondary;
+  -fx-border-color: -light;
+  -fx-stroke-dash-array: -secondary;
+  -fx-stroke-width: 1px;
+} */
+/* .chart .chart-content .chart-vertical-grid-lines,
+.chart .chart-content .chart-horizontal-grid-lines{
+  -fx-background-color: white;
+  -fx-border-width: 0px;
+  -fx-border-color: white;
+  -fx-border-style: none;
+} */
+/************
+CHART Styles END
+*************/
+
+.product-image{
+  -fx-pref-width: 50px;
+  -fx-pref-height: 50px;
+}

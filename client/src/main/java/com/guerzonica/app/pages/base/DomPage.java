@@ -1,4 +1,4 @@
-package com.guerzonica.app.pages;
+package com.guerzonica.app.pages.base;
 //https://stackoverflow.com/questions/40750526/javafx-best-practice-for-navigating-between-ui-screens
 
 import com.guerzonica.app.components.Toolbar;
@@ -10,6 +10,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import com.guerzonica.app.interfaces.Templatable;
+
 
 
 
@@ -131,7 +132,7 @@ public class DomPage<H extends Pane, B extends Pane, F extends Pane> extends Pag
   // }
 
 
-  public Pane getRoot(){ return this.root; }
+  public Pane getRoot(){ return super.root; }
   public H getHeader(){ return this.header;}
   public B getBody(){ return this.body; }
   public F getFooter(){ return null; }

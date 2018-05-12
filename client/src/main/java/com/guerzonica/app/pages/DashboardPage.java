@@ -1,8 +1,11 @@
 package com.guerzonica.app.pages;
 //https://stackoverflow.com/questions/40750526/javafx-best-practice-for-navigating-between-ui-screens
 
+import com.guerzonica.app.components.Modal;
+import com.guerzonica.app.components.ImageButton;
+import com.guerzonica.app.pages.base.ListPage;
 import com.guerzonica.app.App;
-import com.guerzonica.app.pages.DomPage;
+import com.guerzonica.app.pages.base.DomPage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
@@ -17,15 +20,17 @@ import java.util.Vector;
 import com.guerzonica.app.components.Graph;
 import com.guerzonica.app.models.data.ProductDetails;
 import com.guerzonica.app.providers.ProductsProvider;
-import javafx.scene.control.ListView;
+
 
 import javafx.scene.control.Label;
 public class DashboardPage extends DomPage<HBox, GridPane, HBox> {
   // private Scene scene;
-
+  private Vector<ProductDetails> results;
   // private static PageProvider<Page> pageCtrl = PageProvider.getInstance();
   public static String title = "Dashboard";
   public static String cssClass = "dashboard";
+
+  private Modal modal;
   // private Toolbar toolbar;
   public DashboardPage(Stage stage) {
 
@@ -55,37 +60,19 @@ public class DashboardPage extends DomPage<HBox, GridPane, HBox> {
     search.setMinWidth(300);
     search.getStyleClass().addAll("text-field", "white", "round", "dropshadow");
 
-    Image image = new Image("icons/search.png");
-    ImageView icon = new ImageView(image);
-    icon.setFitWidth(25);
-    icon.setFitHeight(25);
-    final Button trackButton = new Button("", icon);
-    trackButton.setShape(new Circle(20));
-    trackButton.getStyleClass().addAll("fab", "primary");
+    ImageButton trackButton = new ImageButton("icons/search.png");
+
+    ImageButton listButton = new ImageButton("icons/list.png", 30, 30);
 
     trackButton.setOnAction(action -> {
-      Label text = new Label("Hello, this is PriceTag.");
-      text.setWrapText(true);
-      // Modal j = new Modal("Welcome", this.getRoot(), text );
+      this.modal = new Modal("Ricerca prodotto", super.wrapper, new Label("Insert here something"));
+    });
 
-      String ITEM = "Item ";
-      ListView<String> javaList = new ListView<>();
-      for (int i = 0; i < 4; i++) {
-        javaList.getItems().add(ITEM + i);
-      }
-
-      App.pageController.push(new ListPage(super.getStage(), javaList));
-      // try{
-      //   App.pageController.push(
-      //     new DomPage<HBox,VBox,HBox>(
-      //       super.getStage(),
-      //       new HBox(),
-      //       new VBox(),
-      //       new HBox()), true);
-      // } catch(Exception e ){}
+    listButton.setOnAction(action -> {
+      App.pageController.push(new ProductsPage(super.getStage()));
     });
     // this.toolbar = new Toolbar(title);
-    super.toolbar.getRightNode().getChildren().addAll(search, trackButton);
+    super.toolbar.getRightNode().getChildren().addAll(listButton, search, trackButton);
     // super.setToolbar(this.toolbar);
 
     // header.getChildren().addAll();
@@ -96,7 +83,7 @@ public class DashboardPage extends DomPage<HBox, GridPane, HBox> {
     super.body();
     try {
         ProductsProvider provider = ProductsProvider.getProvider();
-        Vector<ProductDetails> results = provider.getAll();
+        this.results = provider.getAll();
         results.forEach(p -> {
             final Graph chart = new Graph(
                 new CategoryAxis(),
