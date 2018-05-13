@@ -20,20 +20,6 @@ public class App extends Application {
     }
     public void bootstrap(){
 
-      // System.out.println(Font.loadFont(App.class.getResource("fonts/OpenSans.ttf").toExternalForm(), 10));
-      // ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-      // InputStream is = classloader.getResourceAsStream("fonts/OpenSans.ttf");
-      // Font.loadFont(is, 10);
-
-      //
-      // Toolbar toolbar = new Toolbar("Title");
-      // toolbar.setFullSize(stage);
-      //
-      // container.getChildren().add(toolbar);
-      // Scene n  = new Scene(container);
-      // n.getStylesheets().add("css/pricetheme.css");
-      // stage.setScene(n);
-      // stage.show();
     }
     @Override
     public void start(Stage stage) {
