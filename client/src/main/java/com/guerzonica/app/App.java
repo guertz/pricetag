@@ -4,6 +4,7 @@ import javafx.stage.Stage;
 import com.guerzonica.app.pages.DashboardPage;
 import com.guerzonica.app.providers.PageProvider;
 import com.guerzonica.app.providers.ProductsProvider;
+import com.guerzonica.app.providers.Test;
 
 import io.reactivex.functions.Consumer;
 
@@ -31,6 +32,9 @@ public class App extends Application {
         pageController.push(new DashboardPage(stage));
 
         try {
+
+            Test.run();
+            
             ProductsProvider p = ProductsProvider.getProvider();
 
                p.getStream()

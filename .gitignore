@@ -6,6 +6,7 @@ mytodo
 client/target/
 client/*.db
 client/dependency-reduced-pom.xml
+client/src/main/java/com/guerzonica/app/providers/env/ProdEnv.java
 
 server/dist/
 server/node_modules/
