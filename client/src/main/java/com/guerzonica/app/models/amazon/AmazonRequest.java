@@ -1,4 +1,4 @@
-package com.guerzonica.app.providers;
+package com.guerzonica.app.models.amazon;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -17,7 +17,7 @@ import org.apache.commons.codec.binary.Base64;
 
 import com.guerzonica.app.providers.env.Env;
 
-public class Amazon {
+public class AmazonRequest {
 
     // uri params
     private static final String protocol     = "http";
@@ -36,9 +36,8 @@ public class Amazon {
     private String Timestamp;
     private String ItemId;
     // private String ItemType  = "ASIN";
-
-
-    public Amazon() {
+    
+    public AmazonRequest() {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Instant epoch = timestamp.toInstant();
         StringBuilder parse = new StringBuilder(epoch.toString());
@@ -71,7 +70,7 @@ public class Amazon {
     public void setTimeStamp(String T) {
         this.Timestamp = T;
     }
-
+    
     // mapping params/value can be better
     private ArrayList<String> mapParams() throws UnsupportedEncodingException {
         ArrayList<String> params = new ArrayList<String>();
@@ -97,7 +96,7 @@ public class Amazon {
     }
 
     private String getRequestBody() throws UnsupportedEncodingException {
-        return
+        return 
             "GET"        + "\n" +
             AWS_Host     + "\n" +
             AWS_endpoing + "\n" +
@@ -108,7 +107,7 @@ public class Amazon {
         SecretKeySpec sk = new SecretKeySpec(Env.AWSSecretKey.getBytes("UTF-8"), "HmacSHA256");
         Mac sha256_HMAC  = Mac.getInstance("HmacSHA256");
             sha256_HMAC.init(sk);
-
+            
         return Base64.encodeBase64String(
             sha256_HMAC.doFinal(this.getRequestBody().getBytes("UTF-8")));
     }
@@ -122,8 +121,8 @@ public class Amazon {
             params.add(e("Signature") + "=" + e(this.getSignature()));
 
         URL request = new URL(
-                protocol,
-                AWS_Host,
+                protocol, 
+                AWS_Host, 
                 AWS_endpoing + "?" +
                     String.join("&", params));
 
