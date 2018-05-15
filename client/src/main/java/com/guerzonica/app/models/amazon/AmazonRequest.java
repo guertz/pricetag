@@ -1,4 +1,4 @@
-package com.guerzonica.app.providers;
+package com.guerzonica.app.models.amazon;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -17,7 +17,7 @@ import org.apache.commons.codec.binary.Base64;
 
 import com.guerzonica.app.providers.env.Env;
 
-public class Amazon {
+public class AmazonRequest {
 
     // uri params
     private static final String protocol     = "http";
@@ -37,8 +37,7 @@ public class Amazon {
     private String ItemId;
     // private String ItemType  = "ASIN";
     
-    
-    public Amazon() {
+    public AmazonRequest() {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Instant epoch = timestamp.toInstant();
         StringBuilder parse = new StringBuilder(epoch.toString());
