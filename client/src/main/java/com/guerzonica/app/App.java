@@ -2,7 +2,7 @@ package com.guerzonica.app;
 import com.guerzonica.app.pages.base.Page;
 import javafx.stage.Stage;
 import com.guerzonica.app.pages.DashboardPage;
-import com.guerzonica.app.providers.AmazonHttp;
+import com.guerzonica.app.models.xml.Test;
 import com.guerzonica.app.providers.PageProvider;
 import com.guerzonica.app.providers.ProductsProvider;
 import io.reactivex.functions.Consumer;
@@ -31,7 +31,9 @@ public class App extends Application {
 
 
         pageController.push(new DashboardPage(stage));
-        AmazonHttp.makeRequest();
+        // AmazonHttp.makeRequest();
+        Test.run();
+        
         try {
             
             ProductsProvider p = ProductsProvider.getProvider();
