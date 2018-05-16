@@ -2,8 +2,7 @@ package com.guerzonica.app.components;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
-import javafx.event.EventHandler;
-import javafx.event.ActionEvent;
+
 import javafx.geometry.Pos;
 public class SearchField extends HBox{
   private ImageButton search;
