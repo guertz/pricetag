@@ -36,7 +36,7 @@ public class AmazonRequest {
     private String Timestamp;
     private String ItemId;
     // private String ItemType  = "ASIN";
-    
+
     public AmazonRequest() {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Instant epoch = timestamp.toInstant();
@@ -70,7 +70,7 @@ public class AmazonRequest {
     public void setTimeStamp(String T) {
         this.Timestamp = T;
     }
-    
+
     // mapping params/value can be better
     private ArrayList<String> mapParams() throws UnsupportedEncodingException {
         ArrayList<String> params = new ArrayList<String>();
@@ -96,7 +96,7 @@ public class AmazonRequest {
     }
 
     private String getRequestBody() throws UnsupportedEncodingException {
-        return 
+        return
             "GET"        + "\n" +
             AWS_Host     + "\n" +
             AWS_endpoing + "\n" +
@@ -107,7 +107,7 @@ public class AmazonRequest {
         SecretKeySpec sk = new SecretKeySpec(Env.AWSSecretKey.getBytes("UTF-8"), "HmacSHA256");
         Mac sha256_HMAC  = Mac.getInstance("HmacSHA256");
             sha256_HMAC.init(sk);
-            
+
         return Base64.encodeBase64String(
             sha256_HMAC.doFinal(this.getRequestBody().getBytes("UTF-8")));
     }
@@ -121,12 +121,13 @@ public class AmazonRequest {
             params.add(e("Signature") + "=" + e(this.getSignature()));
 
         URL request = new URL(
-                protocol, 
-                AWS_Host, 
+                protocol,
+                AWS_Host,
                 AWS_endpoing + "?" +
                     String.join("&", params));
 
         return request;
     }
+
 
 }

@@ -7,7 +7,6 @@ import com.guerzonica.app.interfaces.ItemSelectedListener;
 import java.sql.SQLException;
 import java.util.Vector;
 import com.guerzonica.app.pages.base.ListPage;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import com.guerzonica.app.models.data.ProductDetails;
 import com.guerzonica.app.providers.ProductsProvider;
