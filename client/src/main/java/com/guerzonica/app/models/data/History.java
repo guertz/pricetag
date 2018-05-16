@@ -3,7 +3,7 @@ package com.guerzonica.app.models.data;
 import com.google.gson.annotations.SerializedName;
 import com.guerzonica.app.models.database.Database;
 
-public class History extends Database {
+public class History extends Database<Integer> {
 
     public static final String tableName = "histories";
 
@@ -31,7 +31,7 @@ public class History extends Database {
                 + "id integer,"
                 + "date varchar(60),"
                 + "price real,"
-                + "product integer,"
+                + "product varchar(10),"
                 + "primary key(id)"
           + ");";
     }

@@ -38,7 +38,7 @@ public class AmazonRequest {
     // private String ItemType  = "ASIN";
 
     public AmazonRequest() {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis() - 500);
         Instant epoch = timestamp.toInstant();
         StringBuilder parse = new StringBuilder(epoch.toString());
             parse.replace(parse.length() - 5, parse.length() -1, "");

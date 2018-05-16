@@ -2,25 +2,28 @@ package com.guerzonica.app.models.database;
 
 import com.google.gson.annotations.SerializedName;
 
-// Generics on ID type
 // generate automatically schema table
 // to database model
 // implement CRUD logic
 // copy constructor
-public class Database {
+public class Database<T> {
 
     @SerializedName(value="id")
-    private Integer id;
+    private T id;
 
     public Database() {
         this.id = null;
     }
 
-    public Database(Integer i) {
+    public Database(T i) {
         this.id = i;
     }
 
-    public Integer getId() {
+    protected void setId(T i) {
+        this.id = i;
+    }
+
+    public T getId() {
         return this.id;
     }
 

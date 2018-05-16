@@ -81,6 +81,7 @@ public class DashboardPage extends DomPage<HBox, GridPane, HBox> {
         ProductsProvider provider = ProductsProvider.getProvider();
         this.results = provider.getAll();
         results.forEach(p -> {
+
             final Graph chart = new Graph(
                 new CategoryAxis(),
                 new NumberAxis(),
@@ -90,7 +91,7 @@ public class DashboardPage extends DomPage<HBox, GridPane, HBox> {
                 chart.minWidthProperty().bind(super.getStage().widthProperty());
                 chart.setMaxHeight(60);
 
-                this.getBody().add(chart, 0, p.getId()); // 1 + x -1
+                // this.getBody().add(chart, 0, p.getId()); // 1 + x -1
                 // (this.getClass().cast(App.pageController.getActivePage()))
 
         });

@@ -86,9 +86,9 @@ public class ProductsProvider extends DataAccessor {
             channel.sendMessage(Packet.toJson(request, Product.typeToken()));
     }
 
-    public ProductDetails getByAsin(Integer asin) throws SQLException {
+    public ProductDetails getByAsin(String ASIN) throws SQLException {
 
-        Vector<ProductDetails> products = this.getAll("WHERE id = " + asin);
+        Vector<ProductDetails> products = this.getAll("WHERE id = '" + ASIN + "'");
 
         if(products.size() == 0)
             throw new SQLException("The desidered data was not found");
@@ -104,7 +104,7 @@ public class ProductsProvider extends DataAccessor {
         PreparedStatement _p_product = this.getConnection()
                 .prepareStatement("INSERT INTO " + ProductDetails.tableName + " VALUES (?,?,?,?);");
 
-            _p_product.setInt(   1, p.getId());
+            _p_product.setString(1, p.getId());
             _p_product.setString(2, p.getName());
             _p_product.setString(3, p.getDescription());
             _p_product.setString(4, p.getLink());
@@ -118,7 +118,7 @@ public class ProductsProvider extends DataAccessor {
 
                     _p_history.setString(2, h.getDate());
                     _p_history.setFloat( 3, h.getPrice());
-                    _p_history.setInt(   4, p.getId());
+                    _p_history.setString(4, p.getId());
 
                 _p_history.execute();
             } catch(SQLException e) {
@@ -140,7 +140,7 @@ public class ProductsProvider extends DataAccessor {
         while(_r_products.next()) {
             ProductDetails product = new ProductDetails(
                 new Product(
-                    _r_products.getInt("id"),
+                    _r_products.getString("id"),
                     _r_products.getString("name"),
                     _r_products.getString("description"),
                     _r_products.getString("link")
@@ -149,7 +149,7 @@ public class ProductsProvider extends DataAccessor {
 
             ResultSet _r_prices = this.queryResults(
                 "SELECT " + History.tableName + ".* FROM " + History.tableName + " " +
-                "WHERE product = " + product.getId() + " " +
+                "WHERE product = '" + product.getId() + "' " +
                 "ORDER BY date");
 
             while(_r_prices.next()) {

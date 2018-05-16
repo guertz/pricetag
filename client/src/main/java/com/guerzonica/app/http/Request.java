@@ -40,11 +40,6 @@ public class Request<T> extends Thread {
       this.headers = headers;
     }
 
-    // public <T> T makeClient(Class<T> api){
-    //   // Api.cla
-    //   // api.getClasL
-    //   return  (T) Proxy.newProxyInstance(api.getClassLoader(), new Class[]{api}, this);
-    // }
     @Override
     public void run (){
       StringBuffer response = new StringBuffer();
@@ -88,17 +83,3 @@ public class Request<T> extends Thread {
     }
 
 }
-/*
-public static void makeRequest() {
-    // AmazonRequest request = new AmazonRequest();
-    //     request.setItedId("B072K2TQX4");
-    //     request.setResponseGroup("Images,ItemAttributes,OfferFull");
-    //
-    // try {
-    //     System.out.println(request.getRequestUri());
-    // } catch(Exception e) {
-    //     e.printStackTrace();
-    // }
-
-}
-*/
