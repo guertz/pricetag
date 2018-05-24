@@ -1,6 +1,5 @@
 package com.guerzonica.app.http;
 
-import com.guerzonica.app.http.RequestListener;
 import java.net.MalformedURLException;
 
 import java.util.Map;
@@ -11,6 +10,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import com.guerzonica.app.http.interfaces.*;
 
 public class Request<T> extends Thread {
     // Request request;
@@ -19,7 +19,7 @@ public class Request<T> extends Thread {
     private Map<String,String> headers;
     private URL url;
 
-    private RequestListener<String> listener;
+    private RequestHandler listener;
 
     public Request(Class<T> type){
       this.returnType = type;
@@ -69,16 +69,16 @@ public class Request<T> extends Thread {
       }
 
   		//print result
-      listener.onResponse(response.toString());
+      listener.handle(response.toString());
       this.interrupt();
     }
 
-    public void start(RequestListener<String> listener){
+    public void start(RequestHandler listener){
       this.setListener(listener);
       super.start();
     }
 
-    public void setListener(RequestListener<String> listener){
+    public void setListener(RequestHandler listener){
       this.listener = listener;
     }
 

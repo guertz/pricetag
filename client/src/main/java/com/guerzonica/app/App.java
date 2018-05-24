@@ -1,26 +1,27 @@
 package com.guerzonica.app;
 import com.guerzonica.app.http.Request;
+import com.guerzonica.app.http.interfaces.Body;
+import com.guerzonica.app.http.interfaces.RequestHandler;
+import com.guerzonica.app.http.models.AmazonRequest;
+import com.guerzonica.app.http.models.AmazonResponse;
 import com.guerzonica.app.http.HttpClient;
-import com.guerzonica.app.pages.base.Page;
+import com.guerzonica.app.picodom.Navigation;
+import com.guerzonica.app.picodom.pages.DashboardPage;
+import com.guerzonica.app.picodom.pages.base.Page;
+import com.guerzonica.app.storage.ProductsProvider;
+import com.guerzonica.app.storage.models.Offer;
+import com.guerzonica.app.storage.models.ProductPrices;
+
 import javafx.stage.Stage;
-import com.guerzonica.app.pages.DashboardPage;
-import com.guerzonica.app.providers.PageProvider;
-import com.guerzonica.app.providers.ProductsProvider;
-import io.reactivex.functions.Consumer;
-import com.guerzonica.app.models.data.*;
 import javafx.application.Application;
-import com.guerzonica.app.models.amazon.AmazonRequest;
-import com.guerzonica.app.models.amazon.AmazonResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.guerzonica.app.http.Api;
-import com.guerzonica.app.http.RequestListener;
 
 public class App extends Application {
 
     // private DomPage<HBox, GridPane, HBox> dashboard;
     // private PageProvider<Page> navCtrl = new PageProvider<Page>();
-    public static PageProvider<Page> pageController = new PageProvider<Page>();
+    public static Navigation<Page> pageController = new Navigation<Page>();
 
     public static void main(String[] args) {
         launch(args);
@@ -40,17 +41,25 @@ public class App extends Application {
         try {
             AmazonRequest request = new AmazonRequest();
                 request.setItedId("B072K2TQX4");
-               request.setResponseGroup("Images,ItemAttributes,OfferFull");
+                request.setResponseGroup("Images,ItemAttributes,OfferFull");
 
-            Request<String> amazonHttp = new HttpClient().makeClient(Api.class).request(request.getRequestUri());
+            Request<String> amazonHttp = new HttpClient().makeClient(Body.class).request(request.getRequestUri());
                 
-                amazonHttp.start(new RequestListener<String>(){
+                amazonHttp.start(new RequestHandler(){
                     @Override
-                    public void onResponse(String data) {
-                        // handle constructor + sql definition better
-                        ProductDetails x = new ProductDetails();
+                    public void handle(String data) {
+                        Offer x = new Offer();
 
-                        try { x = AmazonResponse.parse(data); }
+                        try { 
+                            x = AmazonResponse.parse(data); 
+                            ProductPrices resultSet = new ProductPrices();
+                                resultSet.prices.add(x);
+                                resultSet.product = x.getProduct();
+
+                            ProductsProvider provider = ProductsProvider.getProvider();
+                            provider.collection.add(resultSet);
+
+                        }
                         catch(Exception e) { e.printStackTrace(); }
 
                         Gson serializer = new GsonBuilder().setPrettyPrinting().create();
@@ -58,20 +67,10 @@ public class App extends Application {
                     }
                 });
 
-            ProductsProvider p = ProductsProvider.getProvider();
-
-               p.getStream()
-                .flatMapIterable(x -> x)
-                .subscribe(new Consumer<ProductDetails>() {
-                    @Override public void accept(ProductDetails item) {
-                        System.out.println("Handler: " + item.getId());
-                    }
-                });
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         stage.show();
         //
         // pageController.getActivePage().show();

@@ -14,14 +14,16 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
-import com.guerzonica.app.models.channel.*;
+import com.guerzonica.app.channel.exceptions.*;
+import com.guerzonica.app.channel.interfaces.*;
+import com.guerzonica.app.channel.models.*;
 
 @ClientEndpoint
 public class Channel {
 
     private Session userSession = null;
-    private Map<String, IHandler> bindings = 
-                new HashMap<String, IHandler>(); // multiple handlers?
+    private Map<String, MessageHandler> bindings = 
+                new HashMap<String, MessageHandler>();
 
     private static Channel instance = null;
 
@@ -54,10 +56,10 @@ public class Channel {
     @OnMessage
     public void onMessage(String message) {
         Packet<Streammable> b = Packet.fromJson(message, Streammable.typeToken());
-        IHandler            h = bindings.get(b.getUri());
+        MessageHandler      h = bindings.get(b.getUri());
         
         if(h != null) 
-            h.handleMessage(message);
+            h.handle(message);
 
     }
 
@@ -66,10 +68,10 @@ public class Channel {
     }
 
     // Observable/Lightweight callback interface
-    public void bindRoute(String route, IHandler bind) throws StreamException {
+    public void bindRoute(String route, MessageHandler handler) throws StreamException {
         if(bindings.get(route) != null)
             throw new StreamException(route);
 
-        bindings.put(route, bind);
+        bindings.put(route, handler);
     }
 }
