@@ -7,6 +7,7 @@ client/target/
 client/*.db
 client/dependency-reduced-pom.xml
 client/src/main/java/com/guerzonica/app/providers/env/ProdEnv.java
+client/src/main/java/com/guerzonica/app/env/ProdEnv.java
 
 server/dist/
 server/node_modules/
