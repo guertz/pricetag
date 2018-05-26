@@ -19,7 +19,7 @@ public class Request<T> extends Thread {
     private Map<String,String> headers;
     private URL url;
 
-    private RequestHandler listener;
+    protected RequestHandler listener;
 
     public Request(Class<T> type){
       this.returnType = type;

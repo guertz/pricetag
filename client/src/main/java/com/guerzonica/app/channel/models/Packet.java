@@ -28,7 +28,7 @@ public class Packet<C extends Streammable> {
 
     @SerializedName(value="content")
     private C content;
-    
+
     public Packet(String u, String r, C c) {
         this.uri = u;
         this.rid = r;

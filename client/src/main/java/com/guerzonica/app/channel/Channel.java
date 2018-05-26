@@ -22,7 +22,7 @@ import com.guerzonica.app.channel.models.*;
 public class Channel {
 
     private Session userSession = null;
-    private Map<String, MessageHandler> bindings = 
+    private Map<String, MessageHandler> bindings =
                 new HashMap<String, MessageHandler>();
 
     private static Channel instance = null;
@@ -30,7 +30,7 @@ public class Channel {
     public static Channel getChannel() throws URISyntaxException {
         if(instance == null)
             instance = new Channel(new URI("ws://localhost:8000/"));
-        
+
         return instance;
     }
 
@@ -55,10 +55,13 @@ public class Channel {
 
     @OnMessage
     public void onMessage(String message) {
-        Packet<Streammable> b = Packet.fromJson(message, Streammable.typeToken());
-        MessageHandler      h = bindings.get(b.getUri());
-        
-        if(h != null) 
+      Packet<Streammable> b = Packet.fromJson(message, Streammable.typeToken());
+      MessageHandler      h = bindings.get(b.getUri());
+      //testing purpose
+      // MessageHandler      h = bindings.get("broadcast:details");
+
+
+        if(h != null)
             h.handle(message);
 
     }

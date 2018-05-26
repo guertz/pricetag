@@ -14,20 +14,17 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.scene.chart.NumberAxis;
-import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.chart.CategoryAxis;
 
-import java.util.Iterator;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ListCell;
-import javafx.scene.layout.Priority;
 import javafx.util.Callback;
 
 public class DashboardPage extends DomPage<HBox, VBox, HBox> {
   // private Scene scene;
-  
+
   // private static PageProvider<Page> pageCtrl = PageProvider.getInstance();
   public static String title = "Dashboard";
   public static String cssClass = "dashboard";
@@ -97,9 +94,9 @@ public class DashboardPage extends DomPage<HBox, VBox, HBox> {
 
         setGraphic(chart);
       }
-       
+
       // chart.minWidthProperty().bind(width);
-        
+
     }
 }
 
@@ -107,8 +104,9 @@ public class DashboardPage extends DomPage<HBox, VBox, HBox> {
   public void body(){
 
     super.body();
+    listItems.getStyleClass().add("list-simple");
     super.getBody().getChildren().addAll(listItems);
-    
+
     // VBox.setVgrow(listItems, Priority.ALWAYS);
     // ReadOnlyDoubleProperty width = super.getStage().widthProperty();
 
@@ -116,9 +114,9 @@ public class DashboardPage extends DomPage<HBox, VBox, HBox> {
       ProductsProvider provider = ProductsProvider.getProvider();
           listItems.setItems(provider.collection);
 
-          listItems.setCellFactory(new Callback<ListView<ProductPrices>, 
+          listItems.setCellFactory(new Callback<ListView<ProductPrices>,
             ListCell<ProductPrices>>() {
-                @Override 
+                @Override
                 public ListCell<ProductPrices> call(ListView<ProductPrices> list) {
                     return new PricesCell();
                 }

@@ -95,7 +95,7 @@ public class DomPage<H extends Pane, B extends Pane, F extends Pane> extends Pag
 
     ScrollPane scrollPane = new ScrollPane();
       scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
-      scrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+      scrollPane.setVbarPolicy(ScrollBarPolicy.NEVER);
 
       container.prefHeightProperty().bind(stage.heightProperty());
       container.prefWidthProperty().bind(scrollPane.widthProperty());

@@ -1,5 +1,9 @@
 package com.guerzonica.app.storage;
 
+import com.guerzonica.app.http.interfaces.RequestHandler;
+import com.guerzonica.app.http.SocketRequest;
+import com.guerzonica.app.http.interfaces.Body;
+import com.guerzonica.app.http.HttpClient;
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -54,13 +58,21 @@ public class ProductsProvider extends Storage {
 
         // Blocking (Either Future or Thread)
         // Channel channel = Channel.getChannel();
-
+        //
         // channel.bindRoute("broadcast:details", new MessageHandler() {
         //     @Override
         //     public void handle(String response) {
-                
+        //       System.out.println(response);
         //     }
         // });
+
+        SocketRequest socket =  new HttpClient().makeClient(Body.class).bindRoute("broadcast:details");
+        socket.start(new RequestHandler(){
+            @Override
+            public void handle(String data) {
+              System.out.println("Data arrived");
+            }
+        });
 
         // Product unique key(product, date) [DB Constraint]
         collection.addListener(new ListChangeListener<ProductPrices>() {
@@ -97,7 +109,7 @@ public class ProductsProvider extends Storage {
             // i can use object as a key?
             // no join product in offer type?
             // on write new item db (product/offer) should propagate updates
-            collection.add(listItem);           
+            collection.add(listItem);
         }
     }
 
@@ -108,7 +120,7 @@ public class ProductsProvider extends Storage {
             channel.bindRoute("details", new MessageHandler(){
                 @Override
                 public void handle(String response) {
-                    
+
                 }
             });
 

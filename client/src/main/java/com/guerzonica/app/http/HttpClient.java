@@ -16,9 +16,9 @@ public class HttpClient implements InvocationHandler {
       return  (T) Proxy.newProxyInstance(api.getClassLoader(), new Class[]{api}, this);
     }
 
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings("all")
     public Object invoke(Object proxy, Method m, Object[] args) throws Throwable, UnsupportedOperationException {
-      
+
       // for now i consider ONLY GET METHODS. with a url as arg.
       // Annotation[] annotations = m.getDeclaredAnnotations();
       Request result = new Request(m.getReturnType());
@@ -28,7 +28,7 @@ public class HttpClient implements InvocationHandler {
         case "GET":
             result.setRequestType(type.value());
             Header header = m.getAnnotation(Header.class);
-            
+
             if(header != null){
               Map<String,String> headers = new HashMap<String,String>();
 
@@ -40,15 +40,17 @@ public class HttpClient implements InvocationHandler {
 
             if(args[0] instanceof String)
               result.setUrl(new URL(args[0].toString()));
-            else 
+            else
               result.setUrl((URL)(args[0]));
-              
-          break;
 
+          break;
+       case "SOCKET":
+            result = new SocketRequest(args[0].toString());
+          break;
         default:
-          throw new UnsupportedOperationException("ONLY GET REQUEST ARE AVAILABLE FOR NOW ");
+          throw new UnsupportedOperationException("ONLY GET REQUEST OR SOCKETS ARE AVAILABLE FOR NOW ");
       }
-      
+
       return result;
   }
 }

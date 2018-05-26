@@ -293,3 +293,45 @@ CHART Styles END
   -fx-pref-width: 50px;
   -fx-pref-height: 50px;
 }
+/************
+ListView Styles START
+*************/
+.list-simple{
+  -fx-border-width: 0px;
+  -fx-background-insets: 0px;
+}
+.list-simple:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected {
+    -fx-background: white;
+    -fx-text-fill: black;
+    -fx-fill:black;
+    -fx-border-width: 0px 0px 0px 15px;
+    -fx-border-color: -accent;
+    /* -fx-table-cell-border-color: derive(-fx-selection-bar, 20%); */
+}
+.list-simple .list-cell:filled:selected {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-fill:black;
+}
+/* .list-simple .list-cell:focused{
+  -fx-background-color: -primary;
+}
+.list-simple .list-cell:selected{
+  -fx-background-color: transparent;
+} */
+/* .list-simple .list-cell,
+.list-simple .list-cell:filled,
+.list-simple .list-cell:selected,
+.list-simple .list-cell:focused,
+.list-simple .list-cell:hover {
+    -fx-background-color: transparent;
+    -fx-effect: null;
+}
+.list-simple .list-cell:filled:selected:focused,
+.list-simple .list-cell:filled:selected{
+    -fx-background-color: -primary;
+} */
+
+/************
+ListView Styles END
+*************/

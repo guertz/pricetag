@@ -32,6 +32,7 @@ public class App extends Application {
     }
 
     @Override
+    @SuppressWarnings("all")
     public void start(Stage stage) {
 
         //Init pages
@@ -44,14 +45,14 @@ public class App extends Application {
                 request.setResponseGroup("Images,ItemAttributes,OfferFull");
 
             Request<String> amazonHttp = new HttpClient().makeClient(Body.class).request(request.getRequestUri());
-                
+
                 amazonHttp.start(new RequestHandler(){
                     @Override
                     public void handle(String data) {
                         Offer x = new Offer();
 
                         try { 
-                            x = AmazonResponse.parse(data); 
+                            x = AmazonResponse.parse(data);
                             ProductPrices resultSet = new ProductPrices();
                                 resultSet.prices.add(x);
                                 resultSet.product = x.getProduct();
