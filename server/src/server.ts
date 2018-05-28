@@ -60,6 +60,6 @@ wss.on('connection', (ws: WebSocket) => {
     console.log("Client connected");
 });
 
-server.listen(process.env.PORT || 8000, () => {
+server.listen(process.env.PORT || 8089, () => {
     console.log(`Server started on port ${server.address().port}`);
 });

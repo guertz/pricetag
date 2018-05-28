@@ -93,10 +93,18 @@ public class DashboardPage extends DomPage<HBox, VBox, HBox> {
         chart.setMinWidth(100);
 
         setGraphic(chart);
+
+        //setPrefHeight(chart.getHeight());
+        prefHeightProperty().bind(chart.heightProperty());
       }
 
       // chart.minWidthProperty().bind(width);
 
+    }
+
+    PricesCell(){
+      //this.setPrefHeight(USE_PREF_SIZE);
+      // this.prefHeight(100);
     }
 }
 
@@ -105,6 +113,7 @@ public class DashboardPage extends DomPage<HBox, VBox, HBox> {
 
     super.body();
     listItems.getStyleClass().add("list-simple");
+    listItems.prefHeightProperty().bind(super.body.heightProperty());
     super.getBody().getChildren().addAll(listItems);
 
     // VBox.setVgrow(listItems, Priority.ALWAYS);

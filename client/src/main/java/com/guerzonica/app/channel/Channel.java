@@ -29,7 +29,7 @@ public class Channel {
 
     public static Channel getChannel() throws URISyntaxException {
         if(instance == null)
-            instance = new Channel(new URI("ws://localhost:8000/"));
+            instance = new Channel(new URI("ws://localhost:8089/"));
 
         return instance;
     }
