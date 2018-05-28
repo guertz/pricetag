@@ -4,7 +4,7 @@
   "description": "A websocket server for pricetag-client (Java OOP Project for University)",
   "main": "dist/server.js",
   "scripts": {
-    "build": "tsc && node dist/server.js"
+    "build": "tsc && PORT=8000 node dist/server.js"
   },
   "author": "Matteo Guerzoni",
   "license": "MIT",

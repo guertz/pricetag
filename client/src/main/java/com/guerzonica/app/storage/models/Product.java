@@ -15,6 +15,8 @@ import com.google.gson.reflect.TypeToken;
 import com.guerzonica.app.channel.interfaces.Streammable;
 import com.guerzonica.app.channel.models.Packet;
 import com.guerzonica.app.storage.Storage;
+import com.guerzonica.app.storage.exceptions.AlreadyExistException;
+import com.guerzonica.app.storage.exceptions.NotFoundException;
 
 @XmlRootElement
 public class Product extends Item<String> implements Streammable {
@@ -94,10 +96,11 @@ public class Product extends Item<String> implements Streammable {
             );
     }
 
-    public void CREATE() throws SQLException {
+    public void CREATE() throws AlreadyExistException, SQLException {
         PreparedStatement statement = Storage.getConnection()
             .prepareStatement("INSERT INTO " + tableName + " VALUES (?,?,?,?,?);");
 
+            statement.setString(1, this.getId());
             statement.setString(2, this.name);
             statement.setString(3, this.description);
             statement.setString(4, this.link);
@@ -106,22 +109,30 @@ public class Product extends Item<String> implements Streammable {
         statement.execute();
     }
 
-    public void READ(ResultSet product) throws SQLException {
-        while(product.first()) {
-            this.name = product.getString("name");
-            this.description = product.getString("description");
-            this.link = product.getString("link");
-            this.image = product.getString("image");
-        }
+    public void READ(ResultSet product) throws NotFoundException, SQLException {
+
+        if(product.isClosed())
+            throw new NotFoundException(this.getId());
+
+        this.setAsin(product.getString("id"));
+
+        this.name = product.getString("name");
+        this.description = product.getString("description");
+        this.link = product.getString("link");
+        this.image = product.getString("image");
+
     }
 
     // better share code statically
-    public void READ() throws SQLException {
+    public void READ() throws NotFoundException, SQLException {
         Statement statement = Storage.getConnection().createStatement();
-        this.READ(statement.executeQuery("SELECT * FROM " + tableName + " where id = '" + this.getId() + "'"));
+        ResultSet content   = statement.executeQuery("SELECT * FROM " + tableName + " where id = '" + this.getId() + "'");
+
+            content.next();
+        this.READ(content);
     }
 
-    public void UPDATE() throws SQLException {
+    public void UPDATE() throws NotFoundException, SQLException {
         Statement statement = Storage.getConnection().createStatement();
 
             statement.execute(

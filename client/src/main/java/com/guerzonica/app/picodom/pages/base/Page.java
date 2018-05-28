@@ -96,7 +96,7 @@ public abstract class Page implements Toolbar.Listener {
     // else {
     // }
 
-    System.out.println(App.pageController.size());
+    // System.out.println(App.pageController.size());
   }
   public void PageWillExit(){
 

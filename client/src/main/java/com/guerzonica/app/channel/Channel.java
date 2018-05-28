@@ -17,6 +17,7 @@ import javax.websocket.WebSocketContainer;
 import com.guerzonica.app.channel.exceptions.*;
 import com.guerzonica.app.channel.interfaces.*;
 import com.guerzonica.app.channel.models.*;
+import com.guerzonica.app.env.Env;
 
 @ClientEndpoint
 public class Channel {
@@ -29,7 +30,7 @@ public class Channel {
 
     public static Channel getChannel() throws URISyntaxException {
         if(instance == null)
-            instance = new Channel(new URI("ws://localhost:8089/"));
+            instance = new Channel(new URI(Env.WSLocator));
 
         return instance;
     }

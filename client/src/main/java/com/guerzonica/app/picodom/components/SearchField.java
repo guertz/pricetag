@@ -28,4 +28,8 @@ public class SearchField extends HBox {
     return this.search;
   }
 
+  public String getContent() {
+    return this.field.getText();
+  }
+
 }

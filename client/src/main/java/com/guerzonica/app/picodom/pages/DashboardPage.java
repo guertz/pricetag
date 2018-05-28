@@ -1,17 +1,21 @@
 package com.guerzonica.app.picodom.pages;
 
 import com.guerzonica.app.App;
+import com.guerzonica.app.http.interfaces.RequestHandler;
+import com.guerzonica.app.http.models.AmazonResponse;
 import com.guerzonica.app.picodom.components.Graph;
 import com.guerzonica.app.picodom.components.ImageButton;
 import com.guerzonica.app.picodom.components.Modal;
 import com.guerzonica.app.picodom.components.SearchField;
 import com.guerzonica.app.picodom.pages.base.DomPage;
 import com.guerzonica.app.storage.ProductsProvider;
+import com.guerzonica.app.storage.exceptions.NotFoundException;
+import com.guerzonica.app.storage.models.Offer;
+import com.guerzonica.app.storage.models.Product;
 import com.guerzonica.app.storage.models.ProductPrices;
 
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.CategoryAxis;
@@ -29,7 +33,7 @@ public class DashboardPage extends DomPage<HBox, VBox, HBox> {
   public static String title = "Dashboard";
   public static String cssClass = "dashboard";
 
-  private Modal modal;
+  protected Modal modal;
   private ListView<ProductPrices> listItems = new ListView<ProductPrices>();
   // private Toolbar toolbar;
 
@@ -50,7 +54,7 @@ public class DashboardPage extends DomPage<HBox, VBox, HBox> {
   }
 
   @Override
-  public void header(){
+  public void header() {
     // super.header(); // get predefined style
     // HBox header = super.getHeader();
 
@@ -60,7 +64,54 @@ public class DashboardPage extends DomPage<HBox, VBox, HBox> {
 
     final SearchField search = new SearchField("Insert Amazon link");
     search.getActionButton().setOnAction(action -> {
-      this.modal = new Modal("Ricerca prodotto", super.wrapper, new Label("Insert here something"));
+      
+      try {
+        ProductsProvider provider = ProductsProvider.getProvider();
+
+        try {
+
+          Product item = new Product();
+            item.setAsin(search.getContent());
+            item.READ();
+
+            
+          this.modal = new Modal(
+            "Ricerca prodotto", 
+            super.wrapper, 
+            new Label("L'elemento selezionato è gia presente nella lista")
+          );
+
+        } catch(NotFoundException e) {
+
+          provider.fetchAmazonHttp(search.getContent(), new RequestHandler () {
+
+            @Override
+            public void handle(String data) {
+
+              // how does amazon handle ivalid request?
+              try { 
+                Offer x = AmazonResponse.parse(data);
+
+                  x.getProduct().CREATE();
+                  x.CREATE();
+
+                // ProductPrices resultSet = new ProductPrices();
+                //   resultSet.prices.add(x);
+                //   resultSet.product = x.getProduct();
+
+                // ProductsProvider provider = ProductsProvider.getProvider();
+                // provider.collection.add(resultSet);
+
+              } catch(Exception e) { e.printStackTrace(); }
+                
+            }
+
+          });
+
+        }
+
+      } catch(Exception e) { e.printStackTrace(); }
+
     });
 
     ImageButton listButton = new ImageButton("icons/list.png", 30, 30);

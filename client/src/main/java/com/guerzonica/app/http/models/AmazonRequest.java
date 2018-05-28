@@ -1,6 +1,7 @@
 package com.guerzonica.app.http.models;
 
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.InvalidKeyException;
@@ -38,7 +39,7 @@ public class AmazonRequest {
     // private String ItemType  = "ASIN";
 
     public AmazonRequest() {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis() - 500);
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis() - 2000);
         Instant epoch = timestamp.toInstant();
         StringBuilder parse = new StringBuilder(epoch.toString());
             parse.replace(parse.length() - 5, parse.length() -1, "");
@@ -113,20 +114,27 @@ public class AmazonRequest {
     }
 
     // handle exception, use URI instead of url
-    public URL getRequestUri() throws Exception {
+    public URL getRequestUri() throws MalformedURLException {
         if(this.ItemId == null)
-            throw new Exception("Product Identifier (ASIN) can't be null");
+            throw new MalformedURLException("Item cannot be null");
 
-        ArrayList<String> params = this.mapParams();
-            params.add(e("Signature") + "=" + e(this.getSignature()));
+        try {
+            ArrayList<String> params = this.mapParams();
+                params.add(e("Signature") + "=" + e(this.getSignature()));
 
-        URL request = new URL(
+            URL request = new URL(
                 protocol,
                 AWS_Host,
                 AWS_endpoing + "?" +
                     String.join("&", params));
+            
+            return request;
+        } 
+        catch(MalformedURLException e) { throw e; }
+        catch(Exception e) { 
+            throw new MalformedURLException("Error signing certificate"); 
+        }
 
-        return request;
     }
 
 

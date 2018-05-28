@@ -4,6 +4,9 @@ import java.sql.SQLException;
 
 import com.google.gson.annotations.SerializedName;
 
+import com.guerzonica.app.storage.exceptions.AlreadyExistException;
+import com.guerzonica.app.storage.exceptions.NotFoundException;
+
 public abstract class Item<T> {
 
     @SerializedName(value="id")
@@ -42,9 +45,9 @@ public abstract class Item<T> {
 
     // Validate (data + id)
     // fetch current id after
-    public abstract void CREATE() throws SQLException;
-    public abstract void READ()   throws SQLException;
-    public abstract void UPDATE() throws SQLException;
-    public abstract void DELETE() throws SQLException;
+    public abstract void CREATE() throws AlreadyExistException, SQLException;
+    public abstract void READ()   throws NotFoundException, SQLException;
+    public abstract void UPDATE() throws NotFoundException, SQLException;
+    public abstract void DELETE() throws NotFoundException, SQLException;
 
 }

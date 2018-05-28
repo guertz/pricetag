@@ -22,7 +22,7 @@ public class ProductItem extends HBox {
     this.setSpacing(15);
     this.title = new Label(p.getName());
     this.title.getStyleClass().add("heading-block");
-    Image n = new Image("https://www.91-img.com/pictures/motorola-moto-g-turbo-edition-mobile-phone-large-1.jpg");
+    Image n = new Image(p.getImage());
     this.image = new ImageView(n);
     this.image.getStyleClass().add("product-image");
     this.image.setFitWidth(150);

@@ -1,9 +1,13 @@
 package com.guerzonica.app.storage;
 
 import com.guerzonica.app.http.interfaces.RequestHandler;
+import com.guerzonica.app.http.models.AmazonRequest;
 import com.guerzonica.app.http.SocketRequest;
 import com.guerzonica.app.http.interfaces.Body;
 import com.guerzonica.app.http.HttpClient;
+import com.guerzonica.app.http.Request;
+
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,6 +42,16 @@ public class ProductsProvider extends Storage {
         Statement statement = Storage.getConnection().createStatement();
 
             return statement.executeQuery("SELECT * FROM " + Product.tableName);
+    }
+
+    public void fetchAmazonHttp(String asin, RequestHandler callback) throws MalformedURLException {
+        AmazonRequest request = new AmazonRequest();
+            request.setItedId(asin);
+            request.setResponseGroup("Images,ItemAttributes,OfferFull");
+
+        Request<String> httpClient = new HttpClient().makeClient(Body.class).request(request.getRequestUri());
+
+            httpClient.start(callback);
     }
 
     private ResultSet listProductOffers(Product p) throws SQLException {
@@ -78,38 +92,40 @@ public class ProductsProvider extends Storage {
         collection.addListener(new ListChangeListener<ProductPrices>() {
 			@Override
 			public void onChanged(Change<? extends ProductPrices> item) {
-                while(item.next()) {
-                    Iterator<? extends ProductPrices> pp = item.getAddedSubList().iterator();
-                    while(pp.hasNext()) {
-                        final ProductPrices event$ = pp.next();
-                        System.out.println("Was added: " + event$.product.getId());
-                    }
-                }
+                // while(item.next()) {
+                //     Iterator<? extends ProductPrices> pp = item.getAddedSubList().iterator();
+                //     while(pp.hasNext()) {
+                //         final ProductPrices event$ = pp.next();
+                //     }
+                // }
 			}
         });
 
         ResultSet productSet = this.listProducts();
 
         while(productSet.next()) {
-            ProductPrices listItem = new ProductPrices();
-            Product product = new Product();
-                product.READ(productSet);
-                listItem.product = product;
 
-            ResultSet offerSet = this.listProductOffers(product);
+            try {
+                
+                ProductPrices listItem = new ProductPrices();
+                Product product = new Product();
 
-            while(offerSet.next()) {
-                Offer offer = new Offer();
-                    offer.READ(offerSet);
-                    offer.setProduct(product);
+                    product.READ(productSet);
+                    listItem.product = product;
 
-                listItem.prices.add(offer);
-            }
+                ResultSet offerSet = this.listProductOffers(product);
 
-            // i can use object as a key?
-            // no join product in offer type?
-            // on write new item db (product/offer) should propagate updates
-            collection.add(listItem);
+                while(offerSet.next()) {
+                    Offer offer = new Offer();
+                        offer.READ(offerSet);
+                        offer.setProduct(product);
+
+                    listItem.prices.add(offer);
+                }
+
+                collection.add(listItem);
+                
+            } catch (Exception e) { e.printStackTrace(); }
         }
     }
 
