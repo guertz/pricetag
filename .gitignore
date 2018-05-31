@@ -2,7 +2,7 @@
 
 pricetag-client/
 mytodo
-
+/*/**/.attach*
 client/target/
 client/*.db
 client/dependency-reduced-pom.xml
