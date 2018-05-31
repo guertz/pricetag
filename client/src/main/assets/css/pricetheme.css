@@ -58,6 +58,7 @@ UTILITY CLASSES START
 .heading-block{
   -fx-font-size: 24px;
   -font-weight: bold;
+  -fx-wrap-text: true;
 }
 .header{
   -fx-background-color: white;

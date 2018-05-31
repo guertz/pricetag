@@ -64,7 +64,7 @@ public class DashboardPage extends DomPage<HBox, VBox, HBox> {
 
     final SearchField search = new SearchField("Insert Amazon link");
     search.getActionButton().setOnAction(action -> {
-      
+
       try {
         ProductsProvider provider = ProductsProvider.getProvider();
 
@@ -74,10 +74,10 @@ public class DashboardPage extends DomPage<HBox, VBox, HBox> {
             item.setAsin(search.getContent());
             item.READ();
 
-            
+
           this.modal = new Modal(
-            "Ricerca prodotto", 
-            super.wrapper, 
+            "Ricerca prodotto",
+            super.wrapper,
             new Label("L'elemento selezionato è gia presente nella lista")
           );
 
@@ -89,7 +89,7 @@ public class DashboardPage extends DomPage<HBox, VBox, HBox> {
             public void handle(String data) {
 
               // how does amazon handle ivalid request?
-              try { 
+              try {
                 Offer x = AmazonResponse.parse(data);
 
                   x.getProduct().CREATE();
@@ -103,7 +103,7 @@ public class DashboardPage extends DomPage<HBox, VBox, HBox> {
                 // provider.collection.add(resultSet);
 
               } catch(Exception e) { e.printStackTrace(); }
-                
+
             }
 
           });
@@ -117,7 +117,9 @@ public class DashboardPage extends DomPage<HBox, VBox, HBox> {
     ImageButton listButton = new ImageButton("icons/list.png", 30, 30);
 
     listButton.setOnAction(action -> {
+      try{
       App.pageController.push(new ProductsPage(super.getStage()));
+      }catch(Exception e){}
     });
     // this.toolbar = new Toolbar(title);
     super.toolbar.getRightNode().getChildren().addAll(listButton, search);

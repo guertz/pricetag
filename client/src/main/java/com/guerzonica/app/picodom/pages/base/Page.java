@@ -31,6 +31,8 @@ public abstract class Page implements Toolbar.Listener {
 
     this.root.setMinWidth(stage.getMinWidth());
     this.root.prefWidthProperty().bind(stage.widthProperty());
+
+
     // this.toolbar = null;
 
 
