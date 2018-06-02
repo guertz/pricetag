@@ -27,17 +27,17 @@ public class ListPage<T> extends Page {
 
     // this.scene.widthProperty().subtract(20)
     // this.scene.heightProperty()
-    
+
     this.list.setCellFactory(new Callback<ListView<T>,
       ListCell<T>>() {
           @Override
           public ListCell<T> call(ListView<T> list) {
 
             ListCell<T> item = new ListCell<T>();
-            
+
             try {
               item = blocks.newInstance();
-            } catch(Exception e) { }
+            } catch(Exception e) { System.err.println("fucked up"); e.printStackTrace();}
 
             return item;
           }
@@ -45,14 +45,17 @@ public class ListPage<T> extends Page {
     );
 
     this.list.setOnMouseClicked(e -> onEvent(this.list.getSelectionModel().getSelectedItem()));
+
+    super.setScene(this.scene);
+
   }
 
   public void onEvent(T element){
-    
+
   }
 
   @Override
-  public void forceLoad(){ 
+  public void forceLoad(){
 
   }
 

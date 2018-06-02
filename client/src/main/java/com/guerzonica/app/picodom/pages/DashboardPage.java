@@ -25,35 +25,8 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.application.Platform;
 
-class GraphCell extends ListCell<ProductPrices> {
 
-  @Override
-  public void updateItem(ProductPrices item, boolean empty) {
-
-    if(!empty) {
-      super.updateItem(item, empty);
-
-      final Graph chart = new Graph(
-        new CategoryAxis(),
-        new NumberAxis(),
-        item
-      );
-
-      chart.setMaxHeight(60);
-      chart.setMinWidth(100);
-
-      setGraphic(chart);
-
-      //setPrefHeight(chart.getHeight());
-      prefHeightProperty().bind(chart.heightProperty());
-    }
-
-    // chart.minWidthProperty().bind(width);
-
-  }
-
-}
-
+import  com.guerzonica.app.picodom.components.*;
 class AmazonSearchField extends SearchField {
 
   public AmazonSearchField() {
@@ -129,7 +102,7 @@ public class DashboardPage extends ListPage<ProductPrices> {
           App.pageController.push(new ProductsPage(super.getStage()));
         } catch(Exception e) { }
       });
-    
+
     super.toolbar.getRightNode().getChildren().addAll(listButton, new AmazonSearchField());
     super.list.getStyleClass().add("list-simple");
 
@@ -137,7 +110,7 @@ public class DashboardPage extends ListPage<ProductPrices> {
     // ReadOnlyDoubleProperty width = super.getStage().widthProperty();
 
     ListView<ProductPrices> listRef = super.list;
-    
+
     try {
       ProductsProvider provider = ProductsProvider.getProvider();
         provider.collection$
@@ -146,7 +119,7 @@ public class DashboardPage extends ListPage<ProductPrices> {
             @Override
             public void accept(Vector<ProductPrices> list) throws Exception {
               Platform.runLater(new Runnable() {
-                @Override 
+                @Override
                 public void run() {
                   listRef.getItems().clear();
                   listRef.getItems().addAll(list);
