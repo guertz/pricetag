@@ -37,7 +37,7 @@ public class ListPage<T> extends Page {
 
             try {
               item = blocks.newInstance();
-            } catch(Exception e) { System.err.println("fucked up"); e.printStackTrace();}
+            } catch(Exception e) { e.printStackTrace();}
 
             return item;
           }

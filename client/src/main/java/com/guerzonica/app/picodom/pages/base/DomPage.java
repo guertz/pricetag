@@ -27,25 +27,6 @@ public class DomPage<H extends Pane, B extends Pane, F extends Pane> extends Pag
 
   private Stage stage;
 
-  // public DomPage(Stage stage, H h, B b, F f){
-  //   super(stage);
-  //   this.stage = stage;
-  //   this.body = b;
-  //   this.header = h;
-  //   this.footer = f;
-  //
-  //   // header();
-  //   // body();
-  //   // footer();
-  //
-  //   this.init(stage, h, b, f);
-  //
-  //   // if(h == null){
-  //   //   super.setToolbar(null);
-  //   //   this.header = super.toolbar;
-  //   // }
-  //
-  // }
   public DomPage(Stage stage, H h, B b, F f, String classString){
     super(stage);
     this.stage = stage;
