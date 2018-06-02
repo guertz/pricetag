@@ -14,7 +14,6 @@ public class Navigation<U extends Page> extends Stack<U> {
     } else {
       super.get(super.size() - 1).PageWillExit();
       page.toolbar.setBackButton();
-
     }
 
     page.PageWillEnter();

@@ -18,8 +18,8 @@ public class App extends Application {
     public void bootstrap(){
 
     }
+
     @Override
-    @SuppressWarnings("all")
     public void start(Stage stage) {
         bootstrap();
         pageController.push(new DashboardPage(stage));

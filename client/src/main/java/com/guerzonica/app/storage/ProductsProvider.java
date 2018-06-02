@@ -12,18 +12,16 @@ import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Iterator;
+import java.util.Vector;
 
 import com.guerzonica.app.channel.Channel;
 import com.guerzonica.app.channel.models.Packet;
 import com.guerzonica.app.channel.interfaces.MessageHandler;
 import com.guerzonica.app.channel.exceptions.StreamException;
-
 import com.guerzonica.app.storage.models.*;
 
-import javafx.collections.ObservableList;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
+import io.reactivex.functions.Consumer;
+import io.reactivex.subjects.BehaviorSubject;
 
 public class ProductsProvider extends Storage {
 
@@ -36,12 +34,27 @@ public class ProductsProvider extends Storage {
         return provider;
     }
 
-    public final ObservableList<ProductPrices> collection = FXCollections.observableArrayList();
+    public final BehaviorSubject<Vector<ProductPrices>> collection$ = BehaviorSubject.create();
 
     private ResultSet listProducts() throws SQLException {
         Statement statement = Storage.getConnection().createStatement();
 
             return statement.executeQuery("SELECT * FROM " + Product.tableName);
+    }
+
+    public void addItem(ProductPrices item) {
+        collection$
+            .firstElement()
+            .subscribe(new Consumer<Vector<ProductPrices>>() {
+
+				@Override
+				public void accept(Vector<ProductPrices> t) throws Exception {
+                    t.add(item);
+                    collection$.onNext(t);
+				}
+        
+            });
+
     }
 
     public void fetchAmazonHttp(String asin, RequestHandler callback) throws MalformedURLException {
@@ -81,6 +94,7 @@ public class ProductsProvider extends Storage {
         // });
 
         SocketRequest socket =  new HttpClient().makeClient(Body.class).bindRoute("broadcast:details");
+        
         socket.start(new RequestHandler(){
             @Override
             public void handle(String data) {
@@ -88,19 +102,9 @@ public class ProductsProvider extends Storage {
             }
         });
 
-        // Product unique key(product, date) [DB Constraint]
-        collection.addListener(new ListChangeListener<ProductPrices>() {
-			@Override
-			public void onChanged(Change<? extends ProductPrices> item) {
-                // while(item.next()) {
-                //     Iterator<? extends ProductPrices> pp = item.getAddedSubList().iterator();
-                //     while(pp.hasNext()) {
-                //         final ProductPrices event$ = pp.next();
-                //     }
-                // }
-			}
-        });
-
+        // javafx obervable where better?
+        // possibility to push and listen only to changes
+        Vector<ProductPrices> copy = new Vector<ProductPrices>();
         ResultSet productSet = this.listProducts();
 
         while(productSet.next()) {
@@ -123,10 +127,12 @@ public class ProductsProvider extends Storage {
                     listItem.prices.add(offer);
                 }
 
-                collection.add(listItem);
+                copy.add(listItem);
                 
             } catch (Exception e) { e.printStackTrace(); }
         }
+
+        this.collection$.onNext(copy);
     }
 
     // refetch on added on ObservableList

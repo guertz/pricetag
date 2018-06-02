@@ -1,5 +1,7 @@
 package com.guerzonica.app.picodom.pages;
 
+import java.util.Vector;
+
 import com.guerzonica.app.App;
 import com.guerzonica.app.http.interfaces.RequestHandler;
 import com.guerzonica.app.http.models.AmazonResponse;
@@ -7,100 +9,91 @@ import com.guerzonica.app.picodom.components.Graph;
 import com.guerzonica.app.picodom.components.ImageButton;
 import com.guerzonica.app.picodom.components.Modal;
 import com.guerzonica.app.picodom.components.SearchField;
-import com.guerzonica.app.picodom.pages.base.DomPage;
+import com.guerzonica.app.picodom.pages.base.ListPage;
 import com.guerzonica.app.storage.ProductsProvider;
 import com.guerzonica.app.storage.exceptions.NotFoundException;
 import com.guerzonica.app.storage.models.Offer;
 import com.guerzonica.app.storage.models.Product;
 import com.guerzonica.app.storage.models.ProductPrices;
 
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import io.reactivex.functions.Consumer;
 import javafx.stage.Stage;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.CategoryAxis;
 
-
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ListCell;
-import javafx.util.Callback;
+import javafx.scene.control.ListView;
+import javafx.application.Platform;
 
-public class DashboardPage extends DomPage<HBox, VBox, HBox> {
-  // private Scene scene;
-
-  // private static PageProvider<Page> pageCtrl = PageProvider.getInstance();
-  public static String title = "Dashboard";
-  public static String cssClass = "dashboard";
-
-  protected Modal modal;
-  private ListView<ProductPrices> listItems = new ListView<ProductPrices>();
-  // private Toolbar toolbar;
-
-  public DashboardPage(Stage stage) {
-
-    super(stage, new HBox(), new VBox(), new HBox(), cssClass);
-    super.toolbar.setTitle(DashboardPage.title);
-
-    header();
-    body();
-
-    super.footer();
-
-  }
-
-  public void launch(){
-
-  }
+class GraphCell extends ListCell<ProductPrices> {
 
   @Override
-  public void header() {
-    // super.header(); // get predefined style
-    // HBox header = super.getHeader();
+  public void updateItem(ProductPrices item, boolean empty) {
 
-    //
-    // header.setSpacing(10);
-    //
+    if(!empty) {
+      super.updateItem(item, empty);
 
-    final SearchField search = new SearchField("Insert Amazon link");
-    search.getActionButton().setOnAction(action -> {
+      final Graph chart = new Graph(
+        new CategoryAxis(),
+        new NumberAxis(),
+        item
+      );
+
+      chart.setMaxHeight(60);
+      chart.setMinWidth(100);
+
+      setGraphic(chart);
+
+      //setPrefHeight(chart.getHeight());
+      prefHeightProperty().bind(chart.heightProperty());
+    }
+
+    // chart.minWidthProperty().bind(width);
+
+  }
+
+}
+
+class AmazonSearchField extends SearchField {
+
+  public AmazonSearchField() {
+
+    super("ASIN Prodotto");
+    this.getActionButton().setOnAction(action -> {
 
       try {
         ProductsProvider provider = ProductsProvider.getProvider();
 
         try {
-
+          // collection.find() is better
+          // no acces db except provider?
           Product item = new Product();
-            item.setAsin(search.getContent());
+            item.setAsin(this.getContent());
             item.READ();
 
-
-          this.modal = new Modal(
-            "Ricerca prodotto",
-            super.wrapper,
-            new Label("L'elemento selezionato è gia presente nella lista")
-          );
+          // this.modal = new Modal(
+          //   "Ricerca prodotto",
+          //   super.wrapper,
+          //   new Label("L'elemento selezionato è gia presente nella lista")
+          // );
 
         } catch(NotFoundException e) {
 
-          provider.fetchAmazonHttp(search.getContent(), new RequestHandler () {
+          provider.fetchAmazonHttp(this.getContent(), new RequestHandler () {
 
+            // new item push handler
+            // add error handler (!= 200)
             @Override
             public void handle(String data) {
 
-              // how does amazon handle ivalid request?
               try {
                 Offer x = AmazonResponse.parse(data);
 
-                  x.getProduct().CREATE();
-                  x.CREATE();
+                ProductPrices resultSet = new ProductPrices();
+                  resultSet.prices.add(x);
+                  resultSet.product = x.getProduct();
 
-                // ProductPrices resultSet = new ProductPrices();
-                //   resultSet.prices.add(x);
-                //   resultSet.product = x.getProduct();
-
-                // ProductsProvider provider = ProductsProvider.getProvider();
-                // provider.collection.add(resultSet);
+                provider.addItem(resultSet);
 
               } catch(Exception e) { e.printStackTrace(); }
 
@@ -111,87 +104,59 @@ public class DashboardPage extends DomPage<HBox, VBox, HBox> {
         }
 
       } catch(Exception e) { e.printStackTrace(); }
-
     });
+  }
+
+}
+
+// TODO: Fetch item realtime
+public class DashboardPage extends ListPage<ProductPrices> {
+
+  public static final String title    = "Dashboard";
+  public static final String cssClass = "dashboard";
+
+  protected Modal modal;
+
+  public DashboardPage(Stage stage) {
+
+    super(stage, GraphCell.class);
+    super.toolbar.setTitle(title);
 
     ImageButton listButton = new ImageButton("icons/list.png", 30, 30);
 
-    listButton.setOnAction(action -> {
-      try{
-      App.pageController.push(new ProductsPage(super.getStage()));
-      }catch(Exception e){}
-    });
-    // this.toolbar = new Toolbar(title);
-    super.toolbar.getRightNode().getChildren().addAll(listButton, search);
-    // super.setToolbar(this.toolbar);
-
-    // header.getChildren().addAll();
-
-  }
-
-  static class PricesCell extends ListCell<ProductPrices> {
-    @Override
-    public void updateItem(ProductPrices item, boolean empty) {
-
-      if(!empty) {
-        super.updateItem(item, empty);
-
-        final Graph chart = new Graph(
-          new CategoryAxis(),
-          new NumberAxis(),
-          item
-        );
-
-        chart.setMaxHeight(60);
-        chart.setMinWidth(100);
-
-        setGraphic(chart);
-
-        //setPrefHeight(chart.getHeight());
-        prefHeightProperty().bind(chart.heightProperty());
-      }
-
-      // chart.minWidthProperty().bind(width);
-
-    }
-
-    PricesCell(){
-      //this.setPrefHeight(USE_PREF_SIZE);
-      // this.prefHeight(100);
-    }
-}
-
-  @Override
-  public void body(){
-
-    super.body();
-    listItems.getStyleClass().add("list-simple");
-    listItems.prefHeightProperty().bind(super.body.heightProperty());
-    super.getBody().getChildren().addAll(listItems);
+      listButton.setOnAction(action -> {
+        try {
+          App.pageController.push(new ProductsPage(super.getStage()));
+        } catch(Exception e) { }
+      });
+    
+    super.toolbar.getRightNode().getChildren().addAll(listButton, new AmazonSearchField());
+    super.list.getStyleClass().add("list-simple");
 
     // VBox.setVgrow(listItems, Priority.ALWAYS);
     // ReadOnlyDoubleProperty width = super.getStage().widthProperty();
 
+    ListView<ProductPrices> listRef = super.list;
+    
     try {
       ProductsProvider provider = ProductsProvider.getProvider();
-          listItems.setItems(provider.collection);
+        provider.collection$
+          .subscribe(new Consumer<Vector<ProductPrices>>() {
 
-          listItems.setCellFactory(new Callback<ListView<ProductPrices>,
-            ListCell<ProductPrices>>() {
-                @Override
-                public ListCell<ProductPrices> call(ListView<ProductPrices> list) {
-                    return new PricesCell();
+            @Override
+            public void accept(Vector<ProductPrices> list) throws Exception {
+              Platform.runLater(new Runnable() {
+                @Override 
+                public void run() {
+                  listRef.getItems().clear();
+                  listRef.getItems().addAll(list);
                 }
-            }
-        );
+              });
+			      }
 
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-  }
+          });
 
-  public void welcome(){
-
+    } catch(Exception e) { }
   }
 
 }

@@ -71,7 +71,7 @@ public class Channel {
         this.userSession.getAsyncRemote().sendText(message);
     }
 
-    // Observable/Lightweight callback interface
+    // Channel.of("/path").subscribe()
     public void bindRoute(String route, MessageHandler handler) throws StreamException {
         if(bindings.get(route) != null)
             throw new StreamException(route);

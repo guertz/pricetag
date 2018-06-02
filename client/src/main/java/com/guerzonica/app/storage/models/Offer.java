@@ -80,6 +80,8 @@ public class Offer extends Item<Integer> implements Streammable {
 
         Statement statement = Storage.getConnection().createStatement();
 
+            // FK product
+            // unique Product, Date
             statement.execute(
                 "CREATE TABLE if not exists " + tableName + "("
                     + "id integer,"
