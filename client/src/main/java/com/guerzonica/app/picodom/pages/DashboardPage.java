@@ -33,14 +33,20 @@ public class DashboardPage extends ListPage<ProductPrices> {
     super.toolbar.setTitle(title);
 
     ImageButton listButton = new ImageButton("icons/list.png", 30, 30);
-
-      listButton.setOnAction(action -> {
+    ImageButton info = new ImageButton("icons/info.png", 30, 30);
+    listButton.setOnAction(action -> {
         try {
           App.pageController.push(new ProductsPage(super.getStage()));
-        } catch(Exception e) { }
-      });
+        } catch(Exception e) { e.printStackTrace(); }
+    });
 
-    super.toolbar.getRightNode().getChildren().addAll(listButton, new AmazonSearchField());
+    info.setOnAction(action -> {
+      try {
+        App.pageController.push(new AboutPage(super.getStage()));
+      } catch(Exception e) { e.printStackTrace(); }
+    });
+
+    super.toolbar.getRightNode().getChildren().addAll(info, listButton, new AmazonSearchField());
     super.list.getStyleClass().add("list-simple");
 
     // VBox.setVgrow(listItems, Priority.ALWAYS);

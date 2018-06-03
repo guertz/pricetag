@@ -68,6 +68,10 @@ public class DomPage<H extends Pane, B extends Pane, F extends Pane> extends Pag
     // if()
     container.setCenter(this.body);
 
+    container.setBottom(this.footer);
+
+    // container.
+
 
 
     this.root = new Pane();
@@ -77,15 +81,16 @@ public class DomPage<H extends Pane, B extends Pane, F extends Pane> extends Pag
     ScrollPane scrollPane = new ScrollPane();
       scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
       scrollPane.setVbarPolicy(ScrollBarPolicy.NEVER);
-
-      container.prefHeightProperty().bind(stage.heightProperty());
+      scrollPane.setFitToWidth(true);
       container.prefWidthProperty().bind(scrollPane.widthProperty());
+      body.prefWidthProperty().bind(container.widthProperty());
       scrollPane.setPadding(new Insets(0,0,0,0));
 
     scrollPane.setContent(this.root);
 
     // this.root = scrollPane;
     this.scene = new Scene(scrollPane);
+    container.prefHeightProperty().bind(this.scene.heightProperty());
     this.scene.getRoot().getStyleClass().add(classString);
     this.scene.getStylesheets().add("css/pricetheme.css");
 
@@ -97,25 +102,10 @@ public class DomPage<H extends Pane, B extends Pane, F extends Pane> extends Pag
     super.show();
   }
 
-  //
-  // private B body(B body)
-  //   throws InstantiationException, IllegalAccessException {
-  //   body.setPadding(new Insets(5, 5, 5, 5));
-  //   body.getStyleClass().add("body");
-  //   return body;
-  // }
-  // private H header(H h)
-  //   throws InstantiationException, IllegalAccessException {
-  //   h.setPadding(new Insets(10, 10, 10, 10));
-  //   h.getStyleClass().add("header");
-  //   return h;
-  // }
-
-
   public Pane getRoot(){ return super.root; }
   public H getHeader(){ return this.header;}
   public B getBody(){ return this.body; }
-  public F getFooter(){ return null; }
+  public F getFooter(){ return this.footer; }
 
   public void header(){
     this.header.setPadding(new Insets(10, 10, 10, 10));
@@ -132,7 +122,12 @@ public class DomPage<H extends Pane, B extends Pane, F extends Pane> extends Pag
   public void setToolbar(Toolbar toolbar){
     super.setToolbar(toolbar);
   }
-  public void footer(){  }
+  public void footer(){
+    this.footer.setPadding(new Insets(10, 10, 10, 10));
+    this.footer.getStyleClass().addAll("footer");
+    // this.footer.setPrefHeight(75);
+    this.footer.prefWidthProperty().bind(this.stage.widthProperty());
+  }
 
   public void forceLoad(){ header(); body(); footer(); }
 

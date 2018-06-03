@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-//can't extends DomPage because ListView isn't under superclass Pane
 public class ListPage<T> extends Page {
 
   protected Scene scene;

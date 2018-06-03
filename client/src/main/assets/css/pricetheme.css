@@ -60,11 +60,25 @@ UTILITY CLASSES START
   -font-weight: bold;
   -fx-wrap-text: true;
 }
+.text-center{
+  -fx-text-alignment:center;
+}
+.p{
+  -fx-font-size: 18px;
+  -fx-padding:5;
+  -fx-text-wrap: true;
+  -fx-pref-width:100%;
+}
+.body{
+  -fx-background-color: white;
+}
 .header{
   -fx-background-color: white;
-  -fx-border-width: 0 0 3px 0;
-  -fx-border-color: -primary;
+  /* -fx-border-width: 0 0 3px 0;
+  -fx-border-color: -primary; */
   -fx-fill-height: true;
+  -fx-alignment: center;
+  -fx-text-alignment: center;
 }
 .dropshadow{
   -fx-effect: dropshadow(three-pass-box, #32325d1a, 30, 0.8, 0, 10);
@@ -104,6 +118,7 @@ UTILITY CLASSES START
   -fx-border-radius: 100px;
   -fx-background-radius: 100px;
 }
+
 .text-field{
   -fx-padding: 0.7em;
   -fx-alignment: top-center;
@@ -120,9 +135,27 @@ UTILITY CLASSES START
   -fx-font-family: 'Open Sans';
 
 }
-.header{
+/* .header{
   -fx-background-color: white;
   -fx-text-fill: -secondary;
+  -fx-alignment: center;
+  -fx-text-alignment: center;
+
+} */
+
+.center{
+  -fx-alignment:top-center;
+
+}
+.footer {
+  -fx-background-color: black;
+  -fx-text-fill: white;
+}
+.subheading{
+  -fx-font-weight: 400;
+  -fx-font-size: 24px;
+  -fx-text-color: black;
+  -fx-text-fill: black;
 }
 .text-field:focused{
   -fx-effect: dropshadow(three-pass-box, -shadow, 0, 0.1, 0, 1);
@@ -300,6 +333,9 @@ ListView Styles START
 .list-simple{
   -fx-border-width: 0px;
   -fx-background-insets: 0px;
+}
+.list-simple:odd, .list-simple:even{
+  -fx-background-color: transparent;
 }
 .list-simple:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected {
     -fx-background: white;
