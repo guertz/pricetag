@@ -24,6 +24,13 @@ public abstract class Page implements Toolbar.Listener {
     stage.setMaxWidth(1000);
     stage.setMinHeight(400);
     stage.setMinWidth(600);
+    //seems like borderpane has a bug. If you maximize borderpane will hide the bottom content. This is a workaround
+    stage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
+      if (newValue){
+        stage.setWidth(stage.getWidth()-1);
+        stage.setHeight(stage.getHeight()-1);
+      }
+    });
     this.stage = stage;
     this.wrapper = new StackPane();
     this.root = new VBox(15);
@@ -31,7 +38,6 @@ public abstract class Page implements Toolbar.Listener {
 
     this.root.setMinWidth(stage.getMinWidth());
     this.root.prefWidthProperty().bind(stage.widthProperty());
-
 
     // this.toolbar = null;
 
