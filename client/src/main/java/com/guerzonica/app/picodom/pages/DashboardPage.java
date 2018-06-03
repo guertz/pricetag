@@ -1,6 +1,9 @@
 package com.guerzonica.app.picodom.pages;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import com.guerzonica.app.App;
 import com.guerzonica.app.picodom.components.ImageButton;
 import com.guerzonica.app.picodom.components.Modal;
@@ -47,19 +50,23 @@ public class DashboardPage extends ListPage<ProductPrices> {
 
     try {
       ProductsProvider provider = ProductsProvider.getProvider();
-        provider.collection$
-          .subscribe(new Consumer<Vector<ProductPrices>>() {
+        provider.getCollection()
+          .subscribe(new Consumer<Map<String, ProductPrices>>() {
 
             @Override
-            public void accept(Vector<ProductPrices> list) throws Exception {
+            public void accept(Map<String, ProductPrices> t) throws Exception {
+
+              List<ProductPrices> swp = new ArrayList<ProductPrices>(t.values());
+
               Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
+                  
                   listRef.getItems().clear();
-                  listRef.getItems().addAll(list);
+                  listRef.getItems().addAll(swp);
                 }
-              });
-			      }
+              });				
+            }
 
           });
 

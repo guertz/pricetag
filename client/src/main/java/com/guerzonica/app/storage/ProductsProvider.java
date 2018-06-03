@@ -12,7 +12,8 @@ import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Vector;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.guerzonica.app.channel.Channel;
 import com.guerzonica.app.channel.models.Packet;
@@ -20,7 +21,9 @@ import com.guerzonica.app.channel.interfaces.MessageHandler;
 import com.guerzonica.app.channel.exceptions.StreamException;
 import com.guerzonica.app.storage.models.*;
 
+import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
 
 public class ProductsProvider extends Storage {
@@ -34,7 +37,7 @@ public class ProductsProvider extends Storage {
         return provider;
     }
 
-    public final BehaviorSubject<Vector<ProductPrices>> collection$ = BehaviorSubject.create();
+    private final BehaviorSubject<Map<String, ProductPrices>> collection$ = BehaviorSubject.create();
 
     private ResultSet listProducts() throws SQLException {
         Statement statement = Storage.getConnection().createStatement();
@@ -42,19 +45,46 @@ public class ProductsProvider extends Storage {
             return statement.executeQuery("SELECT * FROM " + Product.tableName);
     }
 
-    public void addItem(ProductPrices item) {
-        collection$
-            .firstElement()
-            .subscribe(new Consumer<Vector<ProductPrices>>() {
+    public Observable<Map<String, ProductPrices>> getCollection() {
+        return this.collection$;
+    }
+
+    public void addOrUpdate(Offer newEl) {
+        this.getCollection()
+            .take(1)
+            .subscribe(
+                new Consumer<Map<String, ProductPrices>>() {
+
+					@Override
+					public void accept(Map<String, ProductPrices> m) throws Exception {
+                        
+                        if(!m.containsKey(newEl.getProduct().getId())) {
+                            newEl.getProduct().CREATE();
+                            newEl.CREATE();
+                            m.put(newEl.getProduct().getId(), new ProductPrices(newEl));
+                        } else {
+                            newEl.CREATE();
+                            m.get(newEl.getProduct().getId()).add(newEl);
+                        }
+
+                        collection$.onNext(m);
+					}
+
+                }
+            );
+    }
+
+    public Observable<ProductPrices> findItem(String identifier) {
+
+        return this.getCollection()
+            .map(new Function<Map<String, ProductPrices>, ProductPrices>() {
 
 				@Override
-				public void accept(Vector<ProductPrices> t) throws Exception {
-                    t.add(item);
-                    collection$.onNext(t);
+				public ProductPrices apply(Map<String, ProductPrices> t) throws Exception {
+					return t.get(identifier);
 				}
-        
-            });
 
+            });
     }
 
     public void fetchAmazonHttp(String asin, RequestHandler callback) throws MalformedURLException {
@@ -102,32 +132,30 @@ public class ProductsProvider extends Storage {
             }
         });
 
-        // javafx obervable where better?
-        // possibility to push and listen only to changes
-        Vector<ProductPrices> copy = new Vector<ProductPrices>();
+        Map<String, ProductPrices> copy = new HashMap<>();
         ResultSet productSet = this.listProducts();
 
         while(productSet.next()) {
 
             try {
                 
-                ProductPrices listItem = new ProductPrices();
-                Product product = new Product();
+                ProductPrices item = new ProductPrices(
+                    new Product() {{ READ(productSet); }});
 
-                    product.READ(productSet);
-                    listItem.product = product;
-
-                ResultSet offerSet = this.listProductOffers(product);
+                // CRUD for ProductPrices
+                ResultSet offerSet = this.listProductOffers(item.getProduct());
 
                 while(offerSet.next()) {
+
+                    // in read pass both productSet, offerSet
                     Offer offer = new Offer();
                         offer.READ(offerSet);
-                        offer.setProduct(product);
+                        offer.setProduct(item.getProduct());
 
-                    listItem.prices.add(offer);
+                    item.add(offer);
                 }
 
-                copy.add(listItem);
+                copy.put(item.getProduct().getId(), item);
                 
             } catch (Exception e) { e.printStackTrace(); }
         }

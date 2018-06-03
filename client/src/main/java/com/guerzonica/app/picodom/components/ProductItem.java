@@ -24,7 +24,7 @@ public class ProductItem extends ListCell<ProductPrices>  {
       super.updateItem(item, empty);
 
       final HBox container = new HBox();
-      Product p = item.product;
+      Product p = item.getProduct();
       container.getStyleClass().add("product-item");
       container.setSpacing(15);
       Label title = new Label(p.getName());
@@ -36,7 +36,7 @@ public class ProductItem extends ListCell<ProductPrices>  {
       image.setFitWidth(150);
       image.setFitHeight(150);
       image.setPreserveRatio(true);
-      Label price = new Label(Float.toString(item.prices.get(item.prices.size() - 1).getPrice()));
+      Label price = new Label(Float.toString(item.get(item.size() - 1).getPrice()));
       price.getStyleClass().add("heading-block");
       VBox right = new VBox();
       right.setSpacing(5);

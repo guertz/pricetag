@@ -46,7 +46,6 @@ public class ProductsPage extends ListPage<ProductPrices> {
   @Override
   public void onEvent(ProductPrices item){
 
-    System.out.println(item.product.getName());
     this.item = item;
     
     if(!this.delete.isVisible())
@@ -57,7 +56,7 @@ public class ProductsPage extends ListPage<ProductPrices> {
 
   public void onButtonDelete() {
     try{
-      this.item.product.DELETE();
+      this.item.getProduct().DELETE();
     } catch(SQLException e){
       e.printStackTrace();
     }
@@ -67,7 +66,7 @@ public class ProductsPage extends ListPage<ProductPrices> {
     if( Desktop.isDesktopSupported() ){
       new Thread(() -> {
         try {
-          Desktop.getDesktop().browse(new URI(item.product.getLink()));
+          Desktop.getDesktop().browse(new URI(item.getProduct().getLink()));
         } catch (IOException | URISyntaxException e) {
           e.printStackTrace();
         }

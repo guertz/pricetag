@@ -3,7 +3,8 @@ package com.guerzonica.app.picodom.components;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 
-import java.util.Iterator;
+import java.util.Date;
+import java.util.Map;
 
 import com.guerzonica.app.storage.models.Offer;
 import com.guerzonica.app.storage.models.ProductPrices;
@@ -28,19 +29,17 @@ public class Graph extends LineChart<String, Number> {
         XYChart.Series<String, Number> series =
             new XYChart.Series<String, Number>();
 
-        Iterator<Offer> priceSet = item.prices.iterator();
-
-        while(priceSet.hasNext()) {
-            Offer offer = priceSet.next();
+        for(Map.Entry<Date, Offer> entry : item.entrySet()) {
+            Offer offer = entry.getValue();
 
             final XYChart.Data<String, Number> chartNode = 
                 new XYChart.Data<String, Number>(offer.getDate(), offer.getPrice());
 
-            chartNode.setNode(new ThresholdArea(item.product.getName(), offer.getDate(),offer.getPrice()));
+            chartNode.setNode(new ThresholdArea(item.getProduct().getName(), offer.getDate(),offer.getPrice()));
             series.getData().add(chartNode);
         }
 
-        this.setTitle(item.product.getName());
+        this.setTitle(item.getProduct().getName());
         this.setTitleSide(Side.TOP);
 
         this.getData().add(series);

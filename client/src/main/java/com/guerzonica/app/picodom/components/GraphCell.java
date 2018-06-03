@@ -25,19 +25,15 @@ public class GraphCell extends ListCell<ProductPrices> {
         new NumberAxis(),
         item
       );
-      chart.setMaxHeight(60);
-      chart.setMinWidth(100);
+      
+            setPrefHeight(200);
+      chart.setPrefHeight(200);
 
       setGraphic(chart);
-
-      //setPrefHeight(chart.getHeight());
-      prefHeightProperty().bind(chart.heightProperty());
+     
     }
 
     // chart.minWidthProperty().bind(width);
-
-  }
-  public GraphCell(){
 
   }
 
