@@ -1,4 +1,5 @@
 package com.guerzonica.app;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -9,12 +10,21 @@ import com.guerzonica.app.picodom.pages.base.Page;
 import javafx.stage.Stage;
 import javafx.application.Application;
 
+/**
+ * App instance
+ * 
+ * @author Matteo Guerzoni, Singh Amarjot
+ */
 public class App extends Application {
 
-    // private DomPage<HBox, GridPane, HBox> dashboard;
-    // private PageProvider<Page> navCtrl = new PageProvider<Page>();
+    /** Stack Navigator */
     public static Navigation<Page> pageController = new Navigation<Page>();
 
+    /**
+     * App main
+     * 
+     * @param args arguments to specify database file name. 
+     */
     public static void main(String[] args) {
         if(args.length > 0) {
             String home = System.getProperty("user.home");
@@ -26,13 +36,13 @@ public class App extends Application {
         launch(args);
     }
 
-    public void bootstrap(){
-        
-    }
-
+    /**
+     * Create the JavaFx application
+     * 
+     * @param stage The stage to display
+     */
     @Override
     public void start(Stage stage) {
-        bootstrap();
         pageController.push(new DashboardPage(stage));
         stage.show();
     }

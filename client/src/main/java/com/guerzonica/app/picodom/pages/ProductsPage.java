@@ -82,7 +82,7 @@ public class ProductsPage extends ListPage<Product> {
   public void onButtonDelete() {
     try {
       ProductsProvider provider = ProductsProvider.getProvider();
-        provider.deleteProduct(item, true, true).subscribe();
+        provider.deleteProduct(item, true).subscribe();
         App.pageController.pop();
         
     } catch (Exception e) { }

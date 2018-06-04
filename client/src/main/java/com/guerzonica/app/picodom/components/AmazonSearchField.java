@@ -27,14 +27,14 @@ public class AmazonSearchField extends SearchField {
               try {
                 Offer item = AmazonResponse.parse(data);
 
-                provider.addProduct(item.getProduct(), true, false)
+                provider.addProduct(item.getProduct(), true)
                   .subscribe(
                     new Consumer<Product>() {
 
                       @Override
                       public void accept(Product t) throws Exception {
                         if(t.getId() != null)
-                          provider.addPrice(item, true, true).subscribe();
+                          provider.addPrice(item, true).subscribe();
                       }
 
                     }
