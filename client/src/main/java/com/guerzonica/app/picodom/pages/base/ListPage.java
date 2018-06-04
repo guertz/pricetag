@@ -15,15 +15,11 @@ public class ListPage<T> extends Page {
   public ListPage(Stage stage, Class<? extends ListCell<T>> blocks){
     super(stage);
 
-    this.list = new ListView<T>() {{
-      setPrefWidth(800);
-      setPrefHeight(600);
-    }};
+    this.list = new ListView<T>();
 
-    this.scene = new Scene(this.list) {{
-      getStylesheets().add("css/pricetheme.css");
-    }};
-
+    scene = new Scene(this.list);
+      scene.getStylesheets().add("css/pricetheme.css");
+      
     // this.scene.widthProperty().subtract(20)
     // this.scene.heightProperty()
 

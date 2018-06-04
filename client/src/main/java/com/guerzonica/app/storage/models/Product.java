@@ -85,13 +85,13 @@ public class Product extends Item<String> implements Streammable {
         Statement statement = Storage.getConnection().createStatement();
 
             statement.execute(
-                "CREATE TABLE if not exists " + tableName + "("
-                    + "id varchar(10),"
-                    + "name varchar(255),"
-                    + "description varchar(255),"
-                    + "link varchar(255),"
-                    + "image varchar(255),"
-                    + "primary key(id)"
+                "CREATE TABLE if not exists " + tableName + "( "
+                    + "id varchar(10), "
+                    + "name varchar(255), "
+                    + "description varchar(255), "
+                    + "link varchar(255), "
+                    + "image varchar(255), "
+                    + "primary key(id) "
                 + ");"
             );
     }

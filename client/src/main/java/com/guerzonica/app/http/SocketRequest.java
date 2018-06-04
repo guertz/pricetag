@@ -25,10 +25,7 @@ public class SocketRequest extends Request<String> {
         channel.bindRoute(this.route, new MessageHandler() {
           @Override
           public void handle(String response) {
-            // System.out.println("i got somethign");
-
-            System.out.println(response);
-
+            
             SocketRequest.this.listener.handle(response);
              // since is a socket there is no need to INTERRUPT. this cause problems
             // interrupt();

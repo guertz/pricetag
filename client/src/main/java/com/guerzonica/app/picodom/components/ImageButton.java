@@ -5,26 +5,26 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.shape.Circle;
 
-public class ImageButton extends Button{
+public class ImageButton extends Button {
 
-  public ImageButton(String src){
-    super();
-    Image image = new Image(src);
-    ImageView icon = new ImageView(image);
-    icon.setFitWidth(25);
-    icon.setFitHeight(25);
-    this.setGraphic(icon);
-    this.setShape(new Circle(20));
-    this.getStyleClass().addAll("fab", "primary");
+  private void makeGraphic(String src, Number width, Number height) {
+    final ImageView icon = new ImageView(new Image(src));
+      icon.setFitWidth(width.doubleValue());
+      icon.setFitHeight(width.doubleValue());
+    
+    setGraphic(icon);
+    setShape(new Circle(width.doubleValue()));
+    getStyleClass().addAll("fab", "primary");
   }
+
+  public ImageButton(String src) {
+    super();
+    makeGraphic(src, 25, 25);
+  }
+
   public ImageButton(String src, double width, double height){
     super();
-    Image image = new Image(src);
-    ImageView icon = new ImageView(image);
-    icon.setFitWidth(width);
-    icon.setFitHeight(height);
-    this.setGraphic(icon);
-    this.setShape(new Circle(width));
-    this.getStyleClass().addAll("fab", "primary");
+    makeGraphic(src, width, height);
   }
+  
 }

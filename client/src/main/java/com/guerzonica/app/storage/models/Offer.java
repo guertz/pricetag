@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -23,6 +24,9 @@ import com.guerzonica.app.storage.exceptions.NotFoundException;
 @XmlRootElement
 public class Offer extends Item<Integer> implements Streammable {
 
+    public static final SimpleDateFormat Format =
+        new SimpleDateFormat("dd/MM/yyyy");
+
     public static final String tableName = "offers";
 
     @SerializedName(value="date")
@@ -38,13 +42,14 @@ public class Offer extends Item<Integer> implements Streammable {
     public void setValue(String offer) {
 
         Date now = new Date();
-        SimpleDateFormat stamp = 
-            new SimpleDateFormat("dd/MM/yyyy");
-
         Number currency = Float.parseFloat(offer) / 100;
         
-        this.date  = stamp.format(now);
+        this.date  = Format.format(now);
         this.price = currency.floatValue();
+    }
+
+    public Long getUnixDate() throws ParseException {
+        return Format.parse(this.getDate()).getTime();
     }
     
     public Float getPrice() {
@@ -80,15 +85,14 @@ public class Offer extends Item<Integer> implements Streammable {
 
         Statement statement = Storage.getConnection().createStatement();
 
-            // FK product
-            // unique Product, Date
             statement.execute(
-                "CREATE TABLE if not exists " + tableName + "("
-                    + "id integer,"
-                    + "date varchar(60),"
-                    + "price real,"
-                    + "product varchar(10),"
-                    + "primary key(id)"
+                "CREATE TABLE if not exists " + tableName + "( "
+                    + "id integer, "
+                    + "date varchar(60), "
+                    + "price real, "
+                    + "product varchar(10) references products(id), "
+                    + "primary key(id), "
+                    + "unique(product, date) "
                 + ");"
             );
     }

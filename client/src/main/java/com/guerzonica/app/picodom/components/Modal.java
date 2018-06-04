@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.event.Event;
 import javafx.stage.Stage;
 
-public class Modal extends StackPane /*implements Templatable<Pane, Pane, Pane>*/ {
+public class Modal extends StackPane {
   protected Pane container;
   protected Region content;
   protected VBox holder;

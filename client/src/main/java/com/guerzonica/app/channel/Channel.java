@@ -56,14 +56,11 @@ public class Channel {
 
     @OnMessage
     public void onMessage(String message) {
-      Packet<Streammable> b = Packet.fromJson(message, Streammable.typeToken());
-      MessageHandler      h = bindings.get(b.getUri());
-      //testing purpose
-      // MessageHandler      h = bindings.get("broadcast:details");
+      Container      b = Container.fromJson(message);
+      MessageHandler h = bindings.get(b.getUri());
 
-
-        if(h != null)
-            h.handle(message);
+      if(h != null)
+        h.handle(message);
 
     }
 

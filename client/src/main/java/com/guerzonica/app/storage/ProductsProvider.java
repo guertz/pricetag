@@ -8,7 +8,6 @@ import com.guerzonica.app.http.HttpClient;
 import com.guerzonica.app.http.Request;
 
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,8 +16,8 @@ import java.util.Map;
 
 import com.guerzonica.app.channel.Channel;
 import com.guerzonica.app.channel.models.Packet;
-import com.guerzonica.app.channel.interfaces.MessageHandler;
-import com.guerzonica.app.channel.exceptions.StreamException;
+import com.guerzonica.app.storage.exceptions.AlreadyExistException;
+import com.guerzonica.app.storage.exceptions.NotFoundException;
 import com.guerzonica.app.storage.models.*;
 
 import io.reactivex.Observable;
@@ -28,155 +27,238 @@ import io.reactivex.subjects.BehaviorSubject;
 
 public class ProductsProvider extends Storage {
 
-    private static ProductsProvider provider = null;
+  private static ProductsProvider provider = null;
 
-    public static ProductsProvider getProvider() throws SQLException, StreamException, URISyntaxException {
-        if(provider == null)
-            provider = new ProductsProvider();
+  public static ProductsProvider getProvider() throws Exception {
+    if(provider == null)
+      provider = new ProductsProvider();
 
-        return provider;
-    }
+    return provider;
+  }
 
-    private final BehaviorSubject<Map<String, ProductPrices>> collection$ = BehaviorSubject.create();
+  private Channel channel;
 
-    private ResultSet listProducts() throws SQLException {
-        Statement statement = Storage.getConnection().createStatement();
+  private final BehaviorSubject<Map<String, ProductPrices>> collection$ = BehaviorSubject.create();
 
-            return statement.executeQuery("SELECT * FROM " + Product.tableName);
-    }
+  private ResultSet listProducts() throws SQLException {
+    Statement statement = Storage.getConnection().createStatement();
 
-    public Observable<Map<String, ProductPrices>> getCollection() {
-        return this.collection$;
-    }
+      return statement.executeQuery("SELECT * FROM " + Product.tableName);
+  }
 
-    public void addOrUpdate(Offer newEl) {
-        this.getCollection()
-            .take(1)
-            .subscribe(
-                new Consumer<Map<String, ProductPrices>>() {
+  public Observable<Map<String, ProductPrices>> getCollection() {
+    return this.collection$;
+  }
 
-					@Override
-					public void accept(Map<String, ProductPrices> m) throws Exception {
-                        
-                        if(!m.containsKey(newEl.getProduct().getId())) {
-                            newEl.getProduct().CREATE();
-                            newEl.CREATE();
-                            m.put(newEl.getProduct().getId(), new ProductPrices(newEl));
-                        } else {
-                            newEl.CREATE();
-                            m.get(newEl.getProduct().getId()).add(newEl);
-                        }
+  //TODO: remember future/subscribe
+  //TODO: local map copy, if i dont notify i loose data
+  //TODO: bind observable/fetch
+  //TODO: read item?
+  //TODO: throw runtime exception (ex. threads, provider)
 
-                        collection$.onNext(m);
-					}
+  public Observable<Product> addProduct(Product item, Boolean write, Boolean notify) {
+    return this.getCollection()
+      .take(1)
+      .map(
+        new Function<Map<String, ProductPrices>, Product>() {
 
-                }
-            );
-    }
+          @Override
+          public Product apply(Map<String, ProductPrices> map) throws Exception {
 
-    public Observable<ProductPrices> findItem(String identifier) {
+            if(map.containsKey(item.getId()))
+              throw new AlreadyExistException(item.getId());
 
-        return this.getCollection()
-            .map(new Function<Map<String, ProductPrices>, ProductPrices>() {
+            if(write)
+              item.CREATE();
+
+            map.put(item.getId(), new ProductPrices(item));
+
+            // if(notify)
+              collection$.onNext(map);
+
+            // fetching other peers
+            Packet<Product> request = new Packet<Product>("details", item);
+              channel.sendMessage(Packet.toJson(request, Product.typeToken()));
+
+            return item;
+          }
+        }
+      );
+  }
+
+  //TODO: public Observable<Product> updateProduct(Product item, Boolean write, Boolean notify)
+  
+  public Observable<Product> deleteProduct(Product item, Boolean write, Boolean notify) {
+    return this.getCollection()
+      .take(1)
+      .map(
+        new Function<Map<String, ProductPrices>, Product>() {
+
+          @Override
+          public Product apply(Map<String, ProductPrices> map) throws Exception {
+
+            if(!map.containsKey(item.getId()))
+              throw new NotFoundException(item.getId());
+
+            if(write)
+              item.DELETE();
+
+            map.remove(item.getId());
+
+            // if(notify)
+              collection$.onNext(map);
+
+            return item;
+          }
+        }
+      );
+  }
+
+  public Observable<Offer> addPrice(Offer item, Boolean write, Boolean notify) {
+    return this.getCollection()
+      .take(1)
+      .map(
+        new Function<Map<String, ProductPrices>, Offer>() {
+
+          @Override
+          public Offer apply(Map<String, ProductPrices> map) throws Exception {
+            String parentRef = item.getProduct().getId();
+
+            if(!map.containsKey(parentRef))
+              throw new NotFoundException(parentRef);
+
+            if(write)
+              item.CREATE();
+
+            map.get(parentRef).prices.add(item);
+
+            // if(notify)
+              collection$.onNext(map);
+
+            return item;
+          }
+        }
+      );
+  }
+
+  //TODO: public Observable<Offer> updatePrice(Offer item, Boolean write, Boolean notify)
+  //TODO: public Observable<Offer> deletePrice(Offer item, Boolean write, Boolean notify)
+
+  public Observable<ProductPrices> findItem(String identifier) {
+    return this.getCollection()
+      .take(1)
+      .map(new Function<Map<String, ProductPrices>, ProductPrices>() {
 
 				@Override
-				public ProductPrices apply(Map<String, ProductPrices> t) throws Exception {
-					return t.get(identifier);
+				public ProductPrices apply(Map<String, ProductPrices> map) throws Exception {
+          if(!map.containsKey(identifier))
+            throw new NotFoundException(identifier);
+
+          return map.get(identifier);
 				}
 
-            });
-    }
+      });
+  }
 
-    public void fetchAmazonHttp(String asin, RequestHandler callback) throws MalformedURLException {
-        AmazonRequest request = new AmazonRequest();
-            request.setItedId(asin);
-            request.setResponseGroup("Images,ItemAttributes,OfferFull");
+  public void fetchAmazonHttp(String asin, RequestHandler callback) throws MalformedURLException {
+    AmazonRequest request = new AmazonRequest();
+      request.setItedId(asin);
+      request.setResponseGroup("Images,ItemAttributes,OfferFull");
 
-        Request<String> httpClient = new HttpClient().makeClient(Body.class).request(request.getRequestUri());
+    Request<String> httpClient = new HttpClient().makeClient(Body.class).request(request.getRequestUri());
 
-            httpClient.start(callback);
-    }
+      httpClient.start(callback);
+  }
 
-    private ResultSet listProductOffers(Product p) throws SQLException {
-        Statement statement = Storage.getConnection().createStatement();
+  private ResultSet listProductOffers(Product p) throws SQLException {
+    Statement statement = Storage.getConnection().createStatement();
 
-            return statement.executeQuery(
-                    "SELECT * FROM " + Offer.tableName   + " " +
-                    "WHERE product = '" + p.getId()+ "'" + " " +
-                    "ORDER BY date ASC;"
-                );
-    }
+      return statement.executeQuery(
+        "SELECT * FROM " + Offer.tableName   + " " +
+        "WHERE product = '" + p.getId()+ "'" + " " +
+        "ORDER BY date ASC;"
+      );
+  }
 
-    public ProductsProvider() throws SQLException, StreamException, URISyntaxException {
-        Product.SCHEMA();
-        Offer.SCHEMA();
+  public ProductsProvider() throws Exception {
+    Product.SCHEMA();
+    Offer.SCHEMA();
 
-        // Import fake data from AmazonHttp
+    this.channel = Channel.getChannel();
+    
+    collection$.onNext(new HashMap<>());
 
-        // Blocking (Either Future or Thread)
-        // Channel channel = Channel.getChannel();
-        //
-        // channel.bindRoute("broadcast:details", new MessageHandler() {
-        //     @Override
-        //     public void handle(String response) {
-        //       System.out.println(response);
-        //     }
-        // });
-
-        SocketRequest socket =  new HttpClient().makeClient(Body.class).bindRoute("broadcast:details");
+    SocketRequest broadcastReceiver = new HttpClient()
+      .makeClient(Body.class)
+      .bindRoute("broadcast:details");
         
-        socket.start(new RequestHandler(){
+    SocketRequest detailsReceiver = new HttpClient()
+      .makeClient(Body.class)
+      .bindRoute("details");
+
+    broadcastReceiver.start(new RequestHandler() {
+      @Override
+      public void handle(String data) {
+        Packet<Product> response = Packet.fromJson(data, Product.typeToken());
+        Product         element  = response.getContent();
+
+        // TODO: dispose onErrorConsumer
+        // TODO: onDelete cascade
+        findItem(element.getId())
+          .subscribe(new Consumer<ProductPrices>() {
+
             @Override
-            public void handle(String data) {
-              System.out.println("Data arrived");
+            public void accept(ProductPrices compact) throws Exception {
+              Packet<PriceMap> egress = new Packet<PriceMap>(
+                  response.getUri(),
+                  response.getRid(),
+                  compact.prices
+                );
+
+              channel.sendMessage(Packet.toJson(egress, PriceMap.typeToken()));
             }
-        });
 
-        Map<String, ProductPrices> copy = new HashMap<>();
-        ResultSet productSet = this.listProducts();
+          });
+      }
+    });
 
-        while(productSet.next()) {
+    detailsReceiver.start(new RequestHandler() {
+      @Override
+      public void handle(String data) {
+        Packet<PriceMap> response = Packet.fromJson(data, PriceMap.typeToken());
+        PriceMap         prices  = response.getContent();
 
-            try {
-                
-                ProductPrices item = new ProductPrices(
-                    new Product() {{ READ(productSet); }});
-
-                // CRUD for ProductPrices
-                ResultSet offerSet = this.listProductOffers(item.getProduct());
-
-                while(offerSet.next()) {
-
-                    // in read pass both productSet, offerSet
-                    Offer offer = new Offer();
-                        offer.READ(offerSet);
-                        offer.setProduct(item.getProduct());
-
-                    item.add(offer);
-                }
-
-                copy.put(item.getProduct().getId(), item);
-                
-            } catch (Exception e) { e.printStackTrace(); }
+        for(Map.Entry<Long, Offer> entry : prices.entrySet()) {
+          System.out.println("Got prices: " + entry.getValue().getPrice());
+          // addPrice(entry.getValue(), true, true).subscribe();
         }
 
-        this.collection$.onNext(copy);
+      }
+    });
+
+    ResultSet productSet = this.listProducts();
+
+    while(productSet.next()) {
+
+      Product item = new Product();
+        item.READ(productSet);
+
+      addProduct(item, false, false).subscribe();
+
+      ResultSet offerSet = this.listProductOffers(item);
+
+      while(offerSet.next()) {
+
+        Offer offer = new Offer();
+          offer.READ(offerSet);
+          offer.setProduct(item);
+
+        addPrice(offer, false, false).subscribe();
+
+      }      
+
     }
 
-    // refetch on added on ObservableList
-    public void fetchPeer(Product p) throws URISyntaxException, StreamException{
-        Channel channel = Channel.getChannel();
-
-            channel.bindRoute("details", new MessageHandler(){
-                @Override
-                public void handle(String response) {
-
-                }
-            });
-
-        // request with a specific product in database
-        Packet<Product> request = new Packet<Product>("details", p);
-            channel.sendMessage(Packet.toJson(request, Product.typeToken()));
-    }
+  }
 
 }

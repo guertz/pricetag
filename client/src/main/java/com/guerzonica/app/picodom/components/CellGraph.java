@@ -12,7 +12,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.control.ListCell;
 
 
-public class GraphCell extends ListCell<ProductPrices> {
+public class CellGraph extends ListCell<ProductPrices> {
 
   @Override
   public void updateItem(ProductPrices item, boolean empty) {
@@ -32,8 +32,6 @@ public class GraphCell extends ListCell<ProductPrices> {
       setGraphic(chart);
      
     }
-
-    // chart.minWidthProperty().bind(width);
 
   }
 

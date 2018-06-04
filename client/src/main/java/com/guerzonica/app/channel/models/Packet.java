@@ -1,16 +1,12 @@
 package com.guerzonica.app.channel.models;
 
 import java.lang.reflect.Type;
-import java.util.UUID;
 
-import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 import com.guerzonica.app.channel.interfaces.Streammable;;
 
-public class Packet<C extends Streammable> {
-
-    private static Gson _ser = new Gson();
+public class Packet<C extends Streammable> extends Container {
 
     public static <C extends Streammable> Packet<C> fromJson(String blob, Type contentType) {
         return _ser.fromJson(blob, contentType);
@@ -20,31 +16,17 @@ public class Packet<C extends Streammable> {
         return _ser.toJson(c, contentType).toString();
     }
 
-    @SerializedName(value="uri")
-    private String uri;
-
-    @SerializedName(value="rid")
-    private String rid; // request identifier
-
     @SerializedName(value="content")
     private C content;
 
     public Packet(String u, String r, C c) {
-        this.uri = u;
-        this.rid = r;
+        super(u, r);
         this.content = c;
     }
 
     public Packet(String u, C c) {
-        this(u, UUID.randomUUID().toString(), c);
-    }
-
-    public String getRid() {
-        return this.rid;
-    }
-
-    public String getUri() {
-        return this.uri;
+        super(u);
+        this.content = c;
     }
 
     public C getContent() {

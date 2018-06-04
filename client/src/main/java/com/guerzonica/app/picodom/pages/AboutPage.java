@@ -1,14 +1,14 @@
 package com.guerzonica.app.picodom.pages;
+
 import com.guerzonica.app.picodom.pages.base.DomPage;
 import javafx.scene.layout.*;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-import javafx.beans.binding.Bindings;
-public class AboutPage extends DomPage<HBox, VBox, HBox>{
+
+public class AboutPage extends DomPage<HBox, VBox, HBox> {
   public static String cssName = "about-page";
   public static String title = "About";
   public AboutPage(Stage stage){

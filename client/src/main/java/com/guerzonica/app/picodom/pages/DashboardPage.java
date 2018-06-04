@@ -29,7 +29,7 @@ public class DashboardPage extends ListPage<ProductPrices> {
 
   public DashboardPage(Stage stage) {
 
-    super(stage, GraphCell.class);
+    super(stage, CellGraph.class);
     super.toolbar.setTitle(title);
 
     ImageButton listButton = new ImageButton("icons/list.png", 30, 30);

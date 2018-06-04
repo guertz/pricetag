@@ -20,13 +20,6 @@ var mappe: IMap = {};
 
 wss.on('connection', (ws: WebSocket) => {
 
-  // wss.clients.forEach(client => {
-  //   client.send(JSON.stringify({
-  //       uri: "details",
-  //       rid: "testing purpose",
-  //       content: "null"
-  //   }));
-  // })
     ws.on('message', (msgTxt: string) => {
         const message: IMessage = JSON.parse(msgTxt);
 
@@ -47,7 +40,7 @@ wss.on('connection', (ws: WebSocket) => {
                     });
 
             case "broadcast:details":
-                // console.log(JSON.stringify(ws, null, 2));
+            
                 return mappe[message.rid].send(JSON.stringify({
                     uri: "details",
                     rid: message.rid,
@@ -57,6 +50,7 @@ wss.on('connection', (ws: WebSocket) => {
 
     });
 
+    // clean client when offline (see medium sample)
     console.log("Client connected");
 });
 
