@@ -108,6 +108,13 @@ public class Offer extends Item<Integer> implements Streammable {
             statement.setString(4, this.product.getId());
 
         statement.execute();
+
+        Statement getId = Storage.getConnection().createStatement();
+        ResultSet value = getId.executeQuery("SELECT last_insert_rowid()");
+
+            value.next();
+        
+        this.setId(value.getInt(1));
     }
 
     public void READ(ResultSet offer) throws NotFoundException, SQLException {
@@ -142,7 +149,6 @@ public class Offer extends Item<Integer> implements Streammable {
 
     public void DELETE() throws NotFoundException, SQLException {
         Statement statement  = Storage.getConnection().createStatement();
-
             statement.execute("DELETE FROM " + tableName + " WHERE id = " + this.getId());
     }
 

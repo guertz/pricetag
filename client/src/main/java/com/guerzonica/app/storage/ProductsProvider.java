@@ -2,6 +2,7 @@ package com.guerzonica.app.storage;
 
 import com.guerzonica.app.http.interfaces.RequestHandler;
 import com.guerzonica.app.http.models.AmazonRequest;
+import com.guerzonica.app.http.models.AmazonResponse;
 import com.guerzonica.app.http.SocketRequest;
 import com.guerzonica.app.http.interfaces.Body;
 import com.guerzonica.app.http.HttpClient;
@@ -83,7 +84,8 @@ public class ProductsProvider extends Storage {
             return item;
           }
         }
-      );
+      )
+      .onErrorReturn(e -> new Product());
   }
 
   //TODO: public Observable<Product> updateProduct(Product item, Boolean write, Boolean notify)
@@ -100,8 +102,16 @@ public class ProductsProvider extends Storage {
             if(!map.containsKey(item.getId()))
               throw new NotFoundException(item.getId());
 
-            if(write)
+            if(write) {
+
+              for(Map.Entry<Long, Offer> price: map.get(item.getId()).prices.entrySet()) {
+                  price.getValue().DELETE();
+                }
+              
+              
               item.DELETE();
+              
+            }
 
             map.remove(item.getId());
 
@@ -111,7 +121,8 @@ public class ProductsProvider extends Storage {
             return item;
           }
         }
-      );
+      )
+      .onErrorReturn(e -> new Product());
   }
 
   public Observable<Offer> addPrice(Offer item, Boolean write, Boolean notify) {
@@ -138,7 +149,8 @@ public class ProductsProvider extends Storage {
             return item;
           }
         }
-      );
+      )
+      .onErrorReturn(e -> new Offer());
   }
 
   //TODO: public Observable<Offer> updatePrice(Offer item, Boolean write, Boolean notify)
@@ -157,7 +169,8 @@ public class ProductsProvider extends Storage {
           return map.get(identifier);
 				}
 
-      });
+      })
+      .onErrorReturn(e -> new ProductPrices());
   }
 
   public void fetchAmazonHttp(String asin, RequestHandler callback) throws MalformedURLException {
@@ -209,13 +222,16 @@ public class ProductsProvider extends Storage {
 
             @Override
             public void accept(ProductPrices compact) throws Exception {
-              Packet<PriceMap> egress = new Packet<PriceMap>(
-                  response.getUri(),
-                  response.getRid(),
-                  compact.prices
-                );
+              if(compact.getId() != null) {
+                
+                Packet<PriceMap> egress = new Packet<PriceMap>(
+                    response.getUri(),
+                    response.getRid(),
+                    compact.prices
+                  );
 
-              channel.sendMessage(Packet.toJson(egress, PriceMap.typeToken()));
+                channel.sendMessage(Packet.toJson(egress, PriceMap.typeToken()));
+              }
             }
 
           });
@@ -229,8 +245,7 @@ public class ProductsProvider extends Storage {
         PriceMap         prices  = response.getContent();
 
         for(Map.Entry<Long, Offer> entry : prices.entrySet()) {
-          System.out.println("Got prices: " + entry.getValue().getPrice());
-          // addPrice(entry.getValue(), true, true).subscribe();
+          addPrice(entry.getValue(), true, true).subscribe();
         }
 
       }
@@ -245,6 +260,19 @@ public class ProductsProvider extends Storage {
 
       addProduct(item, false, false).subscribe();
 
+      fetchAmazonHttp(item.getId(), new RequestHandler () {
+
+        @Override
+        public void handle(String data) {
+          try {            
+            addPrice(AmazonResponse.parse(data), true, true)
+              .subscribe();
+
+          } catch (Exception e) { e.printStackTrace(); }
+        }
+  
+      });
+      
       ResultSet offerSet = this.listProductOffers(item);
 
       while(offerSet.next()) {

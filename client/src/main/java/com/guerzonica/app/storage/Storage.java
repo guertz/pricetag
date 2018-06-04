@@ -6,14 +6,19 @@ import java.sql.SQLException;
 
 import com.guerzonica.app.env.Env;
 
+import org.sqlite.SQLiteConfig;
+
 public class Storage {
 
     private static Connection conn =  null;
 
     public static Connection getConnection() throws SQLException {
-      if(conn == null) 
-        conn = DriverManager.getConnection("jdbc:sqlite:" + Env.DataPath);
+      if(conn == null) {
+        SQLiteConfig config = new SQLiteConfig();
+          config.enforceForeignKeys(true);
 
+        conn = DriverManager.getConnection("jdbc:sqlite:" + Env.getPath(), config.toProperties());
+      }
       return conn;
     }
   

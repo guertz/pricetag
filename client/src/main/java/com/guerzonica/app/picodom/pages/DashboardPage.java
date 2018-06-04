@@ -1,7 +1,5 @@
 package com.guerzonica.app.picodom.pages;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import com.guerzonica.app.App;
@@ -62,14 +60,15 @@ public class DashboardPage extends ListPage<ProductPrices> {
             @Override
             public void accept(Map<String, ProductPrices> t) throws Exception {
 
-              List<ProductPrices> swp = new ArrayList<ProductPrices>(t.values());
-
               Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
                   
                   listRef.getItems().clear();
-                  listRef.getItems().addAll(swp);
+                  for(Map.Entry<String, ProductPrices> entry : t.entrySet()) {
+                    listRef.getItems().add(entry.getValue());
+                  }
+
                 }
               });				
             }

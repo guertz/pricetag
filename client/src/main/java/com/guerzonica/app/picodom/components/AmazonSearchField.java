@@ -33,19 +33,13 @@ public class AmazonSearchField extends SearchField {
 
                       @Override
                       public void accept(Product t) throws Exception {
-                        provider.addPrice(item, true, true).subscribe();
-                      }
-
-                    },
-                    new Consumer<Throwable>() {
-
-                      @Override
-                      public void accept(Throwable t) throws Exception {
-                        // System.out.println("Got error");
+                        if(t.getId() != null)
+                          provider.addPrice(item, true, true).subscribe();
                       }
 
                     }
                   );
+                  
               } catch (Exception e) { e.printStackTrace(); }
             }
       

@@ -26,12 +26,12 @@ public class CellGraph extends ListCell<ProductPrices> {
         item
       );
       
-            setPrefHeight(200);
       chart.setPrefHeight(200);
-
       setGraphic(chart);
      
     }
+
+    setPrefHeight(200);
 
   }
 
