@@ -11,27 +11,50 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
-
 import com.guerzonica.app.channel.interfaces.Streammable;
 import com.guerzonica.app.channel.models.Packet;
 import com.guerzonica.app.storage.Storage;
 import com.guerzonica.app.storage.exceptions.AlreadyExistException;
 import com.guerzonica.app.storage.exceptions.NotFoundException;
 
+/**
+ * Model of a Product.
+ * <br>
+ * The model extends the base class Item and then implements the minimal
+ * methods that garantee a working CRUD logic on the Database
+ * <br>
+ * The model takes advantage of java xml annotations bindings to parse 
+ * the XML data provided by Amazon after the Http Request
+ * <br>
+ * The model implements the Streammable interface to be serialized
+ * in a Packet format and then sended to other peers using a Channel
+ * <br> 
+ * The model takes advantage of SerializedName annotation to parse
+ * or stringify the data to a JSON Object
+ * 
+ * @author Matteo Guerzoni
+ * 
+ * @see com.guerzonica.app.channel.Channel Channel
+ */
 @XmlRootElement
 public class Product extends Item<String> implements Streammable {
 
+    /** Specifies the database table name */
     public static final String tableName = "products";
 
+    /** The product name */
     @SerializedName(value="name")
     private String name;
 
+    /** The product image */
     @SerializedName(value="image")
     private String image;
 
+    /** The product description */
     @SerializedName(value="description")
     private String description;
 
+    /** The product link */
     @SerializedName(value="link")
     private String link;
 
@@ -123,7 +146,6 @@ public class Product extends Item<String> implements Streammable {
 
     }
 
-    // better share code statically
     public void READ() throws NotFoundException, SQLException {
         Statement statement = Storage.getConnection().createStatement();
         ResultSet content   = statement.executeQuery("SELECT * FROM " + tableName + " where id = '" + this.getId() + "'");
@@ -147,7 +169,6 @@ public class Product extends Item<String> implements Streammable {
 
     public void DELETE() throws SQLException {
         Statement statement  = Storage.getConnection().createStatement();
-
             statement.execute("DELETE FROM " + tableName + " WHERE id = '" + this.getId() + "'; ");
     }
 
