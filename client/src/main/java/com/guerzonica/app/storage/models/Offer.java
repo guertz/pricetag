@@ -21,23 +21,51 @@ import com.guerzonica.app.storage.Storage;
 import com.guerzonica.app.storage.exceptions.AlreadyExistException;
 import com.guerzonica.app.storage.exceptions.NotFoundException;
 
+/**
+ * Model of a price Offer.
+ * <br>
+ * The model extends the base class Item and then implements the minimal
+ * methods that garantee a working CRUD logic on the Database
+ * <br>
+ * The model takes advantage of java xml annotations bindings to parse 
+ * the XML data provided by Amazon after the Http Request
+ * <br>
+ * The model implements the Streammable interface to be serialized
+ * in a Packet format and then sended to other peers using a Channel
+ * <br> 
+ * The model takes advantage of SerializedName annotation to parse
+ * or stringify the data to a JSON Object
+ * 
+ * @author Matteo Guerzoni
+ * 
+ * @see com.guerzonica.app.channel.Channel Channel
+ */
 @XmlRootElement
 public class Offer extends Item<Integer> implements Streammable {
 
+    /** Specifies the date format (dd/MM/yyyy) */
     public static final SimpleDateFormat Format =
         new SimpleDateFormat("dd/MM/yyyy");
 
+    /** Specifies the database table name */
     public static final String tableName = "offers";
 
+    /** The referred price date */
     @SerializedName(value="date")
     private String date;
 
+    /** The referred price value */
     @SerializedName(value="price")
     private Float price;
 
+    /** The referred Product */
     private Product product;
 
-    
+    /** 
+     * Parse the price value.
+     * 
+     * @param offer A String value representing the price without decimals
+     */
     @XmlElement
     public void setValue(String offer) {
 
@@ -48,6 +76,13 @@ public class Offer extends Item<Integer> implements Streammable {
         this.price = currency.floatValue();
     }
 
+    /** 
+     * Returns the date formatted to unix timestamp.
+     * 
+     * @throws ParseException If the date is not in a valid format
+     * 
+     * @return Value representing the date value as unix timestamp
+     */
     public Long getUnixDate() throws ParseException {
         return Format.parse(this.getDate()).getTime();
     }
@@ -72,6 +107,11 @@ public class Offer extends Item<Integer> implements Streammable {
         return this.product;
     }
 
+    /** 
+     * Parse the XML Product value
+     * 
+     * @param product The parsed Product
+     */
     @XmlElement
     public void setProduct(Product product) {
         this.product = product;
