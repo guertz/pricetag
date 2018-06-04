@@ -29,6 +29,7 @@
         <configuration>
           <reportOutputDirectory>${session.executionRootDirectory}/../docs</reportOutputDirectory>
           <destDir>.</destDir>
+          <excludePackageNames>com.guerzonica.app.env</excludePackageNames>
         </configuration>
       </plugin>
       <plugin>

@@ -3,7 +3,6 @@ com.guerzonica.app.channel
 com.guerzonica.app.channel.exceptions
 com.guerzonica.app.channel.interfaces
 com.guerzonica.app.channel.models
-com.guerzonica.app.env
 com.guerzonica.app.http
 com.guerzonica.app.http.interfaces
 com.guerzonica.app.http.models
