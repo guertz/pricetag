@@ -17,7 +17,9 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Base64;
 
 import com.guerzonica.app.env.Env;
-
+/**
+* Built an Amazon request in a specific format
+*/
 public class AmazonRequest {
 
     // uri params
@@ -127,12 +129,12 @@ public class AmazonRequest {
                 AWS_Host,
                 AWS_endpoing + "?" +
                     String.join("&", params));
-            
+
             return request;
-        } 
+        }
         catch(MalformedURLException e) { throw e; }
-        catch(Exception e) { 
-            throw new MalformedURLException("Error signing certificate"); 
+        catch(Exception e) {
+            throw new MalformedURLException("Error signing certificate");
         }
 
     }

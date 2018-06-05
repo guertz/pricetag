@@ -7,7 +7,8 @@ public class TriesExceedException extends Exception {
     /**
      * Create an Exception instance
      *
-     * @param response last HttpURLConnection response code
+     * @param code last HttpURLConnection response code
+     * @deprecated 
      */
     public TriesExceedException(Integer code) {
         super(code.toString());

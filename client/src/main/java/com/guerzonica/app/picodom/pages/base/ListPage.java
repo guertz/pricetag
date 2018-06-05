@@ -6,7 +6,17 @@ import javafx.scene.control.ListCell;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-
+  /**
+  * A generic class that permit to built a list with a specific view and specific dataset.
+  * It is like DomPage, but just another type of concept. Why i don't use DomPage? Because i want some indenpendecy from that class
+  *
+  * @author Singh Amarjot
+  *
+  * @see com.guerzonica.app.picodom.pages.base.DomPage
+  * @see com.guerzonica.app.picodom.pages.base.Page
+  * @see com.guerzonica.app.picodom.pages.DashboardPage
+  * @see com.guerzonica.app.picodom.pages.ProductsPage
+  */
 public class ListPage<T> extends Page {
 
   protected Scene scene;
