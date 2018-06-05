@@ -78,7 +78,10 @@ public class Navigation extends Stack<Page> {
   */
   public Page getActivePage(){
 
-    return super.get(super.size() - 1);
+    if(super.size() > 0)
+      return super.get(super.size() - 1);
+
+    return null;
 
   }
   /**

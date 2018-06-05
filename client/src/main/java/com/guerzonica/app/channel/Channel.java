@@ -117,7 +117,7 @@ public class Channel {
      * 
      * @param message The message to send
      */
-    public void sendMessage(String message) { // TODO: try polymorfism Packet<...> s
+    public void sendMessage(String message) { // TODO: try polymorfism Packet<...>
         this.userSession.getAsyncRemote().sendText(message);
     }
 

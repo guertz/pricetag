@@ -7,6 +7,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import com.guerzonica.app.App;
 import com.guerzonica.app.http.interfaces.*;
 import com.guerzonica.app.picodom.components.modal.Preloader;
 import javafx.application.Platform;
@@ -105,9 +107,10 @@ public class Request<T> extends Thread {
       }
 
       Platform.runLater(() -> {
-        preloader.close();
-
+        if(this.preloader != null)
+          preloader.close();
       });
+
       listener.handle(response.toString());
       interrupt();
     }
@@ -116,7 +119,10 @@ public class Request<T> extends Thread {
     */
     public void start(RequestHandler listener){
       this.setListener(listener);
-      this.preloader = new Preloader("Loading");
+      
+      if(App.pageController.getActivePage() != null)
+        this.preloader = new Preloader("Loading");
+
       super.start();
     }
 
