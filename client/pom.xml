@@ -61,9 +61,10 @@
           <include>**/*.ttf</include>
           <include>**/*.png</include>
           <include>**/*.jpg</include>
+          <include>**/*.gif</include>
         </includes>
       </resource>
-    </resources> 
+    </resources>
   </build>
   <dependencies>
     <dependency>
@@ -76,7 +77,7 @@
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
 			<version>2.3.0</version>
-		</dependency>	
+		</dependency>
     <dependency>
       <groupId>org.xerial</groupId>
       <artifactId>sqlite-jdbc</artifactId>

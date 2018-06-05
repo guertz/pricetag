@@ -19,13 +19,13 @@ public class SocketRequest extends Request<String> {
     }
     @Override
     public void run (){
-      System.out.println("RUNNING SOCKET REQUEST");
+      System.out.println("Binding socket on " + route);
       try{
         Channel channel = Channel.getChannel();
         channel.bindRoute(this.route, new MessageHandler() {
           @Override
           public void handle(String response) {
-            
+
             SocketRequest.this.listener.handle(response);
              // since is a socket there is no need to INTERRUPT. this cause problems
             // interrupt();

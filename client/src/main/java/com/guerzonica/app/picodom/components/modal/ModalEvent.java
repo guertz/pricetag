@@ -1,4 +1,4 @@
-package com.guerzonica.app.picodom.components;
+package com.guerzonica.app.picodom.components.modal;
 
 import javafx.event.Event;
 import javafx.event.EventType;

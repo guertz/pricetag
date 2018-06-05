@@ -1,4 +1,4 @@
-package com.guerzonica.app.picodom.components;
+package com.guerzonica.app.picodom.components.graph;
 
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -15,12 +15,12 @@ import javafx.scene.chart.XYChart;
 public class Graph extends LineChart<String, Number> {
 
     public Graph(
-        final CategoryAxis xAxis, 
-        final NumberAxis yAxis, 
+        final CategoryAxis xAxis,
+        final NumberAxis yAxis,
         final ProductPrices item
     ) {
         super(xAxis, yAxis);
-    
+
         yAxis.setTickLabelsVisible(false);
         yAxis.setOpacity(0);
         yAxis.setForceZeroInRange(false);
@@ -31,7 +31,7 @@ public class Graph extends LineChart<String, Number> {
         for(Map.Entry<Long, Offer> entry : item.prices.entrySet()) {
             Offer offer = entry.getValue();
 
-            final XYChart.Data<String, Number> chartNode = 
+            final XYChart.Data<String, Number> chartNode =
                 new XYChart.Data<String, Number>(offer.getDate(), offer.getPrice());
 
             chartNode.setNode(new ThresholdArea(item.getName(), offer.getDate(),offer.getPrice()));

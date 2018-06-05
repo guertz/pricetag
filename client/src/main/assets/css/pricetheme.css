@@ -337,6 +337,15 @@ ListView Styles START
 .list-simple:odd, .list-simple:even{
   -fx-background-color: transparent;
 }
+.list-view:empty{
+  visibility: hidden;
+}
+.list-view .scroll-bar:horizontal .increment-arrow,
+.list-view .scroll-bar:horizontal .decrement-arrow,
+.list-view .scroll-bar:horizontal .increment-button,
+.list-view .scroll-bar:horizontal .decrement-button {
+    -fx-padding:0;
+}
 .list-simple:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected {
     -fx-background: white;
     -fx-text-fill: black;

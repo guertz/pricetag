@@ -1,26 +1,24 @@
 package com.guerzonica.app.http;
 
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.net.URL;
-
 import com.guerzonica.app.http.interfaces.*;
 
 public class HttpClient implements InvocationHandler {
-
+    // public static Preloader preloader;
     @SuppressWarnings("unchecked")
     public <T> T makeClient(Class<T> api){
       return  (T) Proxy.newProxyInstance(api.getClassLoader(), new Class[]{api}, this);
     }
 
     @SuppressWarnings("all")
-    public Object invoke(Object proxy, Method m, Object[] args) throws Throwable, UnsupportedOperationException {
+    public Object invoke(Object proxy, Method m, Object[] args) throws UnsupportedOperationException, MalformedURLException {
 
-      // for now i consider ONLY GET METHODS. with a url as arg.
-      // Annotation[] annotations = m.getDeclaredAnnotations();
       Request result = new Request(m.getReturnType());
       HttpMethod type = m.getAnnotation(HttpMethod.class);
 
@@ -42,7 +40,6 @@ public class HttpClient implements InvocationHandler {
               result.setUrl(new URL(args[0].toString()));
             else
               result.setUrl((URL)(args[0]));
-
           break;
        case "SOCKET":
             result = new SocketRequest(args[0].toString());

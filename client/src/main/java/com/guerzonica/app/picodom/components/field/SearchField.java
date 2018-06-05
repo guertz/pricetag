@@ -1,5 +1,6 @@
-package com.guerzonica.app.picodom.components;
+package com.guerzonica.app.picodom.components.field;
 
+import com.guerzonica.app.picodom.components.ImageButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -30,6 +31,10 @@ public class SearchField extends HBox {
 
   public String getContent() {
     return this.field.getText();
+  }
+
+  public void clear(){
+    this.field.clear();
   }
 
 }

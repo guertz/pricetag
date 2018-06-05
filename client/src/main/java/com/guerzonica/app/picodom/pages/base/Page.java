@@ -6,22 +6,24 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.Scene;
 import com.guerzonica.app.App;
 
-import com.guerzonica.app.picodom.components.Toolbar;
+import com.guerzonica.app.picodom.components.toolbar.Toolbar;
 
 public abstract class Page implements Toolbar.Listener {
 
   protected Stage stage;
+  protected VBox root;
+  protected StackPane wrapper;
+
   public Toolbar toolbar;
-  public VBox root;
-  public StackPane wrapper;
+
   private Scene scene;
 
   public Page(Stage stage){
-    
+
     stage.setTitle("Pricetag");
     stage.setMinHeight(400);
     stage.setMinWidth(600);
-    
+
     stage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
       if (newValue){
         stage.setWidth(stage.getWidth()-1);
@@ -48,8 +50,8 @@ public abstract class Page implements Toolbar.Listener {
     this.toolbar.setOnBackPressedListener(this);
   }
 
-  public Page(){
-
+  public StackPane getWrapper(){
+    return this.wrapper;
   }
 
   public void setScene(Scene scene){
@@ -70,15 +72,15 @@ public abstract class Page implements Toolbar.Listener {
   }
 
   public void setToolbar(Toolbar toolbar){
-    if(toolbar == null) 
+    if(toolbar == null)
       toolbar();
-    else 
+    else
       this.toolbar = toolbar;
   }
 
 
-  public Stage getStage() { 
-    return this.stage; 
+  public Stage getStage() {
+    return this.stage;
   }
 
   public abstract void forceLoad();
@@ -88,11 +90,11 @@ public abstract class Page implements Toolbar.Listener {
   }
 
   public void PageWillEnter() {
-    
+
   }
 
   public void PageWillExit() {
 
   }
-  
+
 }

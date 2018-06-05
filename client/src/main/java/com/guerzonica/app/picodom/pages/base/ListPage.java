@@ -19,7 +19,7 @@ public class ListPage<T> extends Page {
 
     scene = new Scene(this.list);
       scene.getStylesheets().add("css/pricetheme.css");
-      
+
     // this.scene.widthProperty().subtract(20)
     // this.scene.heightProperty()
 
@@ -40,6 +40,8 @@ public class ListPage<T> extends Page {
     );
 
     this.list.setOnMouseClicked(e -> onEvent(this.list.getSelectionModel().getSelectedItem()));
+
+    this.list.prefHeightProperty().bind(scene.heightProperty());
 
     super.setScene(this.scene);
 

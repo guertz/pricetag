@@ -1,4 +1,4 @@
-package com.guerzonica.app.picodom.components;
+package com.guerzonica.app.picodom.components.graph;
 
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.Label;
@@ -28,6 +28,15 @@ public class ThresholdArea extends StackPane {
                 getChildren().clear();
             }
         });
+
+        setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                getChildren().clear();
+            }
+        });
+
+        setOnMouseClicked(null);
 
     }
 

@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
-import com.guerzonica.app.picodom.components.Toolbar;
+import com.guerzonica.app.picodom.components.toolbar.Toolbar;
 import com.guerzonica.app.picodom.interfaces.Templatable;
 
 import javafx.geometry.Insets;

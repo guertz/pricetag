@@ -1,7 +1,7 @@
-package com.guerzonica.app.picodom.components;
+package com.guerzonica.app.picodom.components.cell;
 
 
-import com.guerzonica.app.picodom.components.Graph;
+import com.guerzonica.app.picodom.components.graph.Graph;
 
 import com.guerzonica.app.storage.models.ProductPrices;
 
@@ -25,10 +25,10 @@ public class CellGraph extends ListCell<ProductPrices> {
         new NumberAxis(),
         item
       );
-      
+
       chart.setPrefHeight(200);
       setGraphic(chart);
-     
+
     }
 
     setPrefHeight(200);

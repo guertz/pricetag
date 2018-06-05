@@ -1,4 +1,4 @@
-package com.guerzonica.app.picodom.components;
+package com.guerzonica.app.picodom.components.toolbar;
 
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -17,7 +17,7 @@ public class Toolbar extends BorderPane{
   protected Label title;
 
   private Toolbar.Listener listener;
-  
+
   public Toolbar(String title){
     this.getStyleClass().addAll("container","toolbar", "primary");
     // this.setMinHeight(100);
@@ -72,7 +72,7 @@ public class Toolbar extends BorderPane{
   public HBox getRightNode(){
     return this.right;
   }
-  
+
   public void setFullSize(Stage stage){
     this.setMinWidth(stage.getMinWidth());
     this.prefWidthProperty().bind(stage.widthProperty());

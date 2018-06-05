@@ -1,4 +1,4 @@
-package com.guerzonica.app.picodom.components;
+package com.guerzonica.app.picodom.components.cell;
 
 import com.guerzonica.app.storage.models.Product;
 

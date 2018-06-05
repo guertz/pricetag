@@ -1,10 +1,11 @@
 package com.guerzonica.app.picodom.pages;
 
+import com.guerzonica.app.picodom.components.cell.CellGraph;
+import com.guerzonica.app.picodom.components.field.AmazonSearchField;
 import java.util.Map;
-
 import com.guerzonica.app.App;
 import com.guerzonica.app.picodom.components.ImageButton;
-import com.guerzonica.app.picodom.components.Modal;
+import com.guerzonica.app.picodom.components.modal.Modal;
 import com.guerzonica.app.picodom.pages.base.ListPage;
 import com.guerzonica.app.storage.ProductsProvider;
 import com.guerzonica.app.storage.models.ProductPrices;
@@ -12,10 +13,6 @@ import io.reactivex.functions.Consumer;
 import javafx.stage.Stage;
 import javafx.scene.control.ListView;
 import javafx.application.Platform;
-
-
-import  com.guerzonica.app.picodom.components.*;
-
 
 // @TODO: Fetch item realtime
 public class DashboardPage extends ListPage<ProductPrices> {
@@ -63,14 +60,14 @@ public class DashboardPage extends ListPage<ProductPrices> {
               Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                  
+
                   listRef.getItems().clear();
                   for(Map.Entry<String, ProductPrices> entry : t.entrySet()) {
                     listRef.getItems().add(entry.getValue());
                   }
 
                 }
-              });				
+              });
             }
 
           });

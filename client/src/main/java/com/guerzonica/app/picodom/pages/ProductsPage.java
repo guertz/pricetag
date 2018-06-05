@@ -10,7 +10,7 @@ import java.net.URI;
 import java.awt.Desktop;
 
 import com.guerzonica.app.App;
-import com.guerzonica.app.picodom.components.CellProduct;
+import com.guerzonica.app.picodom.components.cell.CellProduct;
 import com.guerzonica.app.picodom.components.ImageButton;
 import com.guerzonica.app.picodom.pages.base.ListPage;
 import com.guerzonica.app.storage.ProductsProvider;
@@ -27,18 +27,18 @@ public class ProductsPage extends ListPage<Product> {
 
   private ImageButton delete;
   private ImageButton link;
-  
+
   private Product item;
 
   public ProductsPage(Stage stage) {
     super(stage, CellProduct.class);
 
     delete = new ImageButton("icons/close.png");
-      delete.setVisible(false); 
+      delete.setVisible(false);
       delete.setOnAction(e -> onButtonDelete());
 
-    link = new ImageButton("icons/goto.png"); 
-      link.setVisible(false); 
+    link = new ImageButton("icons/goto.png");
+      link.setVisible(false);
       link.setOnAction(e -> onButtonOpen());
 
     super.toolbar.setTitle(title);
@@ -46,7 +46,7 @@ public class ProductsPage extends ListPage<Product> {
     super.toolbar.getRightNode().getChildren().addAll(link, delete);
 
     ListView<Product> listRef = super.list;
-    
+
     try {
       ProductsProvider provider = ProductsProvider.getProvider();
         provider.getCollection()
@@ -59,7 +59,7 @@ public class ProductsPage extends ListPage<Product> {
               for(Map.Entry<String, ProductPrices> entry : t.entrySet()) {
                 listRef.getItems().add(entry.getValue());
               }
-			
+
             }
 
           });
@@ -72,10 +72,10 @@ public class ProductsPage extends ListPage<Product> {
   public void onEvent(Product item){
 
     this.item = item;
-    
+
     if(!this.delete.isVisible())
       this.delete.setVisible(true);
-    if(!this.link.isVisible()) 
+    if(!this.link.isVisible())
       this.link.setVisible(true);
   }
 
@@ -84,7 +84,7 @@ public class ProductsPage extends ListPage<Product> {
       ProductsProvider provider = ProductsProvider.getProvider();
         provider.deleteProduct(item, true).subscribe();
         App.pageController.pop();
-        
+
     } catch (Exception e) { }
   }
 
