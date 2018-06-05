@@ -34,11 +34,20 @@ public class DomPage<H extends Pane, B extends Pane, F extends Pane> extends Pag
   protected F footer;
 
   private Stage stage;
+
   /**
   * Put everything in a BorderPane wrappend in a ScrollPane and notify the superclass to set the scene.
-  * Also set predifined styles of each section, header, body, footer, so the child class will simply call
-  * {@link  com.guerzonica.app.picodom.pages.base.DomPage#header } {@link  com.guerzonica.app.picodom.pages.base.DomPage#body }
-  * {@link  com.guerzonica.app.picodom.pages.base.DomPage#footer } to set the predefined style.
+  * Also set predifined styles of each section, header, body, footer, so the child class will simply call those references.
+  *
+  * @param stage The current stage
+  * @param h The header content
+  * @param b The body content
+  * @param f The footer content
+  * @param classString The css referenced class 
+  *
+  * @see com.guerzonica.app.picodom.pages.base.DomPage#header To set the predefined header style.
+  * @see com.guerzonica.app.picodom.pages.base.DomPage#body To set the predefined body style.
+  * @see com.guerzonica.app.picodom.pages.base.DomPage#footer To set the predefined footer style.
   */
   public DomPage(Stage stage, H h, B b, F f, String classString){
     super(stage);
@@ -48,6 +57,7 @@ public class DomPage<H extends Pane, B extends Pane, F extends Pane> extends Pag
     this.footer = f;
     this.init(stage, h, b, f, classString);
   }
+
   private void init(Stage stage, H h, B b, F f, String classString){
 
     BorderPane container = new BorderPane();

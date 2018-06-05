@@ -262,7 +262,7 @@ public class ProductsProvider extends Storage {
   }
 
   /** 
-   * Create the ProductsProvider instance with initializations
+   * Initialize the ProductsProvider instance.
    * 
    * @throws SQLException If it fails to execute the query
    * @throws URISyntaxException If the Websocket URI fails to validate
@@ -270,8 +270,13 @@ public class ProductsProvider extends Storage {
    * @throws MalformedURLException If the Amazon Http request URL fails to parse
    */
   ProductsProvider() throws SQLException, URISyntaxException, NotFoundException, MalformedURLException {
-    Product.SCHEMA();
-    Offer.SCHEMA();
+    
+    @SuppressWarnings("rawtypes")
+    Item[] models = {new Product(), new Offer()};
+    
+    for(@SuppressWarnings("rawtypes") Item m : models) {
+      m.SCHEMA();
+    }
 
     this.channel = Channel.getChannel();
     

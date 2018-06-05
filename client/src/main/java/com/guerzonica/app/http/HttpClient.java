@@ -10,7 +10,7 @@ import java.net.URL;
 import com.guerzonica.app.http.interfaces.*;
 /**
  * Represent an Httpclient.
- * In particular it implements at runtime, through a Proxy class, the interface {@link com.guerzonica.app.http.interfaces.Body }<br />
+ * In particular it implements at runtime, through a Proxy class, the interface {@link com.guerzonica.app.http.interfaces.Body }<br>
  * This approach is usually used to make an Http client like this, because it is usable: you have only one file to care about, the interface with your apis.
  * Through decorators you can get every information to build a request properly.
  * @author Singh Amarjot
@@ -22,7 +22,10 @@ public class HttpClient implements InvocationHandler {
     /**
     * Returns an new type of class of Proxy class.
     * Proxy provides static methods for creating dynamic proxy classes and instances
-    * @param  api the instance type Class of the interface with all methods that will be implemented at runtime
+    *
+    * @param <T> The class Proxy type.
+    * @param api the instance type Class of the interface with all methods that will be implemented at runtime
+    *
     * @return a new type of Proxy class
     */
     @SuppressWarnings("unchecked")
@@ -33,12 +36,12 @@ public class HttpClient implements InvocationHandler {
     * The method is invoked when a call of any methods of the interface is made.
     * This method belongs the InvocationHandler interface and here all Decorators of the interface {@link com.guerzonica.app.http.interfaces.Body }
     * will be processed and a result will be return.
+    * @throws UnsupportedOperationException if the {@link com.guerzonica.app.http.interfaces.HttpMethod} is different from GET or SOCKET
+    * @throws MalformedURLException If the provided url fails to validate
     * @param proxy the proxy instance that the method was invoked on.
     * @param m  the Method instance corresponding to the interface method invoked on the proxy instance.
     * @param args the arguments of the particular method
     * @return a {@link com.guerzonica.app.http.Request}
-    * @throws UnsupportedOperationException if the {@link com.guerzonica.app.http.interfaces.HttpMethod} is different from GET or SOCKET
-    * @throws MalformedURLException
     * @see com.guerzonica.app.http.SocketRequest
     * @see com.guerzonica.app.http.interfaces.RequestHandler
     */

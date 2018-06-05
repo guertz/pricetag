@@ -23,13 +23,11 @@ public class Request<T> extends Thread {
     * Max retries if request will fail.
     */
     public static final int RETRIES = 3;
-    /**
-    * a return Type, it is unused for now.
-    */
-    private Class<T> returnType;
-    /**
-    * request type
-    */
+
+    /** A return Type */
+    protected Class<T> returnType;
+
+    /** request type */
     private String requestType;
 
     private Map<String,String> headers;

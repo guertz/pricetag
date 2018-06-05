@@ -22,6 +22,8 @@ public interface Body {
     /**
     * Binding to a route to listen data, with sockets.
     * @param route a route to bind to
+    * 
+    * @return The created SocketRequest
     * @see com.guerzonica.app.http.SocketRequest
     */
     @HttpMethod("SOCKET")

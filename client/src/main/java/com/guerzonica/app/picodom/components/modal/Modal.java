@@ -48,6 +48,9 @@ public class Modal extends StackPane {
 
   /**
   * Arguments constructor with everything
+  * @param content The modal content
+  * @param title The title of the modal
+  * @param container Specifies where to insert the container
   **/
   public Modal(String title, Pane container, Region content){
     this.content = content;
@@ -59,6 +62,8 @@ public class Modal extends StackPane {
   /**
   * Arguments constructor with only container and title.
   * The consumer of this class can decide futher how to proceed to add the content and show the Modal
+  * @param title The title of the modal
+  * @param container Specifies where to insert the container
   **/
   public Modal(String title, Pane container){
     this.title = new Label(title.equals("") ? "" : title);
@@ -74,8 +79,9 @@ public class Modal extends StackPane {
   }
   /**
   * Get Timeline to make an animation
+  * @return The modal transition
   */
-  public  Timeline ModalTransition(){
+  public Timeline ModalTransition(){
     // Timeline timeline  = new Timeline(
 
     /*new KeyFrame(Duration.ZERO,
@@ -163,6 +169,7 @@ public class Modal extends StackPane {
   }
   /**
   * Set title of the header
+  * @param title The title of the modal
   **/
   public void setTitle(String title){
     this.title.setText(title);

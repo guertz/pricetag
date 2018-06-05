@@ -30,12 +30,14 @@ public class SearchField extends HBox {
   }
   /**
   * Get the JavaFx button of the control
+  * @return The button element
   */
   public Button getActionButton() {
     return this.search;
   }
   /**
   * Get text from the input
+  * @return The text content
   */
   public String getContent() {
     return this.field.getText();

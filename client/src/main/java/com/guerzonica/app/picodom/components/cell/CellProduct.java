@@ -10,12 +10,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.ListCell;
 /**
 * Cell factory about a product with an image and description used by ListView
-* @author Singh Amarjot
+* @author Singh Amarjot, Matteo Guerzoni
 * @see com.guerzonica.app.picodom.pages.ProductsPage
 */
 public class CellProduct extends ListCell<Product>  {
   /**
-  * From JavaFx reference: <br />
+  * From JavaFx reference: <br>
   * The updateItem method should not be called by developers, but it is the best method for developers to override to allow for them to customise the visuals of the cell. To clarify, developers should never call this method in their code (they should leave it up to the UI control, such as the ListView control) to call this method. However, the purpose of having the updateItem method is so that developers, when specifying custom cell factories (again, like the ListView cell factory), the updateItem method can be overridden to allow for complete customisation of the cell.
   */
   @Override
