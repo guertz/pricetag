@@ -5,7 +5,6 @@ import com.guerzonica.app.picodom.components.field.AmazonSearchField;
 import java.util.Map;
 import com.guerzonica.app.App;
 import com.guerzonica.app.picodom.components.ImageButton;
-import com.guerzonica.app.picodom.components.modal.Modal;
 import com.guerzonica.app.picodom.pages.base.ListPage;
 import com.guerzonica.app.storage.ProductsProvider;
 import com.guerzonica.app.storage.models.ProductPrices;
@@ -14,13 +13,22 @@ import javafx.stage.Stage;
 import javafx.scene.control.ListView;
 import javafx.application.Platform;
 
-// @TODO: Fetch item realtime
+/**
+* This is the page that handles the dashboard. It takes care to show the list of graphs,
+* get a product by ASIN and permits navigation through other pages.
+* Items are fetched in realt-time and then they are syncronized in the view.
+*
+* @author Singh Amarjot
+*
+* @see com.guerzonica.app.picodom.pages.base.Page
+* @see com.guerzonica.app.picodom.pages.base.ListPage
+* @see com.guerzonica.app.storage.ProductsProvider
+*/
+
 public class DashboardPage extends ListPage<ProductPrices> {
 
   public static final String title    = "Dashboard";
   public static final String cssClass = "dashboard";
-
-  protected Modal modal;
 
   public DashboardPage(Stage stage) {
 
@@ -46,7 +54,7 @@ public class DashboardPage extends ListPage<ProductPrices> {
 
     // VBox.setVgrow(listItems, Priority.ALWAYS);
     // ReadOnlyDoubleProperty width = super.getStage().widthProperty();
-
+    super.unselectable();
     ListView<ProductPrices> listRef = super.list;
 
     try {

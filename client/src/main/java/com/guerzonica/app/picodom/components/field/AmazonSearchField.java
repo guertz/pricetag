@@ -8,7 +8,12 @@ import com.guerzonica.app.storage.models.Offer;
 import com.guerzonica.app.storage.models.Product;
 
 import io.reactivex.functions.Consumer;
-
+/**
+* This subclass implements a request to an external service, Amazon in this case, with the text in the input as a parameter.
+* @see com.guerzonica.app.storage.ProductsProvider
+* @see com.guerzonica.app.picodom.components.field.SearchField
+* @author Matteo Guerzoni
+*/
 public class AmazonSearchField extends SearchField {
 
   public AmazonSearchField() {
@@ -17,6 +22,7 @@ public class AmazonSearchField extends SearchField {
     this.getActionButton().setOnAction(action -> {
       String content = getContent();
       clear();
+      if(content.equals("")) return;
       try {
         ProductsProvider provider = ProductsProvider.getProvider();
 

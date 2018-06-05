@@ -7,7 +7,13 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-
+/**
+* A class that create the actual About page. This page take care to give the information about the project
+*
+* @author Singh Amarjot
+*
+* @see com.guerzonica.app.picodom.pages.base.Page
+*/
 public class AboutPage extends DomPage<HBox, VBox, HBox> {
   public static String cssName = "about-page";
   public static String title = "About";
@@ -18,7 +24,9 @@ public class AboutPage extends DomPage<HBox, VBox, HBox> {
     footer();
 
   }
-
+  /**
+  * Get predefined style of the DomPage header, get itself and inject some items it
+  */
   @Override
   public void header(){
     super.header();
@@ -28,7 +36,9 @@ public class AboutPage extends DomPage<HBox, VBox, HBox> {
     title.getStyleClass().add("subheading");
     ref.getChildren().add(title);
   }
-
+  /**
+  * Get predefined style of the DomPage body, get itself and inject some items it
+  */
   @Override
   public void body(){
     super.body();
@@ -56,7 +66,9 @@ public class AboutPage extends DomPage<HBox, VBox, HBox> {
 
 
   }
-
+  /**
+  * Get predefined style of the DomPage footer, get itself and inject some items it
+  */
   @Override
   public void footer(){
     super.footer();

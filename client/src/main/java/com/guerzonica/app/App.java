@@ -6,24 +6,23 @@ import java.nio.file.Paths;
 import com.guerzonica.app.env.Env;
 import com.guerzonica.app.picodom.Navigation;
 import com.guerzonica.app.picodom.pages.DashboardPage;
-import com.guerzonica.app.picodom.pages.base.Page;
 import javafx.stage.Stage;
 import javafx.application.Application;
 
 /**
  * App instance
- * 
+ *
  * @author Matteo Guerzoni, Singh Amarjot
  */
 public class App extends Application {
 
     /** Stack Navigator */
-    public static Navigation<Page> pageController = new Navigation<Page>();
+    public static Navigation pageController = new Navigation();
 
     /**
      * App main
-     * 
-     * @param args arguments to specify database file name. 
+     *
+     * @param args arguments to specify database file name.
      */
     public static void main(String[] args) {
         if(args.length > 0) {
@@ -32,13 +31,13 @@ public class App extends Application {
 
             Env.setPath(file.toString());
         }
-        
+
         launch(args);
     }
 
     /**
      * Create the JavaFx application
-     * 
+     *
      * @param stage The stage to display
      */
     @Override

@@ -6,7 +6,11 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 
 import javafx.geometry.Pos;
+/**
+* Graphich element with a input and an action button
+* @author Singh Amarjot
 
+*/
 public class SearchField extends HBox {
 
   private ImageButton search;
@@ -24,15 +28,21 @@ public class SearchField extends HBox {
     this.getChildren().addAll(this.field, this.search);
     // this.container.getChildren().addAll(this, this.search);
   }
-
+  /**
+  * Get the JavaFx button of the control
+  */
   public Button getActionButton() {
     return this.search;
   }
-
+  /**
+  * Get text from the input
+  */
   public String getContent() {
     return this.field.getText();
   }
-
+  /**
+  * Clear text from the input
+  */
   public void clear(){
     this.field.clear();
   }

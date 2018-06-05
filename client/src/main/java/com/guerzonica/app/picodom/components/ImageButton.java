@@ -4,14 +4,17 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.shape.Circle;
-
+/**
+* Simple circle button with an image inside.
+* @author Singh Amarjot
+**/
 public class ImageButton extends Button {
 
   private void makeGraphic(String src, Number width, Number height) {
     final ImageView icon = new ImageView(new Image(src));
       icon.setFitWidth(width.doubleValue());
       icon.setFitHeight(width.doubleValue());
-    
+
     setGraphic(icon);
     setShape(new Circle(width.doubleValue()));
     getStyleClass().addAll("fab", "primary");
@@ -26,5 +29,5 @@ public class ImageButton extends Button {
     super();
     makeGraphic(src, width, height);
   }
-  
+
 }

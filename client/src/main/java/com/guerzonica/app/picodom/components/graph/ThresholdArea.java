@@ -4,7 +4,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.control.Label;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
-
+/**
+* Handles the ThresholdArea on the Graph. It show in a graphich pane, the values provided.
+* @author  Matteo Guerzoni
+*/
 public class ThresholdArea extends StackPane {
 
     public ThresholdArea(String name, String key, Number value) {
@@ -26,17 +29,10 @@ public class ThresholdArea extends StackPane {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 getChildren().clear();
+                toBack();
+
             }
         });
-
-        setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                getChildren().clear();
-            }
-        });
-
-        setOnMouseClicked(null);
 
     }
 

@@ -11,7 +11,10 @@ import com.guerzonica.app.storage.models.ProductPrices;
 import javafx.geometry.Side;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.XYChart;
-
+/**
+* Handles Graph. In particular it show a line chart.
+* @author Singh Amarjot, Matteo Guerzoni
+*/
 public class Graph extends LineChart<String, Number> {
 
     public Graph(

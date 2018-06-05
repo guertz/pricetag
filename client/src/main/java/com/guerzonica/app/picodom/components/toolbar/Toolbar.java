@@ -9,7 +9,13 @@ import javafx.scene.control.Button;
 import javafx.scene.shape.Circle;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+  /**
+  * A Toolbar permits to set options on left and right. It is showed on top of every scene like in Android Activities.
+  * It acts like a navbar but also a toolbar.
+  * @author Singh Amarjot
 
+  * @see com.guerzonica.app.picodom.pages.base.Page
+  **/
 public class Toolbar extends BorderPane{
 
   protected HBox left;
@@ -57,31 +63,37 @@ public class Toolbar extends BorderPane{
     this.setRight(this.right);
   }
 
-  public void canGoBack(){
-
-  }
-
   public void setTitle(String title){
     this.title.setText(title);
   }
-
+  /**
+  * Get left container
+  **/
   public HBox getLeftNode(){
     return this.left;
   }
-
+  /**
+  * Get right container
+  **/
   public HBox getRightNode(){
     return this.right;
   }
-
+  /**
+  * Binds width to stage width
+  **/
   public void setFullSize(Stage stage){
     this.setMinWidth(stage.getMinWidth());
     this.prefWidthProperty().bind(stage.widthProperty());
   }
-
+  /**
+  * Back button
+  **/
   public void setBackButton(){
     this.left.getChildren().get(0).setVisible(!this.left.getChildren().get(0).isVisible());
   }
-
+  /**
+  * Listener of the backbutton
+  **/
   public void setOnBackPressedListener (Toolbar.Listener listener) {
     this.listener = listener;
   }

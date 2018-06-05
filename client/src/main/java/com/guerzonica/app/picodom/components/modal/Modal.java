@@ -10,22 +10,45 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.event.Event;
 import javafx.stage.Stage;
+  /**
+  * Takes  care of the Modal. A modal is graphic element that pop up in a nice way to give information to user.
+  * @author Singh Amarjot
+  */
 public class Modal extends StackPane {
+  /**
+  * Container that will guest the modal
+  * The container should be a StackPane, that is why there is a wrapper inside Page
+  * @see com.guerzonica.app.picodom.pages.base.Page
+  * @see com.guerzonica.app.picodom.pages.base.Page#setScene
+  */
   protected Pane container;
+  /**
+  * Content of the Modal
+  */
   protected Region content;
+  /*
+  * View holder. It will wrap the content.
+  **/
   protected VBox holder;
+
+  /**
+  * Title
+  */
   protected Label title;
   protected Stage stage;
+  /**
+  * A simple animation
+  */
   private Timeline animation;
 
-  private double translateY = 0;
-
+  /**
+  * Event handler. In particular it will fire when the modal is closes
+  */
   EventHandler<? super MouseEvent> closeHandler = e -> close();
 
-  static {
-
-  }
-  /*The container should be a StackPane, that is why there is a wrapper inside Page. See public StackPane wrapper in @Page*/
+  /**
+  * Arguments constructor with everything
+  **/
   public Modal(String title, Pane container, Region content){
     this.content = content;
     this.title = new Label(title.equals("") ? "" : title);
@@ -33,24 +56,25 @@ public class Modal extends StackPane {
     play();
 
   }
+  /**
+  * Arguments constructor with only container and title.
+  * The consumer of this class can decide futher how to proceed to add the content and show the Modal
+  **/
   public Modal(String title, Pane container){
     this.title = new Label(title.equals("") ? "" : title);
     this.container = container;
   }
+
   public void setContent(Region content){
     this.content = content;
-  }
-  public Modal(Stage stage, String title, Pane container, Region content){
-    this.content = content;
-    this.title = new Label(title.equals("") ? "" : title);
-    this.container = container;
-    this.stage = stage;
-    play();
   }
   public void show(){
 
     this.animation.play();
   }
+  /**
+  * Get Timeline to make an animation
+  */
   public  Timeline ModalTransition(){
     // Timeline timeline  = new Timeline(
 
@@ -83,7 +107,9 @@ public class Modal extends StackPane {
     timeline.setDelay(Duration.ZERO);
     return timeline;
   }
-
+  /**
+  * Close a modal with inverted animation and fire event
+  */
   public void close(){
     this.animation.setRate(-1);
     this.animation.play();
@@ -95,12 +121,16 @@ public class Modal extends StackPane {
     });
 
   }
-
+  /**
+  * Add the modal in the given container(usually the scene) and show the Modal
+  */
   private void addToContainer(){
     this.container.getChildren().add(this);
     show();
   }
-
+  /**
+  * Initialize everything and start the modal
+  */
   public void play(){
     this.prefWidthProperty().bind(container.widthProperty());
     this.prefHeightProperty().bind(container.heightProperty());
@@ -121,8 +151,6 @@ public class Modal extends StackPane {
 
     holder.getChildren().addAll(header, content);
 
-    this.translateY = this.container.getHeight();
-
     this.getChildren().add(holder);
 
     this.addEventHandler(MouseEvent.MOUSE_PRESSED, closeHandler);
@@ -133,7 +161,9 @@ public class Modal extends StackPane {
 
 
   }
-
+  /**
+  * Set title of the header
+  **/
   public void setTitle(String title){
     this.title.setText(title);
   }

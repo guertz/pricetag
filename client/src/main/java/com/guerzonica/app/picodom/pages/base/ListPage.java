@@ -1,11 +1,14 @@
 package com.guerzonica.app.picodom.pages.base;
 
+import javafx.event.EventHandler;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ListCell;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.scene.input.MouseEvent;
+
   /**
   * A generic class that permit to built a list with a specific view and specific dataset.
   * It is like DomPage, but just another type of concept. Why i don't use DomPage? Because i want some indenpendecy from that class
@@ -61,9 +64,18 @@ public class ListPage<T> extends Page {
 
   }
 
-  @Override
-  public void forceLoad(){
 
+  public void unselectable(){
+    this.list.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                event.consume();
+            }
+        });
   }
+  @Override
+  public void forceLoad(){}
+
 
 }

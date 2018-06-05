@@ -19,16 +19,38 @@ import com.guerzonica.app.storage.models.ProductPrices;
 
 import io.reactivex.functions.Consumer;
 import javafx.stage.Stage;
-
+/**
+* This is the page that handles the Product List page.
+* It takes care to show all the products along with an image.
+* Also,redirect user in the Amazon specific page of the selected {@link com.guerzonica.app.storage.models.Product}
+* or permits to delete that.
+*
+* @author Singh Amarjot
+*
+* @see com.guerzonica.app.picodom.pages.base.Page
+* @see com.guerzonica.app.picodom.pages.base.ListPage
+* @see com.guerzonica.app.storage.ProductsProvider
+*/
 public class ProductsPage extends ListPage<Product> {
 
   public static final String title    = "Products List";
   public static final String cssClass = "products-List";
-
+  /**
+  * Delete product button
+  */
   private ImageButton delete;
+  /**
+  * Redirect to Amazon product link
+  */
   private ImageButton link;
-
+  /**
+  * Selected product
+  */
   private Product item;
+  /**
+  * Get products through the {@link com.guerzonica.app.storage.ProductsProvider }
+  * and se the dataset in the superclass ListView.
+  */
 
   public ProductsPage(Stage stage) {
     super(stage, CellProduct.class);
@@ -67,7 +89,9 @@ public class ProductsPage extends ListPage<Product> {
     } catch(Exception e) { }
 
   }
-
+  /**
+  * Item selected event
+  */
   @Override
   public void onEvent(Product item){
 
@@ -78,7 +102,9 @@ public class ProductsPage extends ListPage<Product> {
     if(!this.link.isVisible())
       this.link.setVisible(true);
   }
-
+  /**
+  * Delete product
+  */
   public void onButtonDelete() {
     try {
       ProductsProvider provider = ProductsProvider.getProvider();
@@ -87,7 +113,9 @@ public class ProductsPage extends ListPage<Product> {
 
     } catch (Exception e) { }
   }
-
+  /**
+  * Opens selected product link in the browser
+  */
   public void onButtonOpen() {
     if( Desktop.isDesktopSupported() ){
       new Thread(() -> {
