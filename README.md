@@ -31,6 +31,16 @@ if any of the connected client has already a more updated price timeline, if so 
 
 ## How to use
 Download and run it!
+Run
+```java -jar downloaded.jar databasefile```
+where databasefile is a file where pricetag will use as database to store products.
+
+Actually you can omit the database file, that means everything will be stored in the memory and once you close the program all data will be erased:
+```java -jar downloaded.jar```
+
+Note: if you are under Java 9, it may have problems. If so try to run:
+```java --add-modules java.xml.bind  -jar downloaded.jar databasefile```
+
 
 ### From Scratch
 If you want to build your own version from scratch:
