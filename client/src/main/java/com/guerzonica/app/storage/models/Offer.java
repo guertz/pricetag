@@ -121,7 +121,7 @@ public class Offer extends Item<Integer> implements Streammable {
         return new TypeToken<Packet<Offer>>() {}.getType();
     }
 
-    public static void SCHEMA() throws SQLException {
+    public void SCHEMA() throws SQLException {
 
         Statement statement = Storage.getConnection().createStatement();
 

@@ -17,6 +17,7 @@ public class Navigation extends Stack<Page> {
   private static Navigation instance = null;
   /**
   * Singleton get instance
+  * @return The navigation instance
   */
   public static Navigation getNavigation(){
      if(instance == null) instance = new Navigation();
@@ -25,11 +26,13 @@ public class Navigation extends Stack<Page> {
 
   /**
   * Push and show a new Page.
-  * {@link com.guerzonica.app.picodom.pages.base.Page#PageWillExit()} is fired
-  * {@link com.guerzonica.app.picodom.pages.base.Page#PageWillEnter()()} is fired
+  *
   * Also set backbutton and other global toolbar things related to the navigations.
   * @param page A new page to show
   * @return the active page
+  *
+  * @see com.guerzonica.app.picodom.pages.base.Page#PageWillExit() is fired
+  * @see com.guerzonica.app.picodom.pages.base.Page#PageWillEnter() is fired
   */
   @Override
   public Page push(Page page){
@@ -47,10 +50,12 @@ public class Navigation extends Stack<Page> {
   }
   /**
   * Pop the active page and show the previous.
-  * {@link com.guerzonica.app.picodom.pages.base.Page#PageWillExit()} is fired
-  * {@link com.guerzonica.app.picodom.pages.base.Page#PageWillEnter()()} is fired
+  *
   * If the stack is empty it will throw EmptyStackException
   * @return deleted page
+  *
+  * @see com.guerzonica.app.picodom.pages.base.Page#PageWillExit() is fired
+  * @see com.guerzonica.app.picodom.pages.base.Page#PageWillEnter() is fired
   */
   @Override
   public Page pop(){
@@ -73,7 +78,10 @@ public class Navigation extends Stack<Page> {
   */
   public Page getActivePage(){
 
-    return super.get(super.size() - 1);
+    if(super.size() > 0)
+      return super.get(super.size() - 1);
+
+    return null;
 
   }
   /**

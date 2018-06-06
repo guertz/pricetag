@@ -47,11 +47,15 @@ public class ProductsPage extends ListPage<Product> {
   * Selected product
   */
   private Product item;
-  /**
-  * Get products through the {@link com.guerzonica.app.storage.ProductsProvider }
-  * and se the dataset in the superclass ListView.
-  */
 
+  /**
+  * Get products through the ProductsProvider
+  * and se the dataset in the superclass ListView.
+  *
+  * @param stage The current stage
+  *
+  * @see com.guerzonica.app.storage.ProductsProvider
+  */
   public ProductsPage(Stage stage) {
     super(stage, CellProduct.class);
 

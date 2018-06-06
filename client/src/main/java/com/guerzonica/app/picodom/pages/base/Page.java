@@ -9,7 +9,7 @@ import com.guerzonica.app.App;
 import com.guerzonica.app.picodom.components.toolbar.Toolbar;
 /**
 * A Page represent a scene.
-* Since the app pattern takes inspiration from Ionic & PWA web apps, here this class permits to abstract the Page or Scene concept
+* Since the app pattern takes inspiration from Ionic, PWA web apps, here this class permits to abstract the Page or Scene concept
 * In particular this class is responsible to exchange scenes, and to handle a global toolbar. All classes that extends Page will be able to
 * consume his methods and will be able to manipulate the scene. This permits the code to be reusable, sinche the code to change or init or update a scene is the same.
 * We don't choose to use FXML because this project is about OOP. It is more challenging to make a similary concept from scratch through classes.
@@ -87,6 +87,7 @@ public abstract class Page implements Toolbar.Listener {
   /**
   * When a subclass will set a scene, this will wrap the tree in root and then in the wrapper.
   * This will not cause problem with a fixed toolbar, modals or popover.
+  * @param scene The current scene
   */
   public void setScene(Scene scene){
 
@@ -108,6 +109,7 @@ public abstract class Page implements Toolbar.Listener {
   }
   /**
   * Useful when a subclass want a specific own toolbar.
+  * @param toolbar The displayed toolbar
   */
   public void setToolbar(Toolbar toolbar){
     if(toolbar == null)

@@ -14,8 +14,9 @@ import javafx.scene.input.MouseEvent;
 public class Preloader extends Modal{
   private ImageView preloader;
   /**
-  *  Build a simple content as a preloader
-  **/
+  * Build a simple content as a preloader
+  * @param label The preloader label
+  */
   public Preloader(String label){
     super(label, App.pageController.getActivePage().getWrapper());
     Image gif = new Image("icons/amazonloader.gif");

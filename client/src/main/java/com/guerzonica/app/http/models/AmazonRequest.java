@@ -17,29 +17,45 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Base64;
 
 import com.guerzonica.app.env.Env;
+
 /**
-* Built an Amazon request in a specific format
-*/
+ * Easly create an amazon Http Request.
+ *  
+ * <br>
+ * This method takes care of handling all the
+ * requested params and then compress them back
+ * in an unique request URL (rest API).
+ * 
+ * @author Matteo Guerzoni
+ */
 public class AmazonRequest {
 
-    // uri params
+    /** URI Param: Http Protocol */
     private static final String protocol     = "http";
+    /** URI Param: Host */
     private static final String AWS_Host     = Env.AWSHost;
-    private static final String AWS_endpoing = "/onca/xml";
+    /** URI Param: Rest endpoint */
+    private static final String AWS_endpoint = "/onca/xml";
 
-    // api params
+    /** API Param: Version */
     private static final String Version        = "2013-08-01";
 
-    // request params
+    /** Request Param: AWS Service ID */
     private String Service       = "AWSECommerceService";
+    /** Request Param: Service Operation ID */
     private String Operation     = "ItemLookup";
+    /** Request Param: Response group ID */
     private String ResponseGroup = "Small";
 
-    // item params
+    /** Request timestap */
     private String Timestamp;
-    private String ItemId;
-    // private String ItemType  = "ASIN";
+    /** Request element */
+    private String ItemId; // itemType = "ASIN"
 
+    /**
+     * Create an AmazonRequest instance taking care of the default params
+     * and the correct request timestamp format.
+     */
     public AmazonRequest() {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis() - 2000);
         Instant epoch = timestamp.toInstant();
@@ -49,32 +65,74 @@ public class AmazonRequest {
         this.Timestamp = parse.toString();
     }
 
+    /**
+     * URL Encoding the provided value.
+     * 
+     * @throws UnsupportedEncodingException If the encoding charset is not supported.
+     * 
+     * @param val The string to encode.
+     * @return The encoded string.
+     */
     private static String e(String val) throws UnsupportedEncodingException {
         return URLEncoder.encode(val, "UTF-8");
     }
 
+    /**
+     * Sets - Request Param: AWS Service ID
+     * 
+     * @param S The provided service value
+     */
     public void setService(String S) {
         this.Service = S;
     }
 
+    /**
+     * Sets - Request Param: Service Operation ID
+     * 
+     * @param O The provided operation value
+     */
     public void setOperation(String O) {
         this.Operation = O;
     }
 
+    /**
+     * Sets - Request element identifier
+     * 
+     * @param I The provided element identifier value (ASIN)
+     */
     public void setItedId(String I) {
         this.ItemId = I;
     }
 
+    /**
+     * Sets - Request Param: Response Group ID
+     * 
+     * @param R The provided response group value
+     */
     public void setResponseGroup(String R) {
         this.ResponseGroup = R;
     }
 
+    /**
+     * Sets - Request Timestamp
+     * 
+     * @deprecated
+     * @param T The provided timestamp
+     */
     @Deprecated
     public void setTimeStamp(String T) {
         this.Timestamp = T;
     }
 
-    // mapping params/value can be better
+    /**
+     * Method to list the mapped request params in an ArrayList (URLEncoded).
+     * 
+     * <br/>
+     * The params are sorted in the right way to fit amazon request requirements
+     *
+     * @throws UnsupportedEncodingException If the encoding charset is not supported.
+     * @return The list of params in the format key=value
+     */
     private ArrayList<String> mapParams() throws UnsupportedEncodingException {
         ArrayList<String> params = new ArrayList<String>();
 
@@ -86,6 +144,7 @@ public class AmazonRequest {
             params.add(e("Version")        + "=" + e(Version));
             params.add(e("Timestamp")      + "=" + e(this.Timestamp));
 
+            // lexicographical sorting
             params.sort(new Comparator<String>() {
                 @Override
                 public int compare(String a, String b) {
@@ -98,14 +157,29 @@ public class AmazonRequest {
         return params;
     }
 
+    /**
+     * Method to generate the request body that will be signed.
+     *
+     * @throws UnsupportedEncodingException If the encoding charset is not supported.
+     * @return The request body including params.
+     */
     private String getRequestBody() throws UnsupportedEncodingException {
         return
             "GET"        + "\n" +
             AWS_Host     + "\n" +
-            AWS_endpoing + "\n" +
+            AWS_endpoint + "\n" +
             String.join("&", this.mapParams());
     }
 
+    /**
+     * Method to sign the request body.
+     *
+     * @throws UnsupportedEncodingException If the encoding charset is not supported.
+     * @throws InvalidKeyException If the encryption key is invalid.
+     * @throws NoSuchAlgorithmException If the requested encryption algorithm is not available
+     * 
+     * @return The X509 compliant Request Signature (UTF-8 Encoded) 
+     */
     private String getSignature() throws UnsupportedEncodingException, InvalidKeyException, NoSuchAlgorithmException {
         SecretKeySpec sk = new SecretKeySpec(Env.AWSSecretKey.getBytes("UTF-8"), "HmacSHA256");
         Mac sha256_HMAC  = Mac.getInstance("HmacSHA256");
@@ -115,7 +189,16 @@ public class AmazonRequest {
             sha256_HMAC.doFinal(this.getRequestBody().getBytes("UTF-8")));
     }
 
-    // handle exception, use URI instead of url
+    /**
+     * Retrive the amazon Http Rest Api Request URL.
+     * 
+     * <br>
+     * Takes care of handling all the request params and the possible exceptions.
+     * 
+     * @throws MalformedURLException Something went wrong during the URL encoding process.
+     * 
+     * @return The X509 compliant Request Signature (UTF-8 Encoded) 
+     */
     public URL getRequestUri() throws MalformedURLException {
         if(this.ItemId == null)
             throw new MalformedURLException("Item cannot be null");
@@ -127,7 +210,7 @@ public class AmazonRequest {
             URL request = new URL(
                 protocol,
                 AWS_Host,
-                AWS_endpoing + "?" +
+                AWS_endpoint + "?" +
                     String.join("&", params));
 
             return request;

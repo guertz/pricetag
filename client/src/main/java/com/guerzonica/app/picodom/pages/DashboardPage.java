@@ -18,7 +18,7 @@ import javafx.application.Platform;
 * get a product by ASIN and permits navigation through other pages.
 * Items are fetched in realt-time and then they are syncronized in the view.
 *
-* @author Singh Amarjot
+* @author Singh Amarjot, Matteo Guerzoni
 *
 * @see com.guerzonica.app.picodom.pages.base.Page
 * @see com.guerzonica.app.picodom.pages.base.ListPage
@@ -52,8 +52,6 @@ public class DashboardPage extends ListPage<ProductPrices> {
     super.toolbar.getRightNode().getChildren().addAll(info, listButton, new AmazonSearchField());
     super.list.getStyleClass().add("list-simple");
 
-    // VBox.setVgrow(listItems, Priority.ALWAYS);
-    // ReadOnlyDoubleProperty width = super.getStage().widthProperty();
     super.unselectable();
     ListView<ProductPrices> listRef = super.list;
 

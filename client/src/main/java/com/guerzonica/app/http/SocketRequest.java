@@ -6,11 +6,13 @@ import com.guerzonica.app.channel.Channel;
 import com.guerzonica.app.channel.interfaces.MessageHandler;
 
 import com.guerzonica.app.http.interfaces.*;
-  /** A type of request between sockets.
-  * Same as his superclass, this class handle a communication of type Socket
-  * @author Singh Amarjot
-  * @see com.guerzonica.app.http.Request
-  */
+
+/** 
+ * A type of request between sockets.
+ * Same as his superclass, this class handle a communication of type Socket
+ * @author Singh Amarjot
+ * @see com.guerzonica.app.http.Request
+ */
 public class SocketRequest extends Request<String> {
     private String route;
     /**

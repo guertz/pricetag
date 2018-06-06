@@ -68,19 +68,22 @@ public class Toolbar extends BorderPane{
   }
   /**
   * Get left container
-  **/
+  * @return The left node
+  */
   public HBox getLeftNode(){
     return this.left;
   }
   /**
   * Get right container
-  **/
+  * @return The right node
+  */
   public HBox getRightNode(){
     return this.right;
   }
   /**
   * Binds width to stage width
-  **/
+  * @param stage The current stage
+  */
   public void setFullSize(Stage stage){
     this.setMinWidth(stage.getMinWidth());
     this.prefWidthProperty().bind(stage.widthProperty());
@@ -93,7 +96,8 @@ public class Toolbar extends BorderPane{
   }
   /**
   * Listener of the backbutton
-  **/
+  * @param listener The toolbar listener
+  */
   public void setOnBackPressedListener (Toolbar.Listener listener) {
     this.listener = listener;
   }

@@ -103,7 +103,7 @@ public class Product extends Item<String> implements Streammable {
         return new TypeToken<Packet<Product>>() {}.getType();
     }
 
-    public static void SCHEMA() throws SQLException {
+    public void SCHEMA() throws SQLException {
 
         Statement statement = Storage.getConnection().createStatement();
 

@@ -49,11 +49,11 @@ public abstract class Item<T> {
     }
 
     /**
-     * Static method to inizitialize/generate table schema on the database.
+     * Method to inizitialize/generate table schema on the database.
      * 
      * @throws SQLException If an exception occurs or either the element doesn't support schema creation.
      */
-    public static void SCHEMA() throws SQLException {
+    public void SCHEMA() throws SQLException {
         throw new SQLException("Undefined schema");
     }
     

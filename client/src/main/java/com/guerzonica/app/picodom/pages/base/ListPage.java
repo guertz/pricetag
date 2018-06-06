@@ -13,7 +13,7 @@ import javafx.scene.input.MouseEvent;
   * A generic class that permit to built a list with a specific view and specific dataset.
   * It is like DomPage, but just another type of concept. Why i don't use DomPage? Because i want some indenpendecy from that class
   *
-  * @author Singh Amarjot
+  * @author Singh Amarjot, Matteo Guerzoni
   *
   * @see com.guerzonica.app.picodom.pages.base.DomPage
   * @see com.guerzonica.app.picodom.pages.base.Page
@@ -32,9 +32,6 @@ public class ListPage<T> extends Page {
 
     scene = new Scene(this.list);
       scene.getStylesheets().add("css/pricetheme.css");
-
-    // this.scene.widthProperty().subtract(20)
-    // this.scene.heightProperty()
 
     this.list.setCellFactory(new Callback<ListView<T>,
       ListCell<T>>() {
@@ -74,8 +71,10 @@ public class ListPage<T> extends Page {
             }
         });
   }
-  @Override
-  public void forceLoad(){}
 
+  @Override
+  public void forceLoad(){
+
+  }
 
 }

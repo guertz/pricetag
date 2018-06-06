@@ -17,7 +17,6 @@ com.guerzonica.app.picodom.components.toolbar
 com.guerzonica.app.picodom.interfaces
 com.guerzonica.app.picodom.pages
 com.guerzonica.app.picodom.pages.base
-com.guerzonica.app.providers.env
 com.guerzonica.app.storage
 com.guerzonica.app.storage.exceptions
 com.guerzonica.app.storage.models
