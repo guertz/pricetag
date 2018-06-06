@@ -20,8 +20,7 @@
 
 ## Some Facts
 Pricetag is an University project. Actually, We chose to make this because we didn't like the proposed one by the Professor 
-so we came up with this challenging idea. Basically, the program works like [CamelCamelCamel](https://camelcamelcamel.com/)
-but the funny part here is that all the prices are tracked by clients. That means when you search a product, firstly, pricetag will check 
+so we came up with this challenging idea. Basically, the program works like [CamelCamelCamel](https://camelcamelcamel.com/) but the core part here is that all the prices are tracked by clients. That means when you search a product, firstly, pricetag will check 
 if any of the connected client has already a more updated price timeline, if so all the data is sent to requester. Secondly it will make a request to lookup the product in Amazon. The project is made with Java for client side and Nodejs to trace all clients and to make a peer-to-peer communication through sockets. Everything is possibile thanks to
 
 <p align="center">
