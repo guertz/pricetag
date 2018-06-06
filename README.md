@@ -15,6 +15,7 @@
   <a href="#some-facts">Some Facts</a> •
   <a href="#how-to-use">How to use</a> •
   <a href="#download">Download</a> •
+  <a href="#docs">Documentation</a> •
   <a href="#license">License</a>
 </p>
 
@@ -58,6 +59,9 @@ If you want to build your own version from scratch:
 
 ## Download
 Get directly the Jar from here: [PriceTag](https://github.com/Guertz/pricetag/releases)
+
+## Documentation
+Yes, we are professional. Here is the doc: https://guertz.github.io/pricetag/
 
 ## License
 ```
