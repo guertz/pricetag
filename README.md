@@ -4,4 +4,9 @@
 <a href="http://bulletphysics.org/wordpress/">
     <img src="https://nodejs.org/static/images/logos/nodejs-new-pantone-black.png" alt="nodejs logo" title="Node" align="right" height="60" />
 </a>
+<h1 align="center">
+  <br>
+  <img src="https://github.com/Guertz/pricetag/blob/master/client/src/main/assets/icons/pricetag_2_transparent.png?raw=true" alt="Pricetag logo" title="pricetag" />
+  <br>
+</h1>
 
